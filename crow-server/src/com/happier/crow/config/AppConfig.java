@@ -17,30 +17,22 @@ public class AppConfig extends JFinalConfig {
 
 	@Override
 	public void configRoute(Routes me) {
-
 	}
 
 	@Override
 	public void configEngine(Engine me) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void configPlugin(Plugins me) {
-
 	}
 
 	@Override
 	public void configInterceptor(Interceptors me) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void configHandler(Handlers me) {
-		// TODO Auto-generated method stub
-
 	}
 
 }
