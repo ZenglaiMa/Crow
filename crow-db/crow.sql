@@ -11,7 +11,7 @@
  Target Server Version : 50615
  File Encoding         : 65001
 
- Date: 17/11/2019 16:21:14
+ Date: 18/11/2019 15:43:41
 */
 
 SET NAMES utf8mb4;
@@ -58,6 +58,7 @@ CREATE TABLE `contact`  (
   `adder_id` int(11) NULL DEFAULT NULL,
   `addeder_id` int(11) NULL DEFAULT NULL,
   `remark` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `is_ice` int(1) UNSIGNED NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
