@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.mob.sdk'
 
 android {
     sourceSets {
@@ -28,6 +29,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    MobSDK {
+        appKey "2d2436d465471"
+        appSecret "375a6a6be0653c278d7eeb092df4f17a"
+        SMSSDK {}
     }
 }
 
