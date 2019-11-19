@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <ImageView
+            android:id="@+id/y_iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/back"
+            android:background="#00000000"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="返回"
+            android:textColor="#2a82e4"
+            android:textSize="25dp"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:textColor="#2a82e4"
+        android:paddingLeft="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="添加子女"
+        android:textSize="40dp"/>
+
+    <EditText
+        android:id="@+id/y_et_addNickName"
+        android:hint="输入联系人备注"
+        android:layout_marginTop="50dp"
+        android:layout_width="280dp"
+        android:layout_gravity="center"
+        android:layout_height="50dp" />
+
+    <EditText
+        android:id="@+id/y_et_teleNum"
+        android:hint="请输入联系人手机号"
+        android:layout_marginTop="20dp"
+        android:layout_width="280dp"
+        android:layout_gravity="center"
+        android:layout_height="50dp" />
+
+
+   <LinearLayout
+       android:layout_marginTop="30dp"
+       android:orientation="horizontal"
+       android:layout_width="280dp"
+       android:layout_gravity="center"
+       android:layout_height="40dp">
+
+
+       <CheckBox
+           android:id="@+id/y_cb_ice"
+           android:gravity="center"
+           android:layout_gravity="center"
+           android:layout_width="25dp"
+           android:layout_height="match_parent" />
+
+       <TextView
+           android:layout_marginLeft="5dp"
+           android:textColor="#d43030"
+           android:textSize="20dp"
+           android:gravity="center"
+           android:layout_width="wrap_content"
+           android:layout_height="match_parent"
+           android:text="设为紧急联系人"/>
+
+   </LinearLayout>
+
+
+
+        <Button
+            android:id="@+id/y_btn_saveContact"
+            android:textSize="25dp"
+            android:textColor="@android:color/white"
+            android:text="完成"
+            android:background="#ff8d1a"
+            android:layout_marginTop="50dp"
+            android:layout_gravity="center"
+            android:layout_width="320dp"
+            android:layout_height="50dp" />
+
+</LinearLayout>

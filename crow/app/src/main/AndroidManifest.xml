@@ -54,6 +54,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".parent.ParentsContactActivity">
+
+        </activity>
+
         <!-- ZYH  以下是JPush的设置 -->
         <!-- Required SDK核心功能 -->
         <activity
