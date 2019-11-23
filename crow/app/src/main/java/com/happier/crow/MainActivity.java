@@ -1,6 +1,7 @@
 package com.happier.crow;
 
-import android.os.AsyncTask;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,6 +15,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.happier.crow.children.ChildrenIndexActivity;
+import com.happier.crow.constant.Constant;
+import com.happier.crow.entities.Children;
+import com.happier.crow.entities.Parent;
+import com.happier.crow.parent.ParentIndexActivity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,13 +50,25 @@ public class MainActivity extends AppCompatActivity {
     private String phoneNumber;
     private String password;
 
+    private static final String PARENT_LOGIN_PATH = "/parent/login";
+    private static final String CHILDREN_LOGIN_PATH = "/children/login";
+
     private static final int PARENT_LOGIN_STATE = 1;
     private static final int CHILDREN_LOGIN_STATE = 2;
+
+    private static final int LOGIN_RESULT_ERROR = -1;
+    private static final int LOGIN_RESULT_FAILURE = 0;
+    private static final int LOGIN_PARENT_RESULT_SUCCESS = 1;
+    private static final int LOGIN_CHILDREN_RESULT_SUCCESS = 2;
+
+    private Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        EventBus.getDefault().register(this);
 
         findViews();
 
@@ -62,39 +94,100 @@ public class MainActivity extends AppCompatActivity {
                 password = etPassword.getText().toString();
                 if (!TextUtils.isEmpty(phoneNumber) && !TextUtils.isEmpty(password)) {
                     if (rbParent.isChecked()) {
-                        login(PARENT_LOGIN_STATE);
+                        login(PARENT_LOGIN_PATH, PARENT_LOGIN_STATE);
                     } else if (rbChildren.isChecked()) {
-                        login(CHILDREN_LOGIN_STATE);
+                        login(CHILDREN_LOGIN_PATH, CHILDREN_LOGIN_STATE);
                     }
                 } else {
-                    Toast.makeText(MainActivity.this, "请输入手机号或密码", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "请输入手机号和密码", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        tvRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
             }
         });
 
     }
 
-    private void login(int loginState) {
-        switch (loginState) {
-            case PARENT_LOGIN_STATE:
-                // todo : 网络操作 服务器端执行父母登录逻辑
-                break;
-            case CHILDREN_LOGIN_STATE:
-                // todo : 网络操作 服务器端执行子女登录逻辑
-                break;
-        }
+    private void login(String loginPath, final int loginState) {
+        OkHttpClient client = new OkHttpClient();
+        FormBody body = new FormBody.Builder()
+                .add("phone", phoneNumber)
+                .add("password", password)
+                .build();
+        final Request request = new Request.Builder()
+                .url(Constant.BASE_URL + loginPath)
+                .post(body)
+                .build();
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                EventBus.getDefault().post(LOGIN_RESULT_ERROR);
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String result = response.body().string();
+                if (result != null && !result.equals("")) {
+                    // 登陆成功之后 服务器端将当前用户信息返回给客户端 将用户id存放到SharedPreferences中 以便后续使用
+                    SharedPreferences preferences = getSharedPreferences("authid", MODE_PRIVATE);
+                    switch (loginState) {
+                        case PARENT_LOGIN_STATE:
+                            Parent parent = gson.fromJson(result, Parent.class);
+                            SharedPreferences.Editor pEditor = preferences.edit();
+                            pEditor.putInt("pid", parent.getPid());
+                            pEditor.commit();
+                            EventBus.getDefault().post(LOGIN_PARENT_RESULT_SUCCESS);
+                            break;
+                        case CHILDREN_LOGIN_STATE:
+                            Children children = gson.fromJson(result, Children.class);
+                            SharedPreferences.Editor cEditor = preferences.edit();
+                            cEditor.putInt("cid", children.getCid());
+                            cEditor.commit();
+                            EventBus.getDefault().post(LOGIN_CHILDREN_RESULT_SUCCESS);
+                            break;
+                    }
+                } else {
+                    EventBus.getDefault().post(LOGIN_RESULT_FAILURE);
+                }
+            }
+        });
     }
 
-    private class LoginTask extends AsyncTask<String, Integer, String> {
-
-        @Override
-        protected String doInBackground(String... strings) {
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+    // 坑: @Subscribe注解的订阅者接收参数类型必须是引用类型!
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void handleLoginResult(Integer loginResult) {
+        switch (loginResult) {
+            case LOGIN_RESULT_ERROR:
+                Toast.makeText(this, "未知错误, 登录失败", Toast.LENGTH_SHORT).show();
+                break;
+            case LOGIN_RESULT_FAILURE:
+                Toast.makeText(this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
+                break;
+            case LOGIN_PARENT_RESULT_SUCCESS:
+                Toast.makeText(this, "登陆成功", Toast.LENGTH_SHORT).show();
+                etPhone.setText("");
+                etPassword.setText("");
+                Intent pIntent = new Intent(this, ParentIndexActivity.class);
+                startActivity(pIntent);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                break;
+            case LOGIN_CHILDREN_RESULT_SUCCESS:
+                Toast.makeText(this, "登陆成功", Toast.LENGTH_SHORT).show();
+                etPhone.setText("");
+                etPassword.setText("");
+                Intent cIntent = new Intent(this, ChildrenIndexActivity.class);
+                startActivity(cIntent);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                break;
         }
     }
 
@@ -118,5 +211,11 @@ public class MainActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.m_et_password);
         tvForgetPassword = findViewById(R.id.m_tv_forget_password);
         tvRegister = findViewById(R.id.m_tv_register);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }
