@@ -113,6 +113,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        tvForgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // todo : 忘记密码
+            }
+        });
+
     }
 
     private void login(String loginPath, final int loginState) {
@@ -167,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
     public void handleLoginResult(Integer loginResult) {
         switch (loginResult) {
             case LOGIN_RESULT_ERROR:
-                Toast.makeText(this, "未知错误, 登录失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "服务器错误, 请稍后重试", Toast.LENGTH_SHORT).show();
                 break;
             case LOGIN_RESULT_FAILURE:
                 Toast.makeText(this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
