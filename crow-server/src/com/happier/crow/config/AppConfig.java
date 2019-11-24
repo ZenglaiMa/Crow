@@ -48,11 +48,11 @@ public class AppConfig extends JFinalConfig {
 		me.add(dp);
 
 		ActiveRecordPlugin arp = new ActiveRecordPlugin(dp);
-		arp.addMapping("alarm", Alarm.class);
-		arp.addMapping("children", Children.class);
-		arp.addMapping("contact", Contact.class);
-		arp.addMapping("image", Image.class);
-		arp.addMapping("parent", Parent.class);
+		arp.addMapping("alarm", "id", Alarm.class);
+		arp.addMapping("children", "cid", Children.class);
+		arp.addMapping("contact", "id", Contact.class);
+		arp.addMapping("image", "id", Image.class);
+		arp.addMapping("parent", "pid", Parent.class);
 		arp.setDialect(new MysqlDialect());
 		me.add(arp);
 	}

@@ -61,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
     private static final int LOGIN_PARENT_RESULT_SUCCESS = 1;
     private static final int LOGIN_CHILDREN_RESULT_SUCCESS = 2;
 
+    private static final int PARENT_RESET_PASSWORD = 1;
+    private static final int CHILDREN_RESET_PASSWORD = 2;
+
     private Gson gson = new Gson();
 
     @Override
@@ -116,7 +119,14 @@ public class MainActivity extends AppCompatActivity {
         tvForgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // todo : 忘记密码
+                Intent intent = new Intent(MainActivity.this, ResetPwdActivity.class);
+                if (rbParent.isChecked()) {
+                    intent.putExtra("who", PARENT_RESET_PASSWORD);
+                } else if (rbChildren.isChecked()) {
+                    intent.putExtra("who", CHILDREN_RESET_PASSWORD);
+                }
+                startActivity(intent);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
             }
         });
 
