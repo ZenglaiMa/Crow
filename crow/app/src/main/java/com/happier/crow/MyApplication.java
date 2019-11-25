@@ -21,12 +21,10 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
 
         registrationId = JPushInterface.getRegistrationID(this);
-        Log.e("1099", "run:--------->registrationId： " + registrationId);
     }
 
     public MyApplication() {
