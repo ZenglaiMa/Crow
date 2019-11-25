@@ -36,6 +36,5 @@ public class MyApplication extends Application {
 
     public static void setRegistrationId(String registrationId) {
         MyApplication.registrationId = registrationId;
-
     }
 }

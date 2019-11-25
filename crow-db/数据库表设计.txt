@@ -1,15 +1,15 @@
 乌鸟(Crow) 数据库表设计
 
 1. 父母表(父母id, 手机号, 姓名, 密码, 性别, 年龄, 头像路径, 所在省, 所在市, 所在县区, 详细地址, 推送需要的id)
-   parent(pid, phone, name, password, gender, age, icon_path, province, city, area, detail_address, register_id)
+   parent(pid, phone, name, password, gender, age, iconPath, province, city, area, detailAddress, registerId)
 2. 子女表(子女id, 手机号, 姓名, 密码, 性别, 年龄, 出生日期, 头像路径, 个人简介)
-   children(cid, phone, name, password, gender, age, birth, icon_path, profile)
+   children(cid, phone, name, password, gender, age, birth, iconPath, profile)
 3. 通讯录表(编号, 添加人身份, 添加者id, 被添加者id, 备注, 是否为紧急联系人)
-   contact(id, adder_status, adder_id, addeder_id, remark, is_ice)
+   contact(id, adderStatus, adderId, addederId, remark, isIce)
 4. 提醒表(编号, 提醒类型, 提醒时间, 提醒状态, 描述, 被提醒父母id)
    alarm(id, type, time, state, description, pid)
 5. 图片表(编号, 上传人身份, 上传人id, 图片路径, 上传时间)
-   image(id, uploader_status, uploader_id, path, upload_time)
+   image(id, uploaderStatus, uploaderId, path, uploadTime)
    
 注：1. 规定 父母和子女双方必须先注册才能互相添加
     2. 人物身份: 0表示父母 1表示子女
