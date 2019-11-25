@@ -56,4 +56,10 @@ public class ParentController extends Controller {
 		}
 	}
 
+	public void getInfo() {
+		int pid = getParaToInt("pid");
+		Parent parent = Parent.dao.findById(pid);
+		renderJson(parent);
+	}
+
 }
