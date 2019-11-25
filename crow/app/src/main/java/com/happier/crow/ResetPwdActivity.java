@@ -208,6 +208,7 @@ public class ResetPwdActivity extends AppCompatActivity {
             finish();
         } else if (Integer.parseInt(result) == RESET_FAILURE) {
             Toast.makeText(getApplicationContext(), "用户名不存在, 请注册", Toast.LENGTH_SHORT).show();
+            finish();
         }
     }
 
