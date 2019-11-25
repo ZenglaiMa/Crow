@@ -173,6 +173,9 @@
         <activity
             android:name=".ResetPwdActivity"
             android:label="找回密码" />
+        <activity
+            android:name=".parent.ParentInfoActivity"
+            android:label="个人中心" />
     </application>
 
 </manifest>
