@@ -1,13 +1,11 @@
 package com.happier.crow;
 
-<<<<<<< HEAD
 import android.content.Context;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-=======
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -42,16 +40,13 @@ import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
->>>>>>> 2ea771d349c5f50d25962fe2683c5989f9369953
 
 import com.happier.crow.constant.Constant;
 
 import cn.jpush.android.api.JPushInterface;
 
-<<<<<<< HEAD
 public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
-=======
     private RadioGroup rg;
     private RadioButton rbParent;
     private RadioButton rbChildren;
@@ -81,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
 
     private Gson gson = new Gson();
 
->>>>>>> 2ea771d349c5f50d25962fe2683c5989f9369953
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -13,7 +13,7 @@ import cn.jpush.android.api.JPushInterface;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class MyReceiver extends BroadcastReceiver {
+public class JPushReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
@@ -23,7 +23,7 @@ public class MyReceiver extends BroadcastReceiver {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("regId", regId);
             editor.commit();
-            Log.e("test", regId+"ffff");
+            Log.e("test", regId);
         }
     }
 }

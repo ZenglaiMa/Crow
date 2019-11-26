@@ -32,7 +32,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".MyApplication"
+        android:name=".JPushApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -124,7 +124,7 @@
             android:exported="false" />
         <!-- User defined.  For test only  用户自定义接收消息器,3.0.7开始支持,目前新tag/alias接口设置结果会在该广播接收器对应的方法中回调 -->
         <!-- since 3.3.0 接收JPush相关事件 -->
-        <receiver android:name=".MyMessageReceiver">
+        <receiver android:name=".MessageReceiver">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
 
@@ -147,7 +147,7 @@
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
         <!-- User defined.  For test only 继承自cn.jpush.android.service.JCommonService -->
         <service
-            android:name=".MyService"
+            android:name=".JPushService"
             android:process=":pushcore">
             <intent-filter>
                 <action android:name="cn.jiguang.user.service.action" />
@@ -160,11 +160,11 @@
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="53b243ec12325d490a94a88e" /> <!-- </>值来自开发者平台取得的AppKey -->
-<<<<<<< HEAD
-        <activity android:name=".MyActivity"></activity>
+
+        <activity android:name=".JPushActivity"></activity>
         <!--ZYH test-->
         <receiver
-            android:name=".MyReceiver"
+            android:name=".JPushReceiver"
         android:exported="false"
         android:enabled="true">
         <intent-filter>
@@ -175,9 +175,7 @@
             <action android:name="cn.jpush.android.intent.CONNECTION" /><!-- 接收网络变化 连接/断开 since 1.6.3 -->
             <category android:name="com.happier.crow" />
         </intent-filter>
-    </receiver>
-=======
-        <activity android:name=".MyActivity" />
+        </receiver>
         <activity
             android:name=".parent.ParentIndexActivity"
             android:label="首页" />
@@ -193,7 +191,7 @@
         <activity
             android:name=".parent.ParentInfoActivity"
             android:label="个人中心" />
->>>>>>> 2ea771d349c5f50d25962fe2683c5989f9369953
+
     </application>
 
 </manifest>
