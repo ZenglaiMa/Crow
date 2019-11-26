@@ -27,8 +27,10 @@ public class ParentController extends Controller {
 	public void register() {
 		String phone = getPara("phone");
 		String password = getPara("password");
+		String registerId = getPara("registerId");
 		password = EncryptionUtils.getMd5(password);
-		boolean result = new Parent().set("phone", phone).set("password", password).save();
+		boolean result = new Parent().set("phone", phone).set("password", password).set("registerId", registerId)
+				.save();
 		if (result) {
 			renderJson(REGISTER_SUCCESS);
 		} else {
@@ -52,6 +54,12 @@ public class ParentController extends Controller {
 		} else {
 			renderJson(RESET_FAILURE);
 		}
+	}
+
+	public void getInfo() {
+		int pid = getParaToInt("pid");
+		Parent parent = Parent.dao.findById(pid);
+		renderJson(parent);
 	}
 
 }

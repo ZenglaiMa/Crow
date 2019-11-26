@@ -160,6 +160,7 @@
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="53b243ec12325d490a94a88e" /> <!-- </>值来自开发者平台取得的AppKey -->
+<<<<<<< HEAD
 
         <activity android:name=".JPushActivity"></activity>
         <!--ZYH test-->
@@ -176,6 +177,24 @@
             <category android:name="com.happier.crow" />
         </intent-filter>
         </receiver>
+=======
+        <activity android:name=".MyActivity" />
+        <!-- ZYH test -->
+        <receiver
+            android:name=".MyReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!-- Required  用户注册SDK的intent -->
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!-- Required  用户接收SDK消息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!-- Required  用户接收SDK通知栏信息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!-- Required  用户打开自定义通知栏的intent -->
+                <action android:name="cn.jpush.android.intent.CONNECTION" /> <!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <category android:name="com.happier.crow" />
+            </intent-filter>
+        </receiver>
+
+>>>>>>> 74f6f56cb75a83c5095e012c3e7a0a30a71a79ac
         <activity
             android:name=".parent.ParentIndexActivity"
             android:label="首页" />
@@ -191,7 +210,13 @@
         <activity
             android:name=".parent.ParentInfoActivity"
             android:label="个人中心" />
+<<<<<<< HEAD
 
+=======
+        <activity
+            android:name=".parent.ModifyParentInfoActivity"
+            android:label="设置/修改个人信息" />
+>>>>>>> 74f6f56cb75a83c5095e012c3e7a0a30a71a79ac
     </application>
 
 </manifest>
