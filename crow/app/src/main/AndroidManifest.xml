@@ -40,14 +40,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data
-            android:name="com.baidu.lbsapi.API_KEY"
-            android:value="5OQjR6qrEWjX0wCYxhrya5rEXIKGo5gB" />
-
-        <service
-            android:name="com.baidu.trace.LBSTraceService"
-            android:enabled="true"
-            android:process=":remote" />
 
         <activity
             android:name=".MainActivity"
@@ -60,6 +52,14 @@
         </activity>
         <activity android:name=".parent.ParentsContactActivity" />
 
+        <!-- LKY 鹰眼历史轨迹-->
+        <service
+            android:name="com.baidu.trace.LBSTraceService"
+            android:enabled="true"
+            android:process=":remote"></service>
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="48sp5txV8ifKVu622199moP9oYMKGoAT"></meta-data>
         <!-- ZYH  以下是JPush的设置 -->
         <!-- Required SDK核心功能 -->
         <activity
@@ -163,7 +163,11 @@
             android:value="53b243ec12325d490a94a88e" /> <!-- </>值来自开发者平台取得的AppKey -->
 
         <activity android:name=".JPushActivity" />
+<<<<<<< HEAD
         <!--ZYH test-->
+=======
+        <!-- ZYH test -->
+>>>>>>> 49c2f6b604bfd1c06952cfb6c14e3e84c8ed328f
         <receiver
             android:name=".JPushReceiver"
             android:enabled="true"
@@ -191,12 +195,22 @@
             android:name=".ResetPwdActivity"
             android:label="找回密码" />
         <activity
+            android:name=".ParentsLocation"
+            android:label="父母位置"></activity>
+        <activity
             android:name=".parent.ParentInfoActivity"
             android:label="个人中心" />
+<<<<<<< HEAD
 
         <activity
             android:name=".parent.ModifyParentInfoActivity"
             android:label="设置/修改个人信息" />
+=======
+        <activity
+            android:name=".parent.ModifyParentInfoActivity"
+            android:label="设置/修改个人信息" />
+        <activity android:name=".children.ChildrenSetAlarmActivity"></activity>
+>>>>>>> 49c2f6b604bfd1c06952cfb6c14e3e84c8ed328f
     </application>
 
 </manifest>
