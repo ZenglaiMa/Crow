@@ -39,14 +39,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data
-            android:name="com.baidu.lbsapi.API_KEY"
-            android:value="5OQjR6qrEWjX0wCYxhrya5rEXIKGo5gB" />
-
-        <service
-            android:name="com.baidu.trace.LBSTraceService"
-            android:enabled="true"
-            android:process=":remote" />
 
         <activity
             android:name=".MainActivity"
@@ -59,6 +51,14 @@
         </activity>
         <activity android:name=".parent.ParentsContactActivity" />
 
+        <!-- LKY 鹰眼历史轨迹-->
+        <service
+            android:name="com.baidu.trace.LBSTraceService"
+            android:enabled="true"
+            android:process=":remote"></service>
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="48sp5txV8ifKVu622199moP9oYMKGoAT"></meta-data>
         <!-- ZYH  以下是JPush的设置 -->
         <!-- Required SDK核心功能 -->
         <activity
@@ -204,12 +204,21 @@
             android:name=".ResetPwdActivity"
             android:label="找回密码" />
         <activity
+<<<<<<< HEAD
+            android:name=".ParentsLocation"
+            android:label="父母位置"></activity>
+=======
             android:name=".parent.ParentInfoActivity"
             android:label="个人中心" />
         <activity
             android:name=".parent.ModifyParentInfoActivity"
             android:label="设置/修改个人信息" />
+<<<<<<< HEAD
         <activity android:name=".children.ChildrenSetAlarmActivity"></activity>
+=======
+>>>>>>> 74f6f56cb75a83c5095e012c3e7a0a30a71a79ac
+>>>>>>> 3d2d02243a69e404081fa4411e70f2fe315b25f9
+>>>>>>> c05daf191f21f5b7fe561cf33e270c56c4940c72
     </application>
 
 </manifest>

@@ -20,19 +20,19 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:text="姓名"
+            android:layout_marginLeft="30dp"
+            android:gravity="center"
+            android:text="姓名:"
             android:textColor="#000"
             android:textSize="25sp" />
 
         <TextView
             android:id="@+id/m_tv_parent_name"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="3"
+            android:layout_marginLeft="60dp"
             android:gravity="center"
             android:text="未设置"
             android:textSize="20sp" />
@@ -46,19 +46,18 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:text="性别"
+            android:layout_marginLeft="30dp"
+            android:text="性别:"
             android:textColor="#000"
             android:textSize="25sp" />
 
         <TextView
             android:id="@+id/m_tv_parent_gender"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="3"
+            android:layout_marginLeft="60dp"
             android:gravity="center"
             android:text="未设置"
             android:textSize="20sp" />
@@ -72,19 +71,18 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:text="年龄"
+            android:layout_marginLeft="30dp"
+            android:text="年龄:"
             android:textColor="#000"
             android:textSize="25sp" />
 
         <TextView
             android:id="@+id/m_tv_parent_age"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="3"
+            android:layout_marginLeft="60dp"
             android:gravity="center"
             android:text="未设置"
             android:textSize="20sp" />
@@ -98,19 +96,19 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_marginLeft="30dp"
             android:gravity="center"
-            android:text="家庭住址"
+            android:text="家庭住址:"
             android:textColor="#000"
             android:textSize="25sp" />
 
         <TextView
             android:id="@+id/m_tv_parent_address"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="3"
+            android:layout_marginLeft="10dp"
             android:gravity="center"
             android:text="未设置"
             android:textSize="20sp" />
