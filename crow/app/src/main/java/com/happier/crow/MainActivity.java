@@ -1,8 +1,17 @@
 package com.happier.crow;
 
+<<<<<<< HEAD
+import android.content.Context;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+=======
+import android.content.SharedPreferences;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+>>>>>>> 74f6f56cb75a83c5095e012c3e7a0a30a71a79ac
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
@@ -35,8 +44,17 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+<<<<<<< HEAD
+import com.happier.crow.constant.Constant;
+
+import cn.jpush.android.api.JPushInterface;
+
+public class MainActivity extends AppCompatActivity {
+    private SharedPreferences sharedPreferences;
+=======
 public class MainActivity extends AppCompatActivity {
 
+>>>>>>> 74f6f56cb75a83c5095e012c3e7a0a30a71a79ac
     private RadioGroup rg;
     private RadioButton rbParent;
     private RadioButton rbChildren;

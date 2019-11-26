@@ -3,18 +3,17 @@ package com.happier.crow;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
 
-public class MyApplication extends Application {
+public class JPushApplication extends Application {
     public static String registrationId;
 
     private List<Activity> mList = new LinkedList<Activity>();
-    public static MyApplication instance;
+    public static JPushApplication instance;
     private static Context context;
 
     @Override
@@ -27,7 +26,7 @@ public class MyApplication extends Application {
         registrationId = JPushInterface.getRegistrationID(this);
     }
 
-    public MyApplication() {
+    public JPushApplication() {
     }
 
     public static String getRegistrationId() {
@@ -35,6 +34,6 @@ public class MyApplication extends Application {
     }
 
     public static void setRegistrationId(String registrationId) {
-        MyApplication.registrationId = registrationId;
+        JPushApplication.registrationId = registrationId;
     }
 }

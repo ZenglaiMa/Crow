@@ -3,7 +3,7 @@ package com.happier.crow;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-public class MyActivity extends AppCompatActivity {
+public class JPushActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
