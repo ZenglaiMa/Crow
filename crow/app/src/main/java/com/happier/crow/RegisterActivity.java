@@ -184,10 +184,19 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void register(String registerPath) {
         OkHttpClient client = new OkHttpClient();
-        FormBody body = new FormBody.Builder()
-                .add("phone", phoneNumber)
-                .add("password", password)
-                .build();
+        FormBody body;
+        if (registerPath.equals(PARENT_REGISTER_PATH)) {
+            body = new FormBody.Builder()
+                    .add("phone", phoneNumber)
+                    .add("password", password)
+                    .add("registerId", getSharedPreferences("crow", MODE_PRIVATE).getString("regId", ""))
+                    .build();
+        } else {
+            body = new FormBody.Builder()
+                    .add("phone", phoneNumber)
+                    .add("password", password)
+                    .build();
+        }
         Request request = new Request.Builder()
                 .url(Constant.BASE_URL + registerPath)
                 .post(body)

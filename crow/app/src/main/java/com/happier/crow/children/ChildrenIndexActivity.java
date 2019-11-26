@@ -79,7 +79,7 @@ public class ChildrenIndexActivity extends AppCompatActivity {
 
         /*
         SharedPreferences preferences = getSharedPreferences("authid", MODE_PRIVATE);
-        Log.e("cid", "" + preferences.getInt("cid", 0));
+        int cid = preferences.getInt("cid", 0);
         */
 
         // 1. 初始化MyTabSpec对象
