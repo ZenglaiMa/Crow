@@ -1,16 +1,8 @@
 package com.happier.crow;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
 import android.content.Intent;
-
-=======
-<<<<<<< HEAD
->>>>>>> c05daf191f21f5b7fe561cf33e270c56c4940c72
 import android.content.Context;
 import android.content.IntentFilter;
->>>>>>> 3d2d02243a69e404081fa4411e70f2fe315b25f9
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -56,17 +48,7 @@ import cn.jpush.android.api.JPushInterface;
 
 public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
-<<<<<<< HEAD
-=======
-=======
-public class MainActivity extends AppCompatActivity {
-<<<<<<< HEAD
     private Button location;
-=======
-
->>>>>>> 74f6f56cb75a83c5095e012c3e7a0a30a71a79ac
->>>>>>> 3d2d02243a69e404081fa4411e70f2fe315b25f9
->>>>>>> c05daf191f21f5b7fe561cf33e270c56c4940c72
     private RadioGroup rg;
     private RadioButton rbParent;
     private RadioButton rbChildren;
@@ -76,10 +58,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText etPassword;
     private TextView tvForgetPassword;
     private TextView tvRegister;
-
     private String phoneNumber;
     private String password;
-
 
     private static final String PARENT_LOGIN_PATH = "/parent/login";
     private static final String CHILDREN_LOGIN_PATH = "/children/login";

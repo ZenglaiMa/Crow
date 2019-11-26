@@ -81,10 +81,50 @@
             android:textSize="20dp"
             android:gravity="center"
             android:text="提醒时间:"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-        <!--两级联动  不好实现-->
+            android:layout_width="121dp"
+            android:layout_height="match_parent" />
+        <Spinner
+            android:entries="@array/mOra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/z_spinner_mOra_children" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:textSize="20dp"
+            android:gravity="center"
+            android:layout_width="121dp"
+            android:layout_height="match_parent" />
+        <Spinner
+            android:entries="@array/hour"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/z_spinner_hour_children" />
+        <TextView
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:text="时"
+            android:layout_height="match_parent" />
+        <Spinner
+            android:entries="@array/minute"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/z_spinner_minute_children">
+        </Spinner>
+        <TextView
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:textSize="20dp"
+            android:text="分"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
     </LinearLayout>
     <TextView
         android:background="#000"

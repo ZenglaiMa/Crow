@@ -176,20 +176,6 @@
                 <category android:name="com.happier.crow" />
             </intent-filter>
         </receiver>
-        <!-- ZYH test -->
-        <receiver
-            android:name=".JPushReceiver"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!-- Required  用户注册SDK的intent -->
-                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!-- Required  用户接收SDK消息的intent -->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!-- Required  用户接收SDK通知栏信息的intent -->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!-- Required  用户打开自定义通知栏的intent -->
-                <action android:name="cn.jpush.android.intent.CONNECTION" /> <!-- 接收网络变化 连接/断开 since 1.6.3 -->
-                <category android:name="com.happier.crow" />
-            </intent-filter>
-        </receiver>
 
         <activity
             android:name=".parent.ParentIndexActivity"
@@ -204,21 +190,15 @@
             android:name=".ResetPwdActivity"
             android:label="找回密码" />
         <activity
-<<<<<<< HEAD
             android:name=".ParentsLocation"
             android:label="父母位置"></activity>
-=======
+        <activity
             android:name=".parent.ParentInfoActivity"
             android:label="个人中心" />
         <activity
             android:name=".parent.ModifyParentInfoActivity"
             android:label="设置/修改个人信息" />
-<<<<<<< HEAD
         <activity android:name=".children.ChildrenSetAlarmActivity"></activity>
-=======
->>>>>>> 74f6f56cb75a83c5095e012c3e7a0a30a71a79ac
->>>>>>> 3d2d02243a69e404081fa4411e70f2fe315b25f9
->>>>>>> c05daf191f21f5b7fe561cf33e270c56c4940c72
     </application>
 
 </manifest>
