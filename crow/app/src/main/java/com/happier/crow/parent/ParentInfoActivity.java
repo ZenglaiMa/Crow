@@ -115,11 +115,17 @@ public class ParentInfoActivity extends AppCompatActivity {
     public void handleResult(String result) {
         Gson gson = new Gson();
         Parent parent = gson.fromJson(result, Parent.class);
-        tvParentName.setText(parent.getName());
+        if (parent.getName() != null && !parent.getName().equals("")) {
+            tvParentName.setText(parent.getName());
+        }
         tvParentGender.setText(parent.getGender() == 1 ? "男" : "女");
-        tvParentAge.setText(String.valueOf(parent.getAge()));
-        String address = parent.getProvince() + parent.getCity() + parent.getArea() + parent.getDetailAddress();
-        tvParentAddress.setText(address);
+        if (parent.getAge() != 0) {
+            tvParentAge.setText(String.valueOf(parent.getAge()));
+        }
+        if (parent.getProvince() != null && parent.getCity() != null && parent.getArea() != null && parent.getDetailAddress() != null) {
+            String address = parent.getProvince() + parent.getCity() + parent.getArea() + parent.getDetailAddress();
+            tvParentAddress.setText(address);
+        }
     }
 
     private void findViews() {

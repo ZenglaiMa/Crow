@@ -6,11 +6,8 @@ import com.jfinal.core.Controller;
 
 public class ParentController extends Controller {
 
-	private static final int REGISTER_FAILURE = 0;
-	private static final int REGISTER_SUCCESS = 1;
-
-	private static final int RESET_FAILURE = 0;
-	private static final int RESET_SUCCESS = 1;
+	private static final int FAILURE = 0;
+	private static final int SUCCESS = 1;
 
 	public void login() {
 		String phone = getPara("phone");
@@ -32,9 +29,9 @@ public class ParentController extends Controller {
 		boolean result = new Parent().set("phone", phone).set("password", password).set("registerId", registerId)
 				.save();
 		if (result) {
-			renderJson(REGISTER_SUCCESS);
+			renderJson(SUCCESS);
 		} else {
-			renderJson(REGISTER_FAILURE);
+			renderJson(FAILURE);
 		}
 	}
 
@@ -44,15 +41,15 @@ public class ParentController extends Controller {
 		password = EncryptionUtils.getMd5(password);
 		Parent parent = Parent.dao.findFirst("select * from parent where phone=?", phone);
 		if (parent == null) {
-			renderJson(RESET_FAILURE);
+			renderJson(FAILURE);
 			return;
 		}
 		int id = parent.getInt("pid");
 		boolean result = Parent.dao.findById(id).set("password", password).update();
 		if (result) {
-			renderJson(RESET_SUCCESS);
+			renderJson(SUCCESS);
 		} else {
-			renderJson(RESET_FAILURE);
+			renderJson(FAILURE);
 		}
 	}
 
@@ -62,4 +59,23 @@ public class ParentController extends Controller {
 		renderJson(parent);
 	}
 
+	public void setInfo() {
+		int id = getParaToInt("pid");
+		String name = getPara("name");
+		int gender = getParaToInt("gender");
+		int age = getParaToInt("age");
+		String province = getPara("province");
+		String city = getPara("city");
+		String area = getPara("area");
+		String detailAddress = getPara("detailAddress");
+
+		boolean result = Parent.dao.findById(id).set("name", name).set("gender", gender).set("age", age)
+				.set("province", province).set("city", city).set("area", area).set("detailAddress", detailAddress)
+				.update();
+		if (result) {
+			renderJson(SUCCESS);
+		} else {
+			renderJson(FAILURE);
+		}
+	}
 }
