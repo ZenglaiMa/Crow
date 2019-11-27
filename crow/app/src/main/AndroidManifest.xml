@@ -163,8 +163,11 @@
 
         <activity android:name=".JPushActivity" />
         <!--ZYH test-->
+<<<<<<< HEAD
+=======
         <!-- ZYH test -->
 
+>>>>>>> d172df43a4afe0af31aa605f816ca844f0d6e333
         <receiver
             android:name=".JPushReceiver"
             android:enabled="true"
@@ -208,6 +211,15 @@
         <activity
             android:name=".parent.ParentInfoActivity"
             android:label="个人中心" />
+<<<<<<< HEAD
+        <activity
+            android:name=".parent.ModifyParentInfoActivity"
+            android:label="设置/修改个人信息" />
+        <activity
+            android:name=".parent.ModifyParentInfoActivity"
+            android:label="设置/修改个人信息" />
+        <activity android:name=".children.ChildrenSetAlarmActivity"></activity>
+=======
 
         <activity
             android:name=".parent.ModifyParentInfoActivity"
@@ -215,8 +227,13 @@
 
         <activity android:name=".children.ChildrenSetAlarmActivity" />
 
+<<<<<<< HEAD
         <activity android:name=".AboutActivity"
             android:label="关于我们"/>
+=======
+>>>>>>> 7cb8be5f9da70839abe4e96c5afec73853628da0
+>>>>>>> d172df43a4afe0af31aa605f816ca844f0d6e333
+>>>>>>> a7a635a4afb6d48d9d0c3b64264747cae84e4f2b
     </application>
 
 </manifest>

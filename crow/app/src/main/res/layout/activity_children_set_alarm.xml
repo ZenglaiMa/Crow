@@ -100,7 +100,7 @@
             android:layout_height="match_parent" />
         <Spinner
             android:entries="@array/hour"
-            android:layout_width="70dp"
+            android:layout_width="85dp"
             android:layout_height="wrap_content"
             android:id="@+id/z_spinner_hour_children" />
         <TextView
@@ -113,7 +113,7 @@
             android:layout_height="match_parent" />
         <Spinner
             android:entries="@array/minute"
-            android:layout_width="70dp"
+            android:layout_width="85dp"
             android:layout_height="wrap_content"
             android:id="@+id/z_spinner_minute_children">
         </Spinner>
