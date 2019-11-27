@@ -1,21 +1,8 @@
 package com.happier.crow;
 
-<<<<<<< HEAD
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-=======
-import android.content.Intent;
-import android.content.Context;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
->>>>>>> 49c2f6b604bfd1c06952cfb6c14e3e84c8ed328f
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
@@ -48,18 +35,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-<<<<<<< HEAD
 public class MainActivity extends AppCompatActivity {
-
-=======
-import com.happier.crow.constant.Constant;
-
-import cn.jpush.android.api.JPushInterface;
-
-public class MainActivity extends AppCompatActivity {
-    private SharedPreferences sharedPreferences;
     private Button location;
->>>>>>> 49c2f6b604bfd1c06952cfb6c14e3e84c8ed328f
     private RadioGroup rg;
     private RadioButton rbParent;
     private RadioButton rbChildren;
@@ -96,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         EventBus.getDefault().register(this);
 
         findViews();
+
         location=findViewById(R.id.location);
         location.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         // 根据登陆者身份切换样式
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override

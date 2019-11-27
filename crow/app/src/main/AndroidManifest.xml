@@ -15,7 +15,6 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <!-- ZYH 添加 -->
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
@@ -163,11 +162,9 @@
             android:value="53b243ec12325d490a94a88e" /> <!-- </>值来自开发者平台取得的AppKey -->
 
         <activity android:name=".JPushActivity" />
-<<<<<<< HEAD
         <!--ZYH test-->
-=======
         <!-- ZYH test -->
->>>>>>> 49c2f6b604bfd1c06952cfb6c14e3e84c8ed328f
+
         <receiver
             android:name=".JPushReceiver"
             android:enabled="true"
@@ -185,32 +182,32 @@
         <activity
             android:name=".parent.ParentIndexActivity"
             android:label="首页" />
+
         <activity
             android:name=".children.ChildrenIndexActivity"
             android:label="首页" />
+
         <activity
             android:name=".RegisterActivity"
             android:label="用户注册" />
+
         <activity
             android:name=".ResetPwdActivity"
             android:label="找回密码" />
+
         <activity
             android:name=".ParentsLocation"
             android:label="父母位置"></activity>
         <activity
             android:name=".parent.ParentInfoActivity"
             android:label="个人中心" />
-<<<<<<< HEAD
 
         <activity
             android:name=".parent.ModifyParentInfoActivity"
             android:label="设置/修改个人信息" />
-=======
-        <activity
-            android:name=".parent.ModifyParentInfoActivity"
-            android:label="设置/修改个人信息" />
-        <activity android:name=".children.ChildrenSetAlarmActivity"></activity>
->>>>>>> 49c2f6b604bfd1c06952cfb6c14e3e84c8ed328f
+
+        <activity android:name=".children.ChildrenSetAlarmActivity" />
+
     </application>
 
 </manifest>
