@@ -89,8 +89,6 @@ public class ChildrenAddParentsActivity extends AppCompatActivity {
                         Looper.prepare();
                         Toast.makeText(getApplicationContext(),"添加的父亲或母亲尚未注册，请先注册！",Toast.LENGTH_LONG).show();
                         Looper.loop();
-                    }else if(tag.equals()){
-
                     }
             }
         });
