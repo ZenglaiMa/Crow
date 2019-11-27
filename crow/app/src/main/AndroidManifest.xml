@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.happier.crow">
-
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
@@ -57,7 +57,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".parent.ParentsContactActivity" />
+
 
         <!-- ZYH  以下是JPush的设置 -->
         <!-- Required SDK核心功能 -->
@@ -173,6 +173,12 @@
         <activity
             android:name=".ResetPwdActivity"
             android:label="找回密码" />
+        <activity android:name=".parent.ParentsContactActivity"
+            android:label="父母联系人"/>
+        <activity android:name=".parent.ParentsAddContactActivity"
+            android:label="父母添加联系人"/>
+        <activity android:name=".children.ChildrenAddParentsActivity"
+            android:label="子女添加父母"/>
     </application>
 
 </manifest>

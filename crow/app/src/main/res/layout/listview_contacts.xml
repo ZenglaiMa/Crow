@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_height="80dp"
+<LinearLayout android:layout_height="100dp"
+    android:minHeight="100dp"
     android:layout_width="match_parent"
-    android:orientation="vertical"
+    android:weightSum="1"
+    android:gravity="center"
     android:background="@android:color/white"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -10,24 +12,25 @@
         android:background="@drawable/underline"
         android:gravity="center"
         android:orientation="horizontal"
-        android:layout_width="360dp"
+        android:layout_width="0dp"
+        android:layout_weight="0.95"
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:background="@drawable/border"
+
             android:layout_width="0dp"
             android:gravity="center"
-            android:layout_height="70dp"
+            android:layout_height="match_parent"
             android:layout_weight="2">
 
             <TextView
+                android:id="@+id/ytv_contactName"
                 android:textSize="30dp"
-                android:textColor="@android:color/black"
+
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="123"/>
+                android:gravity="center" />
 
         </LinearLayout>
 
@@ -40,10 +43,11 @@
             android:layout_weight="4">
 
             <TextView
+                android:id="@+id/ytv_contactPhone"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="25dp"
-                android:text="1355581233"/>
+                android:textColor="#2a82e4"
+                android:layout_height="30dp"
+                android:textSize="25dp" />
 
 
         </LinearLayout>
@@ -58,5 +62,7 @@
 
 
     </LinearLayout>
+
+
 
 </LinearLayout>
