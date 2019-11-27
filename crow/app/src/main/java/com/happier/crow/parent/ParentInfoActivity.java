@@ -28,6 +28,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
@@ -59,6 +60,8 @@ public class ParentInfoActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_SELECT_GRAPH = 200;
 
     private static final String UPLOAD_PATH = "/parent/uploadHeaderImage";
+
+    private OkHttpClient client = new OkHttpClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +122,6 @@ public class ParentInfoActivity extends AppCompatActivity {
         btnPhotograph.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // todo : 拍照上传
                 Intent intent = new Intent();
                 intent.setAction(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent, REQUEST_CODE_TAKE_PHOTO);
@@ -152,6 +154,9 @@ public class ParentInfoActivity extends AppCompatActivity {
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
             RequestOptions options = new RequestOptions().circleCrop();
             Glide.with(this).load(bitmap).apply(options).into(ivHeader);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            uploadToServer(baos.toByteArray());
         } else if (requestCode == REQUEST_CODE_SELECT_GRAPH && resultCode == RESULT_OK) {
             Uri uri = data.getData();
             Cursor cursor = getContentResolver().query(uri, null, null, null, null);
@@ -164,8 +169,29 @@ public class ParentInfoActivity extends AppCompatActivity {
         }
     }
 
+    private void uploadToServer(byte[] bitmapByte) {
+        RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), bitmapByte);
+        Request request = new Request.Builder()
+                .url(Constant.BASE_URL + UPLOAD_PATH)
+                .post(body)
+                .addHeader("pid", String.valueOf(getSharedPreferences("authid", MODE_PRIVATE).getInt("pid", 0)))
+                .build();
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String result = response.body().string();
+                Log.e("upload", Integer.parseInt(result) == 1 ? "success" : "fail");
+            }
+        });
+    }
+
     private void uploadToServer(String imagePath) {
-        OkHttpClient client = new OkHttpClient();
         RequestBody body = RequestBody.create(MediaType.parse("image/*"), new File(imagePath));
         Request request = new Request.Builder()
                 .url(Constant.BASE_URL + UPLOAD_PATH)
@@ -194,7 +220,6 @@ public class ParentInfoActivity extends AppCompatActivity {
     }
 
     private void getInfo() {
-        OkHttpClient client = new OkHttpClient();
         int pid = getSharedPreferences("authid", MODE_PRIVATE).getInt("pid", 0);
         FormBody body = new FormBody.Builder()
                 .add("pid", String.valueOf(pid))
