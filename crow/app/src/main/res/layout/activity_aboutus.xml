@@ -1,92 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_height="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_height="match_parent">
 
 
     <ImageView
         android:id="@+id/crow"
-        android:layout_marginTop="80dp"
-        android:layout_centerHorizontal="true"
         android:layout_width="120dp"
         android:layout_height="120dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
         android:src="@drawable/bird128" />
 
     <TextView
         android:id="@+id/name"
-        android:textStyle="bold"
-        android:layout_below="@+id/crow"
-        android:layout_centerHorizontal="true"
-        android:textColor="#000"
-        android:textSize="25dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="乌鸟   Crow"/>
+        android:layout_below="@+id/crow"
+        android:layout_centerHorizontal="true"
+        android:text="乌鸟   Crow"
+        android:textColor="#000"
+        android:textSize="25dp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/version"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/name"
-        android:textColor="#000"
-        android:textSize="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Version 1.0.0"/>
+        android:layout_below="@+id/name"
+        android:layout_centerHorizontal="true"
+        android:text="Version 1.0.0"
+        android:textColor="#000"
+        android:textSize="15dp" />
 
     <RelativeLayout
         android:id="@+id/introduce"
-        android:layout_below="@+id/version"
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="200dp"
+        android:layout_below="@+id/version">
 
         <TextView
             android:id="@+id/parent"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:textColor="#000"
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="乌鸟APP，让老人多一份陪伴，"/>
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:text="让老人多一份陪伴"
+            android:textColor="#000" />
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/parent"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:textColor="#000"
             android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="让子女少一分牵挂"/>
-
+            android:text="让子女少一份牵挂"
+            android:textColor="#000" />
 
 
     </RelativeLayout>
 
 
     <RelativeLayout
-        android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
         <LinearLayout
-            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="智能设备方向Happier团队 版权所有" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Copyright ©  2019-2020 Happier."/>
+                android:text="Copyright ©  2019-2020 Happier." />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="All Rights Reserved."/>
+                android:text="All Rights Reserved." />
 
         </LinearLayout>
     </RelativeLayout>

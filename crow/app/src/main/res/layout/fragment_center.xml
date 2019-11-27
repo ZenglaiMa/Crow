@@ -134,7 +134,7 @@
                 android:layout_weight="8"
                 android:gravity="center_vertical"
                 android:paddingLeft="10dp"
-                android:text="个人资料"
+                android:text="设置个人信息"
                 android:textColor="#000"
                 android:textSize="20dp" />
 

@@ -1,6 +1,5 @@
 package com.happier.crow.alarm.controller;
 
-import com.alibaba.druid.support.logging.Log;
 import com.happier.crow.alarm.dao.Alarm;
 import com.happier.crow.alarm.service.AlarmService;
 import com.happier.crow.contact.dao.Contact;

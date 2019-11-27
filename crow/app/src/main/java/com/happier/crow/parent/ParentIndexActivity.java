@@ -60,7 +60,6 @@ public class ParentIndexActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Jump to alarm", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.m_iv_contact:
-                    // todo : 跳转到通讯录界面
                     intent = new Intent(ParentIndexActivity.this,ParentsContactActivity.class);
                     startActivity(intent);
                     Toast.makeText(getApplicationContext(), "Jump to contact", Toast.LENGTH_SHORT).show();

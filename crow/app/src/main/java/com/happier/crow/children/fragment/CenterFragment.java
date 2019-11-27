@@ -1,5 +1,6 @@
 package com.happier.crow.children.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,7 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.happier.crow.AboutActivity;
+import com.happier.crow.MainActivity;
 import com.happier.crow.R;
+import com.happier.crow.children.ChildrenInfoActivity;
 
 public class CenterFragment extends Fragment {
 
@@ -69,16 +73,19 @@ public class CenterFragment extends Fragment {
                     Toast.makeText(getContext(), "我的相册", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.m_ll_my_personal_info:
-                    // todo : personal info
-                    Toast.makeText(getContext(), "个人资料", Toast.LENGTH_SHORT).show();
+                    Intent personalInfoIntent = new Intent(getContext(), ChildrenInfoActivity.class);
+                    startActivity(personalInfoIntent);
+                    getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
                     break;
                 case R.id.m_ll_children_logout:
-                    // todo : logout
-                    Toast.makeText(getContext(), "退出登录", Toast.LENGTH_SHORT).show();
+                    Intent logoutIntent = new Intent(getContext(), MainActivity.class);
+                    logoutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(logoutIntent);
                     break;
                 case R.id.m_ll_about_us:
-                    // todo : about us
-                    Toast.makeText(getContext(), "关于我们", Toast.LENGTH_SHORT).show();
+                    Intent aboutUsIntent = new Intent(getContext(), AboutActivity.class);
+                    startActivity(aboutUsIntent);
+                    getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
                     break;
             }
         }

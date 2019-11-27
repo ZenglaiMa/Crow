@@ -57,6 +57,7 @@ public class InteractFragment extends Fragment {
                 case R.id.z_ll_setNotify:
                     Intent intent = new Intent(getContext(), ChildrenSetAlarmActivity.class);
                     startActivity(intent);
+                    getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
                     break;
                 case R.id.m_ll_upload_picture:
                     // todo : upload pictures

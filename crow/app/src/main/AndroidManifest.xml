@@ -40,7 +40,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".MainActivity"
             android:label="乌鸟">
@@ -51,15 +50,15 @@
             </intent-filter>
         </activity>
 
-
-        <!-- LKY 鹰眼历史轨迹-->
+        <!-- LKY 鹰眼历史轨迹 -->
         <service
             android:name="com.baidu.trace.LBSTraceService"
             android:enabled="true"
-            android:process=":remote"></service>
+            android:process=":remote" />
+
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="48sp5txV8ifKVu622199moP9oYMKGoAT"></meta-data>
+            android:value="48sp5txV8ifKVu622199moP9oYMKGoAT" />
         <!-- ZYH  以下是JPush的设置 -->
         <!-- Required SDK核心功能 -->
         <activity
@@ -163,7 +162,8 @@
             android:value="53b243ec12325d490a94a88e" /> <!-- </>值来自开发者平台取得的AppKey -->
 
         <activity android:name=".JPushActivity" />
-        <!--ZYH test-->
+        <!-- ZYH test -->
+
 
         <!-- ZYH test -->
         <receiver
@@ -171,11 +171,11 @@
             android:enabled="true"
             android:exported="false">
             <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!--Required  用户注册SDK的intent-->
-                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!--Required  用户接收SDK消息的intent-->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!--Required  用户接收SDK通知栏信息的intent-->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!--Required  用户打开自定义通知栏的intent-->
-                <action android:name="cn.jpush.android.intent.CONNECTION" /><!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!-- Required  用户注册SDK的intent -->
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!-- Required  用户接收SDK消息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!-- Required  用户接收SDK通知栏信息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!-- Required  用户打开自定义通知栏的intent -->
+                <action android:name="cn.jpush.android.intent.CONNECTION" /> <!-- 接收网络变化 连接/断开 since 1.6.3 -->
                 <category android:name="com.happier.crow" />
             </intent-filter>
         </receiver>
@@ -192,26 +192,15 @@
         <activity
             android:name=".ResetPwdActivity"
             android:label="找回密码" />
-<<<<<<< HEAD
         <activity
             android:name=".parent.ParentsContactActivity"
             android:label="父母联系人" />
         <activity
             android:name=".parent.ParentsAddContactActivity"
-            android:label="父母添加联系人" />
+            android:label="添加联系人" />
         <activity
             android:name=".children.ChildrenAddParentsActivity"
-            android:label="子女添加父母" />
-=======
-
-        <activity android:name=".parent.ParentsContactActivity"
-            android:label="父母联系人"/>
-        <activity android:name=".parent.ParentsAddContactActivity"
-            android:label="父母添加联系人"/>
-        <activity android:name=".children.ChildrenAddParentsActivity"
-            android:label="子女添加父母"/>
-
->>>>>>> 9eca733f69e8623fb4946263ee962508627799fd
+            android:label="添加父母" />
         <activity
             android:name=".ParentsLocation"
             android:label="父母位置" />
@@ -224,17 +213,12 @@
         <activity
             android:name=".children.ChildrenSetAlarmActivity"
             android:label="设置贴心提醒" />
-
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-        <activity android:name=".AboutActivity"
-            android:label="关于我们"/>
-=======
->>>>>>> 7cb8be5f9da70839abe4e96c5afec73853628da0
->>>>>>> d172df43a4afe0af31aa605f816ca844f0d6e333
->>>>>>> a7a635a4afb6d48d9d0c3b64264747cae84e4f2b
->>>>>>> 9eca733f69e8623fb4946263ee962508627799fd
+        <activity
+            android:name=".AboutActivity"
+            android:label="关于我们" />
+        <activity
+            android:name=".children.ChildrenInfoActivity"
+            android:label="个人资料" />
     </application>
 
 </manifest>
