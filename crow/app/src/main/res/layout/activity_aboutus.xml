@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <ImageView
+        android:id="@+id/crow"
+        android:layout_marginTop="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/bird128" />
+
+    <TextView
+        android:id="@+id/name"
+        android:textStyle="bold"
+        android:layout_below="@+id/crow"
+        android:layout_centerHorizontal="true"
+        android:textColor="#000"
+        android:textSize="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="乌鸟   Crow"/>
+
+    <TextView
+        android:id="@+id/version"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/name"
+        android:textColor="#000"
+        android:textSize="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Version 1.0.0"/>
+
+    <RelativeLayout
+        android:id="@+id/introduce"
+        android:layout_below="@+id/version"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <TextView
+            android:id="@+id/parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textColor="#000"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="乌鸟APP，让老人多一份陪伴，"/>
+
+        <TextView
+            android:layout_below="@+id/parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textColor="#000"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="让子女少一分牵挂"/>
+
+
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="智能设备方向Happier团队 版权所有" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Copyright ©  2019-2020 Happier."/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="All Rights Reserved."/>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

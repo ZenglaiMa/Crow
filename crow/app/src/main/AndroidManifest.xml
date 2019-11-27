@@ -194,14 +194,13 @@
         <activity
             android:name=".ResetPwdActivity"
             android:label="找回密码" />
-<<<<<<< HEAD
+
         <activity android:name=".parent.ParentsContactActivity"
             android:label="父母联系人"/>
         <activity android:name=".parent.ParentsAddContactActivity"
             android:label="父母添加联系人"/>
         <activity android:name=".children.ChildrenAddParentsActivity"
             android:label="子女添加父母"/>
-=======
 
         <activity
             android:name=".ParentsLocation"
@@ -216,7 +215,8 @@
 
         <activity android:name=".children.ChildrenSetAlarmActivity" />
 
->>>>>>> 7cb8be5f9da70839abe4e96c5afec73853628da0
+        <activity android:name=".AboutActivity"
+            android:label="关于我们"/>
     </application>
 
 </manifest>
