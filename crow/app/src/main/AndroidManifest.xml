@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.happier.crow">
+
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -163,6 +164,11 @@
 
         <activity android:name=".JPushActivity" />
         <!--ZYH test-->
+<<<<<<< HEAD
+=======
+
+        <!-- ZYH test -->
+>>>>>>> 1e842d636f1fcf01228192714b30a5ddedcb02a0
         <receiver
             android:name=".JPushReceiver"
             android:enabled="true"
@@ -180,27 +186,44 @@
         <activity
             android:name=".parent.ParentIndexActivity"
             android:label="首页" />
-
         <activity
             android:name=".children.ChildrenIndexActivity"
             android:label="首页" />
-
         <activity
             android:name=".RegisterActivity"
             android:label="用户注册" />
-
         <activity
             android:name=".ResetPwdActivity"
             android:label="找回密码" />
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+        <activity
+            android:name=".parent.ParentsContactActivity"
+            android:label="父母联系人" />
+        <activity
+            android:name=".parent.ParentsAddContactActivity"
+            android:label="父母添加联系人" />
+        <activity
+            android:name=".children.ChildrenAddParentsActivity"
+            android:label="子女添加父母" />
+=======
+
+>>>>>>> 1e842d636f1fcf01228192714b30a5ddedcb02a0
         <activity android:name=".parent.ParentsContactActivity"
             android:label="父母联系人"/>
         <activity android:name=".parent.ParentsAddContactActivity"
             android:label="父母添加联系人"/>
         <activity android:name=".children.ChildrenAddParentsActivity"
             android:label="子女添加父母"/>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9eca733f69e8623fb4946263ee962508627799fd
+>>>>>>> 1e842d636f1fcf01228192714b30a5ddedcb02a0
         <activity
             android:name=".ParentsLocation"
-            android:label="父母位置"></activity>
+            android:label="父母位置" />
         <activity
             android:name=".parent.ParentInfoActivity"
             android:label="个人中心" />
@@ -208,6 +231,7 @@
             android:name=".parent.ModifyParentInfoActivity"
             android:label="设置/修改个人信息" />
         <activity
+<<<<<<< HEAD
             android:name=".parent.ModifyParentInfoActivity"
             android:label="设置/修改个人信息" />
         <activity android:name=".children.ChildrenSetAlarmActivity"></activity>
@@ -217,6 +241,21 @@
 
         <activity android:name=".children.ChildrenSetAlarmActivity" />
 
+=======
+            android:name=".children.ChildrenSetAlarmActivity"
+            android:label="设置贴心提醒" />
+
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+        <activity android:name=".AboutActivity"
+            android:label="关于我们"/>
+=======
+>>>>>>> 7cb8be5f9da70839abe4e96c5afec73853628da0
+>>>>>>> d172df43a4afe0af31aa605f816ca844f0d6e333
+>>>>>>> a7a635a4afb6d48d9d0c3b64264747cae84e4f2b
+>>>>>>> 9eca733f69e8623fb4946263ee962508627799fd
+>>>>>>> 1e842d636f1fcf01228192714b30a5ddedcb02a0
     </application>
 
 </manifest>

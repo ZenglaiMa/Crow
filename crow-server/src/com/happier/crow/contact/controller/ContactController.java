@@ -17,14 +17,9 @@ import com.jfinal.core.Controller;
 public class ContactController extends Controller {
 	private static final int ADDSUCCESS = 1;
 	private static final int ADDFAILED = 0;
-	private static final int FATHERDIDNTEXIST = 0;//通讯录中未存有父亲信息
-	private static final int FATHEREXIST = 1;//通讯录已经存有父亲信息
-	private static final int MOTHERDIDNTEXIST = 10;//通讯录中未存有母亲信息
-	private static final int MOTHEREXIST = 11;//通讯录已经存有母亲信息
 	private static final int INFODIDNTEXIST = 101;//父母表中不存在要添加的父亲信息
-
 	private static final int INFOREPEAT = 999;//要添加的父母信息与现有父母信息重复
-	
+	private static final int ADDPARENTS = 11;
 	public void showContacts(){
 		int id = Integer.valueOf(getPara("id"));
 		int adderStatus = Integer.valueOf(getPara("adderStatus"));
@@ -131,9 +126,16 @@ public class ContactController extends Controller {
 			pstm.setInt(2,1);
 			rs = pstm.executeQuery();
 			if(rs.next()){
-				
+				if(rs.getInt(1) == pid){
+					renderJson(INFOREPEAT);//要添加的父母信息与现有信息重复
+					return;
+				}else if(rs.getInt(1)!=pid){
+					renderJson(ADDFAILED);
+					return;
+				}
 			}else{
-				
+				renderJson(ADDPARENTS);
+				return;
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
