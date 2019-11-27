@@ -8,11 +8,16 @@
                         
         
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+<<<<<<< HEAD
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/WebContent"/>
+                
+=======
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/.settings"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/build"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/WebContent"/>
                         
         
+>>>>>>> 1e842d636f1fcf01228192714b30a5ddedcb02a0
         <property name="java-output-path" value="/crow-server/build/classes"/>
                 
         <property name="context-root" value="crow-server"/>

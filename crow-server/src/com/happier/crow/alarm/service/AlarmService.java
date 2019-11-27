@@ -1,5 +1,7 @@
 package com.happier.crow.alarm.service;
 
+import java.util.Map;
+
 import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jpush.api.JPushClient;
@@ -8,6 +10,7 @@ import cn.jpush.api.push.model.Options;
 import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.audience.Audience;
+import cn.jpush.api.push.model.notification.AndroidNotification;
 import cn.jpush.api.push.model.notification.Notification;
 
 public class AlarmService {
@@ -18,9 +21,9 @@ public class AlarmService {
 	 * @param registrationId 设备标识
 	 * @param alert 推送内容
 	 */
-	public void jSend_notification(String registrationId, String alert){
+	public void jSend_notification(String registrationId, String alert, String extrasparam){
 		JPushClient jpushClient = new JPushClient(masterSecret, appKey, 3);
-		PushPayload payload = send_N(registrationId, alert);
+		PushPayload payload = send_N(registrationId, alert, extrasparam);
 		try {
             PushResult result = jpushClient.sendPush(payload);
             System.out.println(result + "==========");
@@ -36,17 +39,16 @@ public class AlarmService {
         	System.out.println("Msg ID: " + e.getMsgId());
         }
 	}
-	public PushPayload send_N(String registrationId, String alert){
+	public PushPayload send_N(String registrationId, String alert, String extrasparam){
 		return PushPayload.newBuilder()
     			.setPlatform(Platform.all())//必填    推送平台设置
     			.setAudience(Audience.registrationId(registrationId))
-    			.setNotification(Notification.alert(alert))
-    			/**
-    			 * 如果目标平台为 iOS 平台 需要在 options 
-    			 * 中通过 apns_production 字段来制定推送环境。
-    			 * True 表示推送生产环境，False 表示要推送开发环境； 如
-    			 * 果不指定则为推送生产环境
-    			 */
+//    			.setNotification(Notification.alert(alert))
+    			.setNotification(Notification.newBuilder()
+    					.addPlatformNotification(AndroidNotification.newBuilder()
+    					.setAlert(alert)
+    					.addExtra("extras",extrasparam)
+    					.build()).build())
     			.setOptions(Options.newBuilder()
     					.setApnsProduction(false)
     					.build())

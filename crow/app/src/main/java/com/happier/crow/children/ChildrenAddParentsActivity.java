@@ -116,6 +116,31 @@ public class ChildrenAddParentsActivity extends AppCompatActivity {
                 } else if (tag.equals("11")) {
                     addParent(adderStatus, phone, remark);
                 }
+<<<<<<< HEAD
+=======
+=======
+                    String tag = response.body().string();
+                    if(tag.equals("101")){
+                        Looper.prepare();
+                        Toast.makeText(getApplicationContext(),"添加的父亲或母亲尚未注册，请先注册！",Toast.LENGTH_LONG).show();
+                        Looper.loop();
+<<<<<<< HEAD
+=======
+                    }else if(tag.equals("999")){
+                        Looper.prepare();
+                        Toast.makeText(getApplicationContext(),"添加成功！",Toast.LENGTH_LONG).show();
+                        Looper.loop();
+                    }else if(tag.equals("0")){
+                        Looper.prepare();
+                        Toast.makeText(getApplicationContext(),"已添加过父母信息！",Toast.LENGTH_LONG).show();
+                        Looper.loop();
+                    }
+                    else if(tag.equals("11")){
+                        addParent(adderStatus,phone,remark);
+>>>>>>> 1e842d636f1fcf01228192714b30a5ddedcb02a0
+                    }
+>>>>>>> 9eca733f69e8623fb4946263ee962508627799fd
+>>>>>>> 26b0822f780c29e23c813eeb146c7e1a430f4a99
             }
         });
     }

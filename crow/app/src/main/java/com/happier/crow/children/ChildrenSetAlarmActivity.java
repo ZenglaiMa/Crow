@@ -16,6 +16,8 @@ import com.happier.crow.R;
 import com.happier.crow.constant.Constant;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.IOException;
 
@@ -46,7 +48,7 @@ public class ChildrenSetAlarmActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_children_set_alarm);
-
+        EventBus.getDefault().register(this);
         initData();
         linsteners();
     }
@@ -141,13 +143,20 @@ public class ChildrenSetAlarmActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String result = response.body().string();
+<<<<<<< HEAD
                 if (result.equals("0")) {
                 } else {
                     Toast.makeText(ChildrenSetAlarmActivity.this, "提醒设置成功", Toast.LENGTH_LONG).show();
+=======
+                if(result.equals("0")){
+                }else {
+                    EventBus.getDefault().post("");
+>>>>>>> 26b0822f780c29e23c813eeb146c7e1a430f4a99
                 }
             }
         });
     }
+<<<<<<< HEAD
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -157,5 +166,11 @@ public class ChildrenSetAlarmActivity extends AppCompatActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+=======
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void handleResult(String result) {
+        Toast.makeText(ChildrenSetAlarmActivity.this, "提醒设置成功", Toast.LENGTH_LONG).show();
+        finish();
+>>>>>>> 26b0822f780c29e23c813eeb146c7e1a430f4a99
     }
 }
