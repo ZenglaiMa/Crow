@@ -192,6 +192,7 @@
         <activity
             android:name=".ResetPwdActivity"
             android:label="找回密码" />
+<<<<<<< HEAD
         <activity
             android:name=".parent.ParentsContactActivity"
             android:label="父母联系人" />
@@ -201,6 +202,16 @@
         <activity
             android:name=".children.ChildrenAddParentsActivity"
             android:label="子女添加父母" />
+=======
+
+        <activity android:name=".parent.ParentsContactActivity"
+            android:label="父母联系人"/>
+        <activity android:name=".parent.ParentsAddContactActivity"
+            android:label="父母添加联系人"/>
+        <activity android:name=".children.ChildrenAddParentsActivity"
+            android:label="子女添加父母"/>
+
+>>>>>>> 9eca733f69e8623fb4946263ee962508627799fd
         <activity
             android:name=".ParentsLocation"
             android:label="父母位置" />
@@ -214,6 +225,16 @@
             android:name=".children.ChildrenSetAlarmActivity"
             android:label="设置贴心提醒" />
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+        <activity android:name=".AboutActivity"
+            android:label="关于我们"/>
+=======
+>>>>>>> 7cb8be5f9da70839abe4e96c5afec73853628da0
+>>>>>>> d172df43a4afe0af31aa605f816ca844f0d6e333
+>>>>>>> a7a635a4afb6d48d9d0c3b64264747cae84e4f2b
+>>>>>>> 9eca733f69e8623fb4946263ee962508627799fd
     </application>
 
 </manifest>
