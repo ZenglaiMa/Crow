@@ -163,11 +163,7 @@
             android:value="53b243ec12325d490a94a88e" /> <!-- </>值来自开发者平台取得的AppKey -->
 
         <activity android:name=".JPushActivity" />
-<<<<<<< HEAD
         <!--ZYH test-->
-=======
-        <!-- ZYH test -->
->>>>>>> 49c2f6b604bfd1c06952cfb6c14e3e84c8ed328f
         <receiver
             android:name=".JPushReceiver"
             android:enabled="true"
@@ -200,17 +196,13 @@
         <activity
             android:name=".parent.ParentInfoActivity"
             android:label="个人中心" />
-<<<<<<< HEAD
-
         <activity
             android:name=".parent.ModifyParentInfoActivity"
             android:label="设置/修改个人信息" />
-=======
         <activity
             android:name=".parent.ModifyParentInfoActivity"
             android:label="设置/修改个人信息" />
         <activity android:name=".children.ChildrenSetAlarmActivity"></activity>
->>>>>>> 49c2f6b604bfd1c06952cfb6c14e3e84c8ed328f
     </application>
 
 </manifest>
