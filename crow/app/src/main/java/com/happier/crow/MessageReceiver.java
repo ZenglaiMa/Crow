@@ -11,7 +11,7 @@ import cn.jpush.android.api.CustomMessage;
 import cn.jpush.android.api.NotificationMessage;
 import cn.jpush.android.service.JPushMessageReceiver;
 
-public class MyMessageReceiver extends JPushMessageReceiver {
+public class MessageReceiver extends cn.jpush.android.service.JPushMessageReceiver {
     //用户收到自定义消息时被回调(消息)
     @Override
     public void onMessage(Context context, CustomMessage customMessage) {

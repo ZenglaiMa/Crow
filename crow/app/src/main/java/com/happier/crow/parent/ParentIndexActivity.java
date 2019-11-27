@@ -33,7 +33,7 @@ public class ParentIndexActivity extends AppCompatActivity {
 
         /*
         SharedPreferences preferences = getSharedPreferences("authid", MODE_PRIVATE);
-        Log.e("pid", "" + preferences.getInt("pid", 0));
+        int pid = preferences.getInt("pid", 0);
         */
     }
 
@@ -100,8 +100,9 @@ public class ParentIndexActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.m_parent_center:
-                // todo : 跳转到父母端个人中心界面
-                Toast.makeText(this, "Jump to personal center", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, ParentInfoActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
                 break;
         }
         return super.onOptionsItemSelected(item);

@@ -13,7 +13,7 @@ public class Parent {
     private String city;
     private String area;
     private String detailAddress;
-    private int registerId;
+    private String registerId;
 
     public int getPid() {
         return pid;
@@ -103,19 +103,29 @@ public class Parent {
         this.detailAddress = detailAddress;
     }
 
-    public int getRegisterId() {
+    public String getRegisterId() {
         return registerId;
     }
 
-    public void setRegisterId(int registerId) {
+    public void setRegisterId(String registerId) {
         this.registerId = registerId;
     }
 
     @Override
     public String toString() {
-        return "Parent [pid=" + pid + ", phone=" + phone + ", name=" + name + ", password=" + password + ", gender="
-                + gender + ", age=" + age + ", iconPath=" + iconPath + ", province=" + province + ", city=" + city
-                + ", area=" + area + ", detailAddress=" + detailAddress + ", registerId=" + registerId + "]";
+        return "Parent{" +
+                "pid=" + pid +
+                ", phone='" + phone + '\'' +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", gender=" + gender +
+                ", age=" + age +
+                ", iconPath='" + iconPath + '\'' +
+                ", province='" + province + '\'' +
+                ", city='" + city + '\'' +
+                ", area='" + area + '\'' +
+                ", detailAddress='" + detailAddress + '\'' +
+                ", registerId='" + registerId + '\'' +
+                '}';
     }
-
 }
