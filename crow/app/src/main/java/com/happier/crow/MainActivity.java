@@ -3,19 +3,6 @@ package com.happier.crow;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-<<<<<<< HEAD
-import android.content.Intent;
-import android.content.Context;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-=======
->>>>>>> d172df43a4afe0af31aa605f816ca844f0d6e333
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
@@ -49,10 +36,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
-<<<<<<< HEAD
-    private SharedPreferences sharedPreferences;
-=======
->>>>>>> d172df43a4afe0af31aa605f816ca844f0d6e333
+
     private Button location;
     private RadioGroup rg;
     private RadioButton rbParent;

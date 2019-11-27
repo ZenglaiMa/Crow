@@ -4,179 +4,188 @@
     android:layout_height="match_parent"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
+    android:gravity="center"
     android:orientation="vertical">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="210dp"
+        android:src="@drawable/xin" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
         android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/notification" />
-
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:text="设置贴心提醒"
-            android:textSize="20dp" />
-    </LinearLayout>
-    <ImageView
-        android:src="@drawable/xin"
-        android:layout_width="match_parent"
-        android:layout_height="210dp" />
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
-        <TextView
-            android:textSize="20dp"
+            android:layout_weight="1"
             android:gravity="center"
             android:text="提醒类型:"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:textSize="20dp" />
+
         <EditText
             android:id="@+id/z_et_alarm_type_children"
-            android:textSize="20dp"
-            android:hint="请输入贴心提醒的类型"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"/>
+            android:layout_weight="2"
+            android:hint="请输入贴心提醒的类型"
+            android:textSize="20dp" />
     </LinearLayout>
+
     <TextView
-        android:background="#000"
         android:layout_width="match_parent"
-        android:layout_height="1dp" />
+        android:layout_height="1dp"
+        android:background="#000" />
+
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
         <TextView
-            android:textSize="20dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:gravity="center"
             android:text="提醒描述:"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:textSize="20dp" />
+
         <EditText
             android:id="@+id/z_et_alarm_description_children"
-            android:textSize="20dp"
-            android:hint="请输入贴心提醒的描述"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"/>
+            android:layout_weight="2"
+            android:hint="请输入贴心提醒的描述"
+            android:textSize="20dp" />
     </LinearLayout>
+
     <TextView
-        android:background="#000"
         android:layout_width="match_parent"
-        android:layout_height="1dp" />
+        android:layout_height="1dp"
+        android:background="#000" />
+
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
         <TextView
-            android:textSize="20dp"
+            android:layout_width="121dp"
+            android:layout_height="match_parent"
             android:gravity="center"
             android:text="提醒时间:"
-            android:layout_width="121dp"
-            android:layout_height="match_parent" />
+            android:textSize="20dp" />
+
         <Spinner
-            android:entries="@array/mOra"
+            android:id="@+id/z_spinner_mOra_children"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/z_spinner_mOra_children" />
+            android:entries="@array/mOra" />
     </LinearLayout>
+
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
         <TextView
-            android:textSize="20dp"
-            android:gravity="center"
             android:layout_width="121dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="20dp" />
+
         <Spinner
-            android:entries="@array/hour"
+            android:id="@+id/z_spinner_hour_children"
             android:layout_width="85dp"
             android:layout_height="wrap_content"
-            android:id="@+id/z_spinner_hour_children" />
+            android:entries="@array/hour" />
+
         <TextView
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
-            android:textSize="20dp"
-            android:gravity="center"
             android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:gravity="center"
             android:text="时"
-            android:layout_height="match_parent" />
+            android:textSize="20dp" />
+
         <Spinner
-            android:entries="@array/minute"
+            android:id="@+id/z_spinner_minute_children"
             android:layout_width="85dp"
             android:layout_height="wrap_content"
-            android:id="@+id/z_spinner_minute_children">
-        </Spinner>
+            android:entries="@array/minute"></Spinner>
+
         <TextView
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
-            android:textSize="20dp"
-            android:text="分"
-            android:gravity="center"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-    </LinearLayout>
-    <TextView
-        android:background="#000"
-        android:layout_width="match_parent"
-        android:layout_height="1dp" />
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
-        <TextView
-            android:textSize="20dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:gravity="center"
-            android:text="被提醒人:"
+            android:text="分"
+            android:textSize="20dp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="被提醒人:"
+            android:textSize="20dp" />
+
         <RadioGroup
             android:id="@+id/z_rg_alarm_person"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="2"
-            android:orientation="horizontal"
-            android:layout_height="match_parent">
+            android:orientation="horizontal">
+
             <RadioButton
                 android:id="@+id/z_rb_alarm_father"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" />
+
             <TextView
-                android:text="父亲"
-                android:textSize="20dp"
-                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginRight="5dp"/>
+                android:layout_marginRight="5dp"
+                android:gravity="center"
+                android:text="父亲"
+                android:textSize="20dp" />
+
             <RadioButton
                 android:id="@+id/z_rb_alarm_mother"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" />
+
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="母亲"
-                android:textSize="20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
+                android:textSize="20dp" />
         </RadioGroup>
     </LinearLayout>
+
     <Button
-        android:layout_marginTop="10dp"
-        android:textSize="20dp"
-        android:textColor="#fff"
-        android:background="@color/colorPrimary"
-        android:text="确认提醒"
         android:id="@+id/z_btn_alarm_submit_children"
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorPrimary"
+        android:text="确认提醒"
+        android:textColor="#fff"
+        android:textSize="20dp" />
 </LinearLayout>
