@@ -1,12 +1,8 @@
 package com.happier.crow.alarm.controller;
 
-<<<<<<< HEAD
-=======
 import java.util.List;
 
-import com.alibaba.druid.support.logging.Log;
 import com.google.gson.Gson;
->>>>>>> 26b0822f780c29e23c813eeb146c7e1a430f4a99
 import com.happier.crow.alarm.dao.Alarm;
 import com.happier.crow.alarm.service.AlarmService;
 import com.happier.crow.contact.dao.Contact;
