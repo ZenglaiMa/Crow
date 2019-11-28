@@ -16,7 +16,6 @@ public class MessageReceiver extends cn.jpush.android.service.JPushMessageReceiv
     @Override
     public void onMessage(Context context, CustomMessage customMessage) {
         super.onMessage(context, customMessage);
-        Log.e("test", customMessage.message);
     }
 
     //处理消息

@@ -172,12 +172,10 @@ public class ModifyParentInfoActivity extends AppCompatActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void handleResult(String result) {
-        if (result != null && !result.equals("")) {
+        if (result.equals("1")) {
             Toast.makeText(this, "设置成功", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "服务器错误, 请稍后重试", Toast.LENGTH_SHORT).show();
+            finish();
         }
-        finish();
     }
 
     private void initSpinner() {

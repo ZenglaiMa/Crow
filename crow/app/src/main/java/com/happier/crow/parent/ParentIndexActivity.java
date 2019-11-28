@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.happier.crow.MainActivity;
 import com.happier.crow.R;
 
 public class ParentIndexActivity extends AppCompatActivity {
@@ -21,7 +22,7 @@ public class ParentIndexActivity extends AppCompatActivity {
     private ImageView ivPhoto;
     private ImageView ivHome;
     private ImageView ivSos;
-
+    private Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +60,8 @@ public class ParentIndexActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Jump to alarm", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.m_iv_contact:
-                    // todo : 跳转到通讯录界面
+                    intent = new Intent(ParentIndexActivity.this,ParentsContactActivity.class);
+                    startActivity(intent);
                     Toast.makeText(getApplicationContext(), "Jump to contact", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.m_iv_photo:

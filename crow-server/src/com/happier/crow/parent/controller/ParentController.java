@@ -1,5 +1,9 @@
 package com.happier.crow.parent.controller;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import com.happier.crow.parent.dao.Parent;
 import com.happier.crow.util.EncryptionUtils;
 import com.jfinal.core.Controller;
@@ -72,6 +76,33 @@ public class ParentController extends Controller {
 		boolean result = Parent.dao.findById(id).set("name", name).set("gender", gender).set("age", age)
 				.set("province", province).set("city", city).set("area", area).set("detailAddress", detailAddress)
 				.update();
+		if (result) {
+			renderJson(SUCCESS);
+		} else {
+			renderJson(FAILURE);
+		}
+	}
+
+	public void uploadHeaderImage() {
+		int id = Integer.parseInt(getHeader("pid"));
+		String path = "/header-image/" + System.currentTimeMillis() + ".jpg";
+		try {
+			InputStream is = getRequest().getInputStream();
+			String realPath = getRequest().getServletContext().getRealPath(path);
+			FileOutputStream fos = new FileOutputStream(realPath);
+			byte[] buffer = new byte[512];
+			int len;
+			while ((len = is.read(buffer)) != -1) {
+				fos.write(buffer, 0, len);
+			}
+			fos.flush();
+			fos.close();
+			is.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		boolean result = Parent.dao.findById(id).set("iconPath", path).update();
 		if (result) {
 			renderJson(SUCCESS);
 		} else {
