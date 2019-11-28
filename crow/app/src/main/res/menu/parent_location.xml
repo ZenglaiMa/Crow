@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/father_location"
+        android:title="父亲位置"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/mother_location"
+        android:title="母亲位置" />
+    <item
+        android:id="@+id/father_trace"
+        android:title="父亲历史轨迹"></item>
+    <item
+        android:id="@+id/mother_trace"
+        android:title="母亲历史轨迹" />
+</menu>

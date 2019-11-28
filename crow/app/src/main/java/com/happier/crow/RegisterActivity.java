@@ -5,6 +5,7 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -20,12 +21,22 @@ import com.happier.crow.constant.Constant;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
+import cn.smssdk.gui.util.Const;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -56,6 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private static final int VERIFY_SUCCESS = 1;
     private static final int GET_SUCCESS = 2;
+    private static final int REGIST_SUCCESS=3;
 
     private static String PARENT_REGISTER_PATH = "/parent/register";
     private static String CHILDREN_REGISTER_PATH = "/children/register";
@@ -83,6 +95,9 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "验证码发送成功", Toast.LENGTH_SHORT).show();
                     }
                     break;
+                case REGIST_SUCCESS:
+                    Toast.makeText(getApplicationContext(), "注册成功", Toast.LENGTH_SHORT).show();
+                    finish();
             }
         }
     };
@@ -219,13 +234,70 @@ public class RegisterActivity extends AppCompatActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void registerResult(String result) {
         if (Integer.parseInt(result) == REGISTER_SUCCESS) {
-            Toast.makeText(getApplicationContext(), "注册成功", Toast.LENGTH_SHORT).show();
-            finish();
+            addEntity();
+//            Toast.makeText(getApplicationContext(), "注册成功", Toast.LENGTH_SHORT).show();
+//            finish();
         } else if (Integer.parseInt(result) == REGISTER_FAILURE) {
             Toast.makeText(getApplicationContext(), "服务器错误, 请稍后重试", Toast.LENGTH_SHORT).show();
         }
     }
+    private void addEntity() {
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                URL url = null;
+                String params = "ak=" +Constant.ak + "&" + "service_id=" + Constant.serviceId + "&"
+                        + "entity_name=" + phoneNumber;
+                PrintWriter out = null;
+                BufferedReader in = null;
+                String result = "";
+                try {
+                    URL realUrl = new URL("http://yingyan.baidu.com/api/v3/entity/add");
+                    // 打开和URL之间的连接
+                    URLConnection conn = realUrl.openConnection();
+                    // 设置通用的请求属性
+                    conn.setRequestProperty("accept", "*/*");
+                    conn.setRequestProperty("connection", "Keep-Alive");
+                    conn.setRequestProperty("user-agent",
+                            "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+                    conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8; ");
+                    // 发送POST请求必须设置如下两行
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+                    // 获取URLConnection对象对应的输出流
+                    out = new PrintWriter(conn.getOutputStream());
+                    // 发送请求参数
+                    out.print(params);
+                    // flush输出流的缓冲
+                    out.flush();
+                    // 定义BufferedReader输入流来读取URL的响应
+                    in = new BufferedReader(
+                            new InputStreamReader(conn.getInputStream()));
+                    String line;
+                    while ((line = in.readLine()) != null) {
+                        result += line;
+                    }
+                    JSONObject response0 = new JSONObject(result);
+                    String message = response0.getString("message");
+                    int status = response0.getInt("status");
+                    Log.e("message", message + status);
+                    Message msg=new Message();
+                    msg.what=REGIST_SUCCESS;
+                    handler.sendMessage(msg);
 
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (ProtocolException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
     /**
      * 验证输入的验证码是否正确
      */
