@@ -83,19 +83,19 @@
             android:paddingLeft="10dp">
 
             <RadioButton
-                android:id="@+id/m_rb_children_gender_male"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="30dp"
-                android:checked="true"
-                android:text="男" />
-
-            <RadioButton
                 android:id="@+id/m_rb_children_gender_female"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:layout_marginRight="30dp"
+                android:checked="true"
                 android:text="女" />
+
+            <RadioButton
+                android:id="@+id/m_rb_children_gender_male"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="男" />
 
         </RadioGroup>
 
@@ -104,7 +104,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:text="个人简介:"
         android:textColor="#000"
         android:textSize="25sp" />

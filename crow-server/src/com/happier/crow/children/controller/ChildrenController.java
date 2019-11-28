@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import com.happier.crow.children.dao.Children;
-import com.happier.crow.parent.dao.Parent;
 import com.happier.crow.util.EncryptionUtils;
 import com.jfinal.core.Controller;
 
@@ -57,6 +56,12 @@ public class ChildrenController extends Controller {
 		}
 	}
 
+	public void getInfo() {
+		int cid = getParaToInt("cid");
+		Children children = Children.dao.findById(cid);
+		renderJson(children);
+	}
+	
 	public void setInfo() {
 		int id = Integer.parseInt(getHeader("cid"));
 		String name = getPara("name");
