@@ -163,8 +163,6 @@
 
         <activity android:name=".JPushActivity" />
         <!-- ZYH test -->
-
-        <!-- ZYH test -->
         <receiver
             android:name=".JPushReceiver"
             android:enabled="true"
