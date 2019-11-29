@@ -2,9 +2,13 @@
 <classpath>
 	<classpathentry kind="src" path="build"/>
 	<classpathentry kind="src" path="src"/>
+<<<<<<< HEAD
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/java anzhuang">
+=======
 	<classpathentry kind="src" path="WebContent"/>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v8.5"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+>>>>>>> 48ae354f80c35ba0fc1b11a1dda6a36134b37801
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>

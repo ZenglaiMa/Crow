@@ -47,6 +47,7 @@ public class ChildrenInfoActivity extends AppCompatActivity {
     private EditText etName;
     private EditText etAge;
     private RadioButton rbMale;
+    private RadioButton rbFemale;
     private EditText etProfile;
     private Button btnSet;
 
@@ -75,6 +76,8 @@ public class ChildrenInfoActivity extends AppCompatActivity {
 
         findViews();
 
+        setDefaultValues();
+
         btnSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,17 +85,18 @@ public class ChildrenInfoActivity extends AppCompatActivity {
                 age = etAge.getText().toString();
                 gender = rbMale.isChecked() ? 1 : 0;
                 profile = etProfile.getText().toString();
-                if (TextUtils.isEmpty(name)) {
+                if (!TextUtils.isEmpty(name)) {
+                    if (!TextUtils.isEmpty(age)) {
+                        if (!TextUtils.isEmpty(profile)) {
+                            setPersonalInfo();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "请输入个人简介", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "请输入年龄", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
                     Toast.makeText(getApplicationContext(), "请输入姓名", Toast.LENGTH_SHORT).show();
-                }
-                if (TextUtils.isEmpty(age)) {
-                    Toast.makeText(getApplicationContext(), "请输入年龄", Toast.LENGTH_SHORT).show();
-                }
-                if (TextUtils.isEmpty(profile)) {
-                    Toast.makeText(getApplicationContext(), "请输入个人简介", Toast.LENGTH_SHORT).show();
-                }
-                if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(age) && !TextUtils.isEmpty(profile)) {
-                    setPersonalInfo();
                 }
             }
         });
@@ -105,6 +109,35 @@ public class ChildrenInfoActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void setDefaultValues() {
+        Intent intent = getIntent();
+        String path = intent.getStringExtra("headerImagePath");
+        String name = intent.getStringExtra("name");
+        int age = intent.getIntExtra("age", 0);
+        int gender = intent.getIntExtra("gender", -1);
+        String profile = intent.getStringExtra("profile");
+        if (path != null && !path.equals("")) {
+            RequestOptions options = new RequestOptions().circleCrop();
+            Glide.with(this).load(Constant.BASE_URL + path).apply(options).into(ivHeader);
+        }
+        if (name != null && !name.equals("")) {
+            etName.setText(intent.getStringExtra("name"));
+        }
+        if (age != 0) {
+            etAge.setText(String.valueOf(age));
+        }
+        if (gender != -1) {
+            if (gender == 0) {
+                rbFemale.setChecked(true);
+            } else if (gender == 1) {
+                rbMale.setChecked(true);
+            }
+        }
+        if (profile != null && !profile.equals("")) {
+            etProfile.setText(profile);
+        }
     }
 
     private void showPopupWindow() {
@@ -187,7 +220,7 @@ public class ChildrenInfoActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String result = response.body().string();
-                Log.e("photo", result);
+                Log.e("take a photo", result);
             }
         });
     }
@@ -209,7 +242,7 @@ public class ChildrenInfoActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String result = response.body().string();
-                Log.e("upload", result);
+                Log.e("select from photograph", result);
             }
         });
     }
@@ -246,8 +279,6 @@ public class ChildrenInfoActivity extends AppCompatActivity {
         if (result.equals("1")) {
             Toast.makeText(this, "设置成功", Toast.LENGTH_SHORT).show();
             finish();
-        } else {
-            Toast.makeText(this, "服务器错误, 请稍后重试", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -256,6 +287,7 @@ public class ChildrenInfoActivity extends AppCompatActivity {
         etName = findViewById(R.id.m_et_children_set_name);
         etAge = findViewById(R.id.m_et_children_set_age);
         rbMale = findViewById(R.id.m_rb_children_gender_male);
+        rbFemale = findViewById(R.id.m_rb_children_gender_female);
         etProfile = findViewById(R.id.m_et_children_profile);
         btnSet = findViewById(R.id.m_btn_children_set_info);
     }

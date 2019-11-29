@@ -1,8 +1,26 @@
 package com.happier.crow;
 
+<<<<<<< HEAD
+
+import android.content.Intent;
+
+import android.content.Context;
+import android.content.IntentFilter;
+
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+
+import android.content.SharedPreferences;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+
+=======
+import android.content.SharedPreferences;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+>>>>>>> 48ae354f80c35ba0fc1b11a1dda6a36134b37801
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
@@ -35,9 +53,18 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+<<<<<<< HEAD
+import com.happier.crow.constant.Constant;
+
+import cn.jpush.android.api.JPushInterface;
+
+public class MainActivity extends AppCompatActivity {
+    private SharedPreferences sharedPreferences;
+=======
 public class MainActivity extends AppCompatActivity {
 
     private Button location;
+>>>>>>> 48ae354f80c35ba0fc1b11a1dda6a36134b37801
     private RadioGroup rg;
     private RadioButton rbParent;
     private RadioButton rbChildren;
@@ -47,6 +74,11 @@ public class MainActivity extends AppCompatActivity {
     private EditText etPassword;
     private TextView tvForgetPassword;
     private TextView tvRegister;
+<<<<<<< HEAD
+    private Button location;
+
+=======
+>>>>>>> 48ae354f80c35ba0fc1b11a1dda6a36134b37801
     private String phoneNumber;
     private String password;
 
@@ -74,6 +106,8 @@ public class MainActivity extends AppCompatActivity {
         EventBus.getDefault().register(this);
 
         findViews();
+
+        // autoLogin();
 
         location = findViewById(R.id.location);
         location.setOnClickListener(new View.OnClickListener() {
@@ -141,6 +175,40 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /*
+    private void autoLogin() {
+        int pid = getSharedPreferences("authid", MODE_PRIVATE).getInt("pid", 0);
+        String pPhone = getSharedPreferences("authid", MODE_PRIVATE).getString("p_phone", "");
+        String pPassword = getSharedPreferences("authid", MODE_PRIVATE).getString("p_password", "");
+
+        int cid = getSharedPreferences("authid", MODE_PRIVATE).getInt("cid", 0);
+        String cPhone = getSharedPreferences("authid", MODE_PRIVATE).getString("c_phone", "");
+        String cPassword = getSharedPreferences("authid", MODE_PRIVATE).getString("c_password", "");
+
+        if (pid != 0) {
+            rbParent.setChecked(true);
+            if (pPhone != null & !pPhone.equals("")) {
+                if (pPassword != null && !pPassword.equals("")) {
+                    phoneNumber = pPhone;
+                    password = pPassword;
+                    btnLogin.performClick();
+                }
+            }
+        }
+
+        if (cid != 0) {
+            rbChildren.setChecked(true);
+            if (cPhone != null & !cPhone.equals("")) {
+                if (cPassword != null && !cPassword.equals("")) {
+                    phoneNumber = cPhone;
+                    password = cPassword;
+                    btnLogin.performClick();
+                }
+            }
+        }
+    }
+    */
+
     private void login(String loginPath, final int loginState) {
         OkHttpClient client = new OkHttpClient();
         FormBody body = new FormBody.Builder()
@@ -169,6 +237,10 @@ public class MainActivity extends AppCompatActivity {
                         case PARENT_LOGIN_STATE:
                             Parent parent = gson.fromJson(result, Parent.class);
                             SharedPreferences.Editor pEditor = preferences.edit();
+                            /*
+                            pEditor.putString("p_phone", parent.getPhone());
+                            pEditor.putString("p_password", password);
+                            */
                             pEditor.putInt("pid", parent.getPid());
                             pEditor.commit();
                             EventBus.getDefault().post(LOGIN_PARENT_RESULT_SUCCESS);
@@ -176,6 +248,10 @@ public class MainActivity extends AppCompatActivity {
                         case CHILDREN_LOGIN_STATE:
                             Children children = gson.fromJson(result, Children.class);
                             SharedPreferences.Editor cEditor = preferences.edit();
+                            /*
+                            cEditor.putString("c_phone", children.getPhone());
+                            cEditor.putString("c_password", password);
+                            */
                             cEditor.putInt("cid", children.getCid());
                             cEditor.commit();
                             EventBus.getDefault().post(LOGIN_CHILDREN_RESULT_SUCCESS);
@@ -205,6 +281,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent pIntent = new Intent(this, ParentIndexActivity.class);
                 startActivity(pIntent);
                 overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                finish();
                 break;
             case LOGIN_CHILDREN_RESULT_SUCCESS:
                 Toast.makeText(this, "登陆成功", Toast.LENGTH_SHORT).show();
@@ -213,6 +290,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent cIntent = new Intent(this, ChildrenIndexActivity.class);
                 startActivity(cIntent);
                 overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                finish();
                 break;
         }
     }
