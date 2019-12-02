@@ -1,13 +1,12 @@
 package com.happier.crow.parent;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -32,13 +31,14 @@ public class ParentsAddContactActivity extends AppCompatActivity {
     private String pid;
     int isIce = 0;
     public static final String ADDCONTACT_PATH = "/contact/addContact";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parents_addcontact);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("authid",MODE_PRIVATE);
-        pid = String.valueOf(sharedPreferences.getInt("pid",0));
+        SharedPreferences sharedPreferences = getSharedPreferences("authid", MODE_PRIVATE);
+        pid = String.valueOf(sharedPreferences.getInt("pid", 0));
 
         Button btn = findViewById(R.id.y_btn_saveContact);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -47,30 +47,40 @@ public class ParentsAddContactActivity extends AppCompatActivity {
                 EditText etName = findViewById(R.id.y_et_addNickName);
                 EditText etPhone = findViewById(R.id.y_et_teleNum);
                 CheckBox checkBox = findViewById(R.id.y_cb_ice);
-                if(checkBox.isChecked()){
+                if (checkBox.isChecked()) {
                     isIce = 1;
+                } else {
+                    isIce = 0;
                 }
                 remark = etName.getText().toString();
                 phone = etPhone.getText().toString();
-                saveContactInfo(pid,remark,phone,isIce);
+                if (!TextUtils.isEmpty(remark)) {
+                    if (!TextUtils.isEmpty(phone)) {
+                        saveContactInfo(pid, remark, phone, isIce);
+                    } else {
+                        Toast.makeText(ParentsAddContactActivity.this, "请输入子女手机号", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(ParentsAddContactActivity.this, "请输入备注", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
 
     }
 
-    private void saveContactInfo(String id,String remark,String phone,int isIce) {
+    private void saveContactInfo(String id, String remark, String phone, int isIce) {
         OkHttpClient client = new OkHttpClient();
         FormBody body = new FormBody.Builder()
-                .add("adderStatus","0")
-                .add("adderId",id)
-                .add("remark",remark)
-                .add("phone",phone)
-                .add("isIce",String.valueOf(isIce))
+                .add("adderStatus", "0")
+                .add("adderId", id)
+                .add("remark", remark)
+                .add("phone", phone)
+                .add("isIce", String.valueOf(isIce))
                 .build();
         final Request request = new Request.Builder()
                 .post(body)
-                .url(Constant.BASE_URL+ADDCONTACT_PATH)
+                .url(Constant.BASE_URL + ADDCONTACT_PATH)
                 .build();
 
         Call call = client.newCall(request);
@@ -83,26 +93,35 @@ public class ParentsAddContactActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String tag = response.body().string();
-                Log.e("myTag",tag);
-                    if (tag.equals("1")){
-                        Looper.prepare();
-                        Toast.makeText(getApplicationContext(),"添加成功",Toast.LENGTH_SHORT).show();
-                        finish();
-                        Looper.loop();
-                    }else if(tag.equals("0")){
-                        Looper.prepare();
-                        Toast.makeText(getApplicationContext(),"添加失败,用户可能未注册",Toast.LENGTH_LONG).show();
-                        Looper.loop();
-                    }else if(tag.equals("999")){
-                        Looper.prepare();
-                        Toast.makeText(getApplicationContext(),"联系人已存在！",Toast.LENGTH_LONG).show();
-                        Looper.loop();
-                    }else if(tag.equals("666")){
-                        Looper.prepare();
-                        Toast.makeText(getApplicationContext(),"只能添加一个紧急联系人！",Toast.LENGTH_LONG).show();
-                        Looper.loop();
-                    }
+                if (tag.equals("1")) {
+                    Looper.prepare();
+                    Toast.makeText(getApplicationContext(), "添加成功", Toast.LENGTH_SHORT).show();
+                    finish();
+                    Looper.loop();
+                } else if (tag.equals("0")) {
+                    Looper.prepare();
+                    Toast.makeText(getApplicationContext(), "子女可能未注册, 请提醒其注册", Toast.LENGTH_LONG).show();
+                    Looper.loop();
+                } else if (tag.equals("999")) {
+                    Looper.prepare();
+                    Toast.makeText(getApplicationContext(), "联系人已存在", Toast.LENGTH_LONG).show();
+                    Looper.loop();
+                } else if (tag.equals("666")) {
+                    Looper.prepare();
+                    Toast.makeText(getApplicationContext(), "只能添加一个紧急联系人", Toast.LENGTH_LONG).show();
+                    Looper.loop();
+                }
             }
         });
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            finish();
+            overridePendingTransition(R.anim.left_in, R.anim.right_out);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

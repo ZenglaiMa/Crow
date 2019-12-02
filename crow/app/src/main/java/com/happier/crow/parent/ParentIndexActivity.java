@@ -69,8 +69,9 @@ public class ParentIndexActivity extends AppCompatActivity {
                     overridePendingTransition(R.anim.right_in, R.anim.left_out);
                     break;
                 case R.id.m_iv_sos:
-                    // todo : 跳转到紧急呼叫界面
-                    Toast.makeText(getApplicationContext(), "Jump to sos", Toast.LENGTH_SHORT).show();
+                    intent = new Intent(ParentIndexActivity.this, SosActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.right_in, R.anim.left_out);
                     break;
             }
         }

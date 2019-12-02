@@ -1,9 +1,6 @@
 package com.happier.crow.children.fragment;
 
-<<<<<<< HEAD
-=======
 import android.content.Context;
->>>>>>> 4f1d130c89e902d6988ef9c681289f21d3e4ceb7
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,17 +14,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-<<<<<<< HEAD
 import com.happier.crow.AboutActivity;
 import com.happier.crow.R;
 import com.happier.crow.children.ChildrenAddParentsActivity;
-=======
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
-import com.happier.crow.AboutActivity;
 import com.happier.crow.MainActivity;
-import com.happier.crow.R;
 import com.happier.crow.children.ChildrenInfoActivity;
 import com.happier.crow.constant.Constant;
 import com.happier.crow.entities.Children;
@@ -44,7 +37,6 @@ import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
->>>>>>> 4f1d130c89e902d6988ef9c681289f21d3e4ceb7
 
 public class CenterFragment extends Fragment {
 
@@ -55,7 +47,7 @@ public class CenterFragment extends Fragment {
     private LinearLayout llPersonalInfo;
     private LinearLayout llLogout;
     private LinearLayout llAboutUs;
-    private  Intent intent;
+    private Intent intent;
 
     private Children children;
 
@@ -153,17 +145,16 @@ public class CenterFragment extends Fragment {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.m_ll_add_parent:
-                    // todo : add parents
                     intent = new Intent(getActivity(), ChildrenAddParentsActivity.class);
                     startActivity(intent);
-                    Toast.makeText(getContext(), "添加父母", Toast.LENGTH_SHORT).show();
+                    getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
                     break;
                 case R.id.m_ll_my_photograph:
                     // todo : my photograph
                     Toast.makeText(getContext(), "我的相册", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.m_ll_my_personal_info:
-                    Intent personalInfoIntent = new Intent(getContext(), ChildrenInfoActivity.class);
+                    Intent personalInfoIntent = new Intent(getActivity(), ChildrenInfoActivity.class);
                     personalInfoIntent.putExtra("headerImagePath", children.getIconPath());
                     personalInfoIntent.putExtra("name", children.getName());
                     personalInfoIntent.putExtra("age", children.getAge());
@@ -173,22 +164,15 @@ public class CenterFragment extends Fragment {
                     getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
                     break;
                 case R.id.m_ll_children_logout:
-                    Intent logoutIntent = new Intent(getContext(), MainActivity.class);
-                    logoutIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(logoutIntent);
+                    intent = new Intent(getActivity(), MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                     getActivity().overridePendingTransition(R.anim.left_in, R.anim.right_out);
                     break;
                 case R.id.m_ll_about_us:
-<<<<<<< HEAD
-                    // todo : about us
-                   intent = new Intent(getActivity(), AboutActivity.class);
-                   startActivity(intent);
-                    Toast.makeText(getContext(), "关于我们", Toast.LENGTH_SHORT).show();
-=======
-                    Intent aboutUsIntent = new Intent(getContext(), AboutActivity.class);
-                    startActivity(aboutUsIntent);
+                    intent = new Intent(getActivity(), AboutActivity.class);
+                    startActivity(intent);
                     getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
->>>>>>> 4f1d130c89e902d6988ef9c681289f21d3e4ceb7
                     break;
             }
         }
