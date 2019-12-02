@@ -20,7 +20,7 @@
         android:layout_centerHorizontal="true"
         android:text="乌鸟   Crow"
         android:textColor="#000"
-        android:textSize="25dp"
+        android:textSize="25sp"
         android:textStyle="bold" />
 
     <TextView
@@ -31,7 +31,7 @@
         android:layout_centerHorizontal="true"
         android:text="Version 1.0.0"
         android:textColor="#000"
-        android:textSize="15dp" />
+        android:textSize="15sp" />
 
     <RelativeLayout
         android:id="@+id/introduce"
@@ -47,7 +47,8 @@
             android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:text="让老人多一份陪伴"
-            android:textColor="#000" />
+            android:textColor="#000"
+            android:textSize="18sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -57,7 +58,8 @@
             android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:text="让子女少一份牵挂"
-            android:textColor="#000" />
+            android:textColor="#000"
+            android:textSize="18sp" />
 
 
     </RelativeLayout>

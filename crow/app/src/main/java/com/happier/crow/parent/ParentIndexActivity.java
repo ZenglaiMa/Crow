@@ -1,17 +1,14 @@
 package com.happier.crow.parent;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.happier.crow.MainActivity;
 import com.happier.crow.R;
 
 public class ParentIndexActivity extends AppCompatActivity {
@@ -62,7 +59,6 @@ public class ParentIndexActivity extends AppCompatActivity {
                 case R.id.m_iv_contact:
                     intent = new Intent(ParentIndexActivity.this,ParentsContactActivity.class);
                     startActivity(intent);
-                    Toast.makeText(getApplicationContext(), "Jump to contact", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.m_iv_photo:
                     // todo : 跳转到亲情相册界面

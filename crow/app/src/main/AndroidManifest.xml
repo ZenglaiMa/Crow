@@ -162,6 +162,7 @@
             android:value="53b243ec12325d490a94a88e" /> <!-- </>值来自开发者平台取得的AppKey -->
 
         <activity android:name=".JPushActivity" />
+
         <!-- ZYH test -->
         <receiver
             android:name=".JPushReceiver"
@@ -190,6 +191,7 @@
             android:name=".ResetPwdActivity"
             android:label="找回密码" />
         <activity
+<<<<<<< HEAD
             android:name=".ParentsLocation"
             android:label="父母位置" />
         <activity
@@ -199,6 +201,8 @@
             android:name=".parent.ModifyParentInfoActivity"
             android:label="设置/修改个人信息" />
         <activity
+=======
+>>>>>>> 96a332ec1bde9ff829a97f3e1c6ffb9a2c0753d0
             android:name=".parent.ParentsContactActivity"
             android:label="父母联系人" />
         <activity
@@ -216,8 +220,12 @@
         <activity
             android:name=".children.ChildrenInfoActivity"
             android:label="个人资料" />
+<<<<<<< HEAD
         <activity android:name=".parent.ParentAlarmActivity" />
         <activity android:name=".parent.ParentAddAlarmActivity"></activity>
+=======
+
+>>>>>>> 96a332ec1bde9ff829a97f3e1c6ffb9a2c0753d0
     </application>
 
 </manifest>
