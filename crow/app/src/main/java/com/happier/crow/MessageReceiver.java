@@ -2,10 +2,21 @@ package com.happier.crow;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.happier.crow.entities.Alarm;
+import com.happier.crow.parent.ParentAlarmActivity;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.jpush.android.api.CustomMessage;
 import cn.jpush.android.api.NotificationMessage;
@@ -16,7 +27,7 @@ public class MessageReceiver extends cn.jpush.android.service.JPushMessageReceiv
     @Override
     public void onMessage(Context context, CustomMessage customMessage) {
         super.onMessage(context, customMessage);
-        Log.e("test", customMessage.message);
+        Log.e("test", "onMessage");
     }
 
     //处理消息
@@ -24,13 +35,36 @@ public class MessageReceiver extends cn.jpush.android.service.JPushMessageReceiv
     @Override
     public void onNotifyMessageArrived(Context context, NotificationMessage notificationMessage) {
         super.onNotifyMessageArrived(context, notificationMessage);
-        Log.e("test", "接收到通知, 通知标题：" + notificationMessage.notificationTitle
-                + "  通知内容:" + notificationMessage.notificationContent + " 附加字段：" + notificationMessage.notificationExtras);
+        Log.e("test", "onNotifyMessageArrived");
+        List<Alarm> listTemp = new ArrayList<>();
+        try {
+            JSONObject js = new JSONObject(notificationMessage.notificationExtras);
+            String str = js.optString("extras");
+            JSONArray ja = new JSONArray(str);
+            for (int i=0; i<ja.length(); i++){
+                JSONObject jsTemp = ja.getJSONObject(i);
+                String strTemp = jsTemp.getString("attrs");
+                JSONObject jsonObject = new JSONObject(strTemp);
+                Alarm alarm = new Alarm();
+                alarm.setDescription(jsonObject.getString("description"));
+                alarm.setId(jsonObject.getInt("id"));
+                alarm.setPid(jsonObject.getInt("pid"));
+                alarm.setState(jsonObject.getInt("state"));
+                alarm.setTime(jsonObject.getString("time"));
+                alarm.setType(jsonObject.getString("type"));
+                listTemp.add(alarm);
+            }
+            Log.e("test1", listTemp.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     //用户点击通知时被回调(通知)
     @Override
     public void onNotifyMessageOpened(Context context, NotificationMessage notificationMessage) {
         super.onNotifyMessageOpened(context, notificationMessage);
+        Log.e("test", "onNotifyMessageOpened");
     }
 }

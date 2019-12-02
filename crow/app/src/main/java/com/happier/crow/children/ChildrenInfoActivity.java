@@ -1,4 +1,4 @@
-package com.happier.crow.parent;
+package com.happier.crow.children;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -7,22 +7,22 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.TextView;
+import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.gson.Gson;
-import com.happier.crow.MainActivity;
 import com.happier.crow.R;
 import com.happier.crow.constant.Constant;
-import com.happier.crow.entities.Parent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -41,70 +41,103 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class ParentInfoActivity extends AppCompatActivity {
+public class ChildrenInfoActivity extends AppCompatActivity {
 
     private ImageView ivHeader;
-    private TextView tvParentName;
-    private TextView tvParentGender;
-    private TextView tvParentAge;
-    private TextView tvParentAddress;
-    private Button btnModifyParentInfo;
-    private Button btnParentLogout;
+    private EditText etName;
+    private EditText etAge;
+    private RadioButton rbMale;
+    private RadioButton rbFemale;
+    private EditText etProfile;
+    private Button btnSet;
 
     private PopupWindow popupWindow = null;
     private View popupView = null;
 
-    private static final String PARENT_PERSONAL_INFO_PATH = "/parent/getInfo";
+    private String name;
+    private int gender;
+    private String age;
+    private String profile;
+
+    private OkHttpClient client = new OkHttpClient();
+
+    private static final String SET_CHILDREN_INFO_PATH = "/children/setInfo";
+    private static final String UPLOAD_PATH = "/children/uploadHeaderImage";
 
     private static final int REQUEST_CODE_TAKE_PHOTO = 100;
     private static final int REQUEST_CODE_SELECT_GRAPH = 200;
 
-    private static final String UPLOAD_PATH = "/parent/uploadHeaderImage";
-
-    private OkHttpClient client = new OkHttpClient();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_parent_info);
+        setContentView(R.layout.activity_children_info);
 
         EventBus.getDefault().register(this);
 
         findViews();
 
-        getInfo();
+        setDefaultValues();
 
-        // 头像
-        ivHeader.setOnClickListener(new View.OnClickListener() {
+        btnSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (popupWindow == null || !popupWindow.isShowing()) {
-                    // 显示PopupWindow
-                    showPopupWindow();
+                name = etName.getText().toString();
+                age = etAge.getText().toString();
+                gender = rbMale.isChecked() ? 1 : 0;
+                profile = etProfile.getText().toString();
+                if (!TextUtils.isEmpty(name)) {
+                    if (!TextUtils.isEmpty(age)) {
+                        if (!TextUtils.isEmpty(profile)) {
+                            setPersonalInfo();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "请输入个人简介", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "请输入年龄", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "请输入姓名", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        // 设置/修改个人信息
-        btnModifyParentInfo.setOnClickListener(new View.OnClickListener() {
+        ivHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ModifyParentInfoActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                if (popupWindow == null || !popupWindow.isShowing()) {
+                    showPopupWindow();
+                }
             }
         });
+    }
 
-        // 退出登录
-        btnParentLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                overridePendingTransition(R.anim.left_in, R.anim.right_out);
+    private void setDefaultValues() {
+        Intent intent = getIntent();
+        String path = intent.getStringExtra("headerImagePath");
+        String name = intent.getStringExtra("name");
+        int age = intent.getIntExtra("age", 0);
+        int gender = intent.getIntExtra("gender", -1);
+        String profile = intent.getStringExtra("profile");
+        if (path != null && !path.equals("")) {
+            RequestOptions options = new RequestOptions().circleCrop();
+            Glide.with(this).load(Constant.BASE_URL + path).apply(options).into(ivHeader);
+        }
+        if (name != null && !name.equals("")) {
+            etName.setText(intent.getStringExtra("name"));
+        }
+        if (age != 0) {
+            etAge.setText(String.valueOf(age));
+        }
+        if (gender != -1) {
+            if (gender == 0) {
+                rbFemale.setChecked(true);
+            } else if (gender == 1) {
+                rbMale.setChecked(true);
             }
-        });
+        }
+        if (profile != null && !profile.equals("")) {
+            etProfile.setText(profile);
+        }
     }
 
     private void showPopupWindow() {
@@ -175,7 +208,7 @@ public class ParentInfoActivity extends AppCompatActivity {
         Request request = new Request.Builder()
                 .url(Constant.BASE_URL + UPLOAD_PATH)
                 .post(body)
-                .addHeader("pid", String.valueOf(getSharedPreferences("authid", MODE_PRIVATE).getInt("pid", 0)))
+                .addHeader("cid", String.valueOf(getSharedPreferences("authid", MODE_PRIVATE).getInt("cid", 0)))
                 .build();
         Call call = client.newCall(request);
         call.enqueue(new Callback() {
@@ -187,7 +220,7 @@ public class ParentInfoActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String result = response.body().string();
-                Log.e("upload", Integer.parseInt(result) == 1 ? "success" : "fail");
+                Log.e("take a photo", result);
             }
         });
     }
@@ -197,7 +230,7 @@ public class ParentInfoActivity extends AppCompatActivity {
         Request request = new Request.Builder()
                 .url(Constant.BASE_URL + UPLOAD_PATH)
                 .post(body)
-                .addHeader("pid", String.valueOf(getSharedPreferences("authid", MODE_PRIVATE).getInt("pid", 0)))
+                .addHeader("cid", String.valueOf(getSharedPreferences("authid", MODE_PRIVATE).getInt("cid", 0)))
                 .build();
         Call call = client.newCall(request);
         call.enqueue(new Callback() {
@@ -209,24 +242,21 @@ public class ParentInfoActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String result = response.body().string();
-                Log.e("upload", Integer.parseInt(result) == 1 ? "success" : "fail");
+                Log.e("select from photograph", result);
             }
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getInfo();
-    }
-
-    private void getInfo() {
-        int pid = getSharedPreferences("authid", MODE_PRIVATE).getInt("pid", 0);
+    private void setPersonalInfo() {
         FormBody body = new FormBody.Builder()
-                .add("pid", String.valueOf(pid))
+                .add("name", name)
+                .add("age", age)
+                .add("gender", String.valueOf(gender))
+                .add("profile", profile)
                 .build();
         Request request = new Request.Builder()
-                .url(Constant.BASE_URL + PARENT_PERSONAL_INFO_PATH)
+                .url(Constant.BASE_URL + SET_CHILDREN_INFO_PATH)
+                .addHeader("cid", String.valueOf(getSharedPreferences("authid", MODE_PRIVATE).getInt("cid", 0)))
                 .post(body)
                 .build();
         Call call = client.newCall(request);
@@ -246,37 +276,20 @@ public class ParentInfoActivity extends AppCompatActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void handleResult(String result) {
-        Gson gson = new Gson();
-        Parent parent = gson.fromJson(result, Parent.class);
-        if (parent.getName() != null && !parent.getName().equals("")) {
-            tvParentName.setText(parent.getName());
-        }
-        tvParentGender.setText(parent.getGender() == 1 ? "男" : "女");
-        if (parent.getAge() != 0) {
-            tvParentAge.setText(String.valueOf(parent.getAge()));
-        }
-        if (parent.getProvince() != null && parent.getCity() != null &&
-                parent.getArea() != null && parent.getDetailAddress() != null) {
-            String address = parent.getProvince() + parent.getCity() + parent.getArea() + parent.getDetailAddress();
-            tvParentAddress.setText(address);
-        }
-        if (parent.getIconPath() != null && !parent.getIconPath().equals("")) {
-            RequestOptions options = new RequestOptions().circleCrop();
-            Glide.with(this)
-                    .load(Constant.BASE_URL + parent.getIconPath())
-                    .apply(options)
-                    .into(ivHeader);
+        if (result.equals("1")) {
+            Toast.makeText(this, "设置成功", Toast.LENGTH_SHORT).show();
+            finish();
         }
     }
 
     private void findViews() {
-        ivHeader = findViewById(R.id.m_iv_parent_header);
-        tvParentName = findViewById(R.id.m_tv_parent_name);
-        tvParentGender = findViewById(R.id.m_tv_parent_gender);
-        tvParentAddress = findViewById(R.id.m_tv_parent_address);
-        tvParentAge = findViewById(R.id.m_tv_parent_age);
-        btnModifyParentInfo = findViewById(R.id.m_btn_modify_parent_info);
-        btnParentLogout = findViewById(R.id.m_btn_parent_logout);
+        ivHeader = findViewById(R.id.m_iv_children_header_info);
+        etName = findViewById(R.id.m_et_children_set_name);
+        etAge = findViewById(R.id.m_et_children_set_age);
+        rbMale = findViewById(R.id.m_rb_children_gender_male);
+        rbFemale = findViewById(R.id.m_rb_children_gender_female);
+        etProfile = findViewById(R.id.m_et_children_profile);
+        btnSet = findViewById(R.id.m_btn_children_set_info);
     }
 
     @Override

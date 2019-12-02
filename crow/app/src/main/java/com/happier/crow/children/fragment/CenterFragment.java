@@ -1,5 +1,9 @@
 package com.happier.crow.children.fragment;
 
+<<<<<<< HEAD
+=======
+import android.content.Context;
+>>>>>>> 4f1d130c89e902d6988ef9c681289f21d3e4ceb7
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,9 +17,34 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+<<<<<<< HEAD
 import com.happier.crow.AboutActivity;
 import com.happier.crow.R;
 import com.happier.crow.children.ChildrenAddParentsActivity;
+=======
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.gson.Gson;
+import com.happier.crow.AboutActivity;
+import com.happier.crow.MainActivity;
+import com.happier.crow.R;
+import com.happier.crow.children.ChildrenInfoActivity;
+import com.happier.crow.constant.Constant;
+import com.happier.crow.entities.Children;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+>>>>>>> 4f1d130c89e902d6988ef9c681289f21d3e4ceb7
 
 public class CenterFragment extends Fragment {
 
@@ -28,16 +57,75 @@ public class CenterFragment extends Fragment {
     private LinearLayout llAboutUs;
     private  Intent intent;
 
+    private Children children;
+
+    private static final String CHILDREN_INFO_PATH = "/children/getInfo";
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        EventBus.getDefault().register(this);
+
         View view = inflater.inflate(R.layout.fragment_center, container, false);
 
         findViews(view);
 
         setListener();
 
+        getInfo();
+
         return view;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        getInfo();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getInfo();
+    }
+
+    private void getInfo() {
+        OkHttpClient client = new OkHttpClient();
+        FormBody body = new FormBody.Builder()
+                .add("cid", String.valueOf(getContext().getSharedPreferences("authid", Context.MODE_PRIVATE).getInt("cid", 0)))
+                .build();
+        Request request = new Request.Builder()
+                .url(Constant.BASE_URL + CHILDREN_INFO_PATH)
+                .post(body)
+                .build();
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String result = response.body().string();
+                if (result != null && !result.equals("")) {
+                    EventBus.getDefault().post(result);
+                }
+            }
+        });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void handleResult(String result) {
+        children = new Gson().fromJson(result, Children.class);
+        if (children.getName() != null && !children.getName().equals("")) {
+            tvNickName.setText(children.getName());
+        }
+        if (children.getIconPath() != null && !children.getIconPath().equals("")) {
+            RequestOptions options = new RequestOptions().circleCrop();
+            Glide.with(this).load(Constant.BASE_URL + children.getIconPath()).apply(options).into(ivHeader);
+        }
     }
 
     private void setListener() {
@@ -75,20 +163,40 @@ public class CenterFragment extends Fragment {
                     Toast.makeText(getContext(), "我的相册", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.m_ll_my_personal_info:
-                    // todo : personal info
-                    Toast.makeText(getContext(), "个人资料", Toast.LENGTH_SHORT).show();
+                    Intent personalInfoIntent = new Intent(getContext(), ChildrenInfoActivity.class);
+                    personalInfoIntent.putExtra("headerImagePath", children.getIconPath());
+                    personalInfoIntent.putExtra("name", children.getName());
+                    personalInfoIntent.putExtra("age", children.getAge());
+                    personalInfoIntent.putExtra("gender", children.getGender());
+                    personalInfoIntent.putExtra("profile", children.getProfile());
+                    startActivity(personalInfoIntent);
+                    getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
                     break;
                 case R.id.m_ll_children_logout:
-                    // todo : logout
-                    Toast.makeText(getContext(), "退出登录", Toast.LENGTH_SHORT).show();
+                    Intent logoutIntent = new Intent(getContext(), MainActivity.class);
+                    logoutIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(logoutIntent);
+                    getActivity().overridePendingTransition(R.anim.left_in, R.anim.right_out);
                     break;
                 case R.id.m_ll_about_us:
+<<<<<<< HEAD
                     // todo : about us
                    intent = new Intent(getActivity(), AboutActivity.class);
                    startActivity(intent);
                     Toast.makeText(getContext(), "关于我们", Toast.LENGTH_SHORT).show();
+=======
+                    Intent aboutUsIntent = new Intent(getContext(), AboutActivity.class);
+                    startActivity(aboutUsIntent);
+                    getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
+>>>>>>> 4f1d130c89e902d6988ef9c681289f21d3e4ceb7
                     break;
             }
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

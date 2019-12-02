@@ -1,10 +1,13 @@
 package com.happier.crow.alarm.controller;
 
-import com.alibaba.druid.support.logging.Log;
+import java.util.List;
+
+import com.google.gson.Gson;
 import com.happier.crow.alarm.dao.Alarm;
 import com.happier.crow.alarm.service.AlarmService;
 import com.happier.crow.contact.dao.Contact;
 import com.jfinal.core.Controller;
+import com.jfinal.core.NotAction;
 
 public class AlarmController extends Controller {
 	
@@ -27,7 +30,6 @@ public class AlarmController extends Controller {
 		String hour = getPara("hour");
 		String minute = getPara("minute");
 		String time = mOra + "," + hour + "," + minute;
-		System.out.println(remark);
 		Contact contact = Contact.dao.findFirst("select * from contact where adderStatus=? and adderId=? and remark=?", 1, cid, remark);
 		int pid = Integer.parseInt(contact.getStr("addederId"));
 		boolean result = new Alarm().set("type", type).set("time", time).set("state", 1).set("description", description).set("pid", pid).save();
@@ -36,17 +38,19 @@ public class AlarmController extends Controller {
 		} else {
 			renderJson(FAILURE);
 		}
+		setAlarmParent(pid);
 	}
-	
 	/**  
-	* @Title: test  
-	* @Description: 测试通知是否能发送成功，根据registerId发送的
+	* @Title: setAlarmParent
+	* @Description: 收到子女端的设置后，服务器开始给父母端发送提醒通知
 	* @param     设定文件  
 	* @return void    返回类型  
 	* @throws  
 	*/
-	public void test() {
+	@NotAction
+	public void setAlarmParent(int pid) {
+		List<Alarm> list = Alarm.dao.find("select * from alarm where pid=?", pid);
 		AlarmService service = new AlarmService();
-		service.jSend_notification("1507bfd3f7a0cfd29bb", "这人的");
+		service.jSend_notification("1507bfd3f7a0cfd29bb", "收到了您的子女设置的一条提醒", new Gson().toJson(list));
 	}
 }

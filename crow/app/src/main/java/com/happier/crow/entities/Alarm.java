@@ -6,10 +6,18 @@ public class Alarm {
 
     private int id;
     private String type;
-    private Date time;
+    private String time;
     private int state;
     private String description;
     private int pid;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public int getId() {
         return id;
@@ -25,14 +33,6 @@ public class Alarm {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public Date getTime() {
-        return time;
-    }
-
-    public void setTime(Date time) {
-        this.time = time;
     }
 
     public int getState() {

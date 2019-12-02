@@ -3,6 +3,7 @@ package com.happier.crow.children;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -15,6 +16,8 @@ import com.happier.crow.R;
 import com.happier.crow.constant.Constant;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.IOException;
 
@@ -40,11 +43,12 @@ public class ChildrenSetAlarmActivity extends AppCompatActivity {
     private String minute = "";
     private String remark = "";
     private static final String PARENT_SET_INFO_PATH = "/alarm/setAlarm";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_children_set_alarm);
-
+        EventBus.getDefault().register(this);
         initData();
         linsteners();
     }
@@ -85,7 +89,7 @@ public class ChildrenSetAlarmActivity extends AppCompatActivity {
             public void onClick(View v) {
                 type = etType.getText().toString();
                 description = etDescription.getText().toString();
-                switch (rgAlarmPerson.getCheckedRadioButtonId()){
+                switch (rgAlarmPerson.getCheckedRadioButtonId()) {
                     case R.id.z_rb_alarm_father:
                         remark = "父亲";
                         break;
@@ -93,16 +97,16 @@ public class ChildrenSetAlarmActivity extends AppCompatActivity {
                         remark = "母亲";
                         break;
                 }
-                if(type.equals("") || description.equals("") || mOra.equals("") || hour.equals("") || minute.equals("") || remark.equals("")){
+                if (type.equals("") || description.equals("") || mOra.equals("") || hour.equals("") || minute.equals("") || remark.equals("")) {
                     Toast.makeText(ChildrenSetAlarmActivity.this, "提醒信息不全", Toast.LENGTH_LONG).show();
-                }else {
+                } else {
                     setOrModify();
                 }
             }
         });
     }
 
-    private void initData(){
+    private void initData() {
         etType = findViewById(R.id.z_et_alarm_type_children);
         etDescription = findViewById(R.id.z_et_alarm_description_children);
         spMOra = findViewById(R.id.z_spinner_mOra_children);
@@ -124,7 +128,6 @@ public class ChildrenSetAlarmActivity extends AppCompatActivity {
                 .add("hour", hour)
                 .add("minute", minute)
                 .build();
-        Log.e("test2", remark);
         final Request request = new Request.Builder()
                 .url(Constant.BASE_URL + PARENT_SET_INFO_PATH)
                 .post(body)
@@ -139,11 +142,28 @@ public class ChildrenSetAlarmActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String result = response.body().string();
-                if(result.equals("0")){
-                }else {
-                    Toast.makeText(ChildrenSetAlarmActivity.this, "提醒设置成功", Toast.LENGTH_LONG).show();
-                }
+                EventBus.getDefault().post(result);
             }
         });
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            finish();
+            overridePendingTransition(R.anim.left_in, R.anim.right_out);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void handleResult(String result) {
+        if (result.equals("0")){
+            Toast.makeText(ChildrenSetAlarmActivity.this, "提醒设置失败，缺少联系人", Toast.LENGTH_LONG).show();
+        }else {
+            Toast.makeText(ChildrenSetAlarmActivity.this, "提醒设置成功", Toast.LENGTH_LONG).show();
+        }
+        finish();
     }
 }
