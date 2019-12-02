@@ -50,8 +50,7 @@ public class AlarmController extends Controller {
 	@NotAction
 	public void setAlarmParent(int pid) {
 		List<Alarm> list = Alarm.dao.find("select * from alarm where pid=?", pid);
-		System.out.println(list.toString());
 		AlarmService service = new AlarmService();
-		service.jSend_notification("1507bfd3f7a0cfd29bb", "这人的", new Gson().toJson(list));
+		service.jSend_notification("1507bfd3f7a0cfd29bb", "收到了您的子女设置的一条提醒", new Gson().toJson(list));
 	}
 }

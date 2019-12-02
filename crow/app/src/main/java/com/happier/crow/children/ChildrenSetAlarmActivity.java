@@ -128,7 +128,6 @@ public class ChildrenSetAlarmActivity extends AppCompatActivity {
                 .add("hour", hour)
                 .add("minute", minute)
                 .build();
-        Log.e("test2", remark);
         final Request request = new Request.Builder()
                 .url(Constant.BASE_URL + PARENT_SET_INFO_PATH)
                 .post(body)
@@ -143,10 +142,7 @@ public class ChildrenSetAlarmActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String result = response.body().string();
-                if (result.equals("0")) {
-                } else {
-                    EventBus.getDefault().post("");
-                }
+                EventBus.getDefault().post(result);
             }
         });
     }
@@ -163,7 +159,11 @@ public class ChildrenSetAlarmActivity extends AppCompatActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void handleResult(String result) {
-        Toast.makeText(ChildrenSetAlarmActivity.this, "提醒设置成功", Toast.LENGTH_LONG).show();
+        if (result.equals("0")){
+            Toast.makeText(ChildrenSetAlarmActivity.this, "提醒设置失败，缺少联系人", Toast.LENGTH_LONG).show();
+        }else {
+            Toast.makeText(ChildrenSetAlarmActivity.this, "提醒设置成功", Toast.LENGTH_LONG).show();
+        }
         finish();
     }
 }

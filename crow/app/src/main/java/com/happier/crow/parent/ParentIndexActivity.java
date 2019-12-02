@@ -56,8 +56,8 @@ public class ParentIndexActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Jump to family chat", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.m_iv_alarm:
-                    // todo : 跳转到定时提醒界面
-                    Toast.makeText(getApplicationContext(), "Jump to alarm", Toast.LENGTH_SHORT).show();
+                    intent = new Intent(getApplicationContext(), ParentAlarmActivity.class);
+                    startActivity(intent);
                     break;
                 case R.id.m_iv_contact:
                     intent = new Intent(ParentIndexActivity.this,ParentsContactActivity.class);
