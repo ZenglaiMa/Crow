@@ -24,12 +24,8 @@ public class ContactController extends Controller {
 	public void showContacts() {
 		int id = Integer.valueOf(getPara("id"));
 		int adderStatus = Integer.valueOf(getPara("adderStatus"));
-<<<<<<< HEAD
-		List<Map<String,Object>> contactList = new ArrayList<>();
-=======
 		// List<Children> parentContactList = new ArrayList<>();
 		List<Map<String, Object>> contactList = new ArrayList<>();
->>>>>>> 4f1d130c89e902d6988ef9c681289f21d3e4ceb7
 		Connection con = null;
 		PreparedStatement pstm;
 		ResultSet rs1, rs2;
@@ -84,16 +80,15 @@ public class ContactController extends Controller {
 			while (rs.next()) {
 				addederId = rs.getInt(1);
 			}
-<<<<<<< HEAD
-			if(addederId!=0){
-				
-				if(adderStatus == 0){
-					if(isIce == 1){
+			if (addederId != 0) {
+
+				if (adderStatus == 0) {
+					if (isIce == 1) {
 						pstm = con.prepareStatement("select isIce from contact where adderId=?");
 						pstm.setInt(1, adderId);
 						rs = pstm.executeQuery();
-						while(rs.next()){
-							if(rs.getInt(1) == 1){
+						while (rs.next()) {
+							if (rs.getInt(1) == 1) {
 								renderJson(666);
 								return;
 							}
@@ -102,33 +97,33 @@ public class ContactController extends Controller {
 					pstm = con.prepareStatement("select addederId from contact where adderId=?");
 					pstm.setInt(1, adderId);
 					rs = pstm.executeQuery();
-					while(rs.next()){
-						if(rs.getInt(1)==addederId){
+					while (rs.next()) {
+						if (rs.getInt(1) == addederId) {
 							renderJson(INFOREPEAT);
 							System.out.println(INFOREPEAT);
 							return;
 						}
 					}
 				}
-				//插入联系人数据
-				pstm = con.prepareStatement("insert into contact(id,adderStatus,adderId,addederId,remark,isIce) values(?,?,?,?,?,?)");
-=======
-			System.out.println("addederId:" + addederId);
-			if (addederId != 0) {
+				// 插入联系人数据
 				pstm = con.prepareStatement(
 						"insert into contact(id,adderStatus,adderId,addederId,remark,isIce) values(?,?,?,?,?,?)");
->>>>>>> 4f1d130c89e902d6988ef9c681289f21d3e4ceb7
-				pstm.setInt(1, 0);
-				pstm.setInt(2, adderStatus);
-				pstm.setInt(3, adderId);
-				pstm.setInt(4, addederId);
-				pstm.setString(5, remark);
-				pstm.setInt(6, isIce);
-				pstm.executeUpdate();
-				renderJson(ADDSUCCESS);
-				System.out.println("success!!!");
-			} else {
-				renderJson(ADDFAILED);
+				System.out.println("addederId:" + addederId);
+				if (addederId != 0) {
+					pstm = con.prepareStatement(
+							"insert into contact(id,adderStatus,adderId,addederId,remark,isIce) values(?,?,?,?,?,?)");
+					pstm.setInt(1, 0);
+					pstm.setInt(2, adderStatus);
+					pstm.setInt(3, adderId);
+					pstm.setInt(4, addederId);
+					pstm.setString(5, remark);
+					pstm.setInt(6, isIce);
+					pstm.executeUpdate();
+					renderJson(ADDSUCCESS);
+					System.out.println("success!!!");
+				} else {
+					renderJson(ADDFAILED);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
