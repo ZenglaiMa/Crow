@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <!-- ZYH 添加 -->
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
@@ -59,6 +60,7 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="48sp5txV8ifKVu622199moP9oYMKGoAT" />
+
         <!-- ZYH  以下是JPush的设置 -->
         <!-- Required SDK核心功能 -->
         <activity
@@ -191,7 +193,6 @@
             android:name=".ResetPwdActivity"
             android:label="找回密码" />
         <activity
-<<<<<<< HEAD
             android:name=".ParentsLocation"
             android:label="父母位置" />
         <activity
@@ -201,8 +202,6 @@
             android:name=".parent.ModifyParentInfoActivity"
             android:label="设置/修改个人信息" />
         <activity
-=======
->>>>>>> 96a332ec1bde9ff829a97f3e1c6ffb9a2c0753d0
             android:name=".parent.ParentsContactActivity"
             android:label="父母联系人" />
         <activity
@@ -220,12 +219,11 @@
         <activity
             android:name=".children.ChildrenInfoActivity"
             android:label="个人资料" />
-<<<<<<< HEAD
         <activity android:name=".parent.ParentAlarmActivity" />
-        <activity android:name=".parent.ParentAddAlarmActivity"></activity>
-=======
+        <activity android:name=".parent.ParentAddAlarmActivity" />
+        <activity android:name=".parent.LocationActivity" />
+        <activity android:name=".parent.NavigationActivity" />
 
->>>>>>> 96a332ec1bde9ff829a97f3e1c6ffb9a2c0753d0
     </application>
 
 </manifest>

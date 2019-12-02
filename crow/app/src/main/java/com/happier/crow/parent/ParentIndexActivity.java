@@ -20,6 +20,7 @@ public class ParentIndexActivity extends AppCompatActivity {
     private ImageView ivHome;
     private ImageView ivSos;
     private Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,10 +29,6 @@ public class ParentIndexActivity extends AppCompatActivity {
         findViews();
         setOnClickListener();
 
-        /*
-        SharedPreferences preferences = getSharedPreferences("authid", MODE_PRIVATE);
-        int pid = preferences.getInt("pid", 0);
-        */
     }
 
     private void setOnClickListener() {
@@ -55,18 +52,21 @@ public class ParentIndexActivity extends AppCompatActivity {
                 case R.id.m_iv_alarm:
                     intent = new Intent(getApplicationContext(), ParentAlarmActivity.class);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.right_in, R.anim.left_out);
                     break;
                 case R.id.m_iv_contact:
-                    intent = new Intent(ParentIndexActivity.this,ParentsContactActivity.class);
+                    intent = new Intent(ParentIndexActivity.this, ParentsContactActivity.class);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.right_in, R.anim.left_out);
                     break;
                 case R.id.m_iv_photo:
                     // todo : 跳转到亲情相册界面
                     Toast.makeText(getApplicationContext(), "Jump to photo", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.m_iv_home:
-                    // todo : 跳转到回家地图界面
-                    Toast.makeText(getApplicationContext(), "Jump to home map", Toast.LENGTH_SHORT).show();
+                    intent = new Intent(ParentIndexActivity.this, LocationActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.right_in, R.anim.left_out);
                     break;
                 case R.id.m_iv_sos:
                     // todo : 跳转到紧急呼叫界面
