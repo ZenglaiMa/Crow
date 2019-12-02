@@ -82,18 +82,24 @@ public class ParentsAddContactActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                    String tag = response.body().string();
+                String tag = response.body().string();
                 Log.e("myTag",tag);
                     if (tag.equals("1")){
                         Looper.prepare();
                         Toast.makeText(getApplicationContext(),"添加成功",Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(ParentsAddContactActivity.this,ParentsContactActivity.class);
-                        startActivity(intent);
                         finish();
                         Looper.loop();
                     }else if(tag.equals("0")){
                         Looper.prepare();
                         Toast.makeText(getApplicationContext(),"添加失败,用户可能未注册",Toast.LENGTH_LONG).show();
+                        Looper.loop();
+                    }else if(tag.equals("999")){
+                        Looper.prepare();
+                        Toast.makeText(getApplicationContext(),"联系人已存在！",Toast.LENGTH_LONG).show();
+                        Looper.loop();
+                    }else if(tag.equals("666")){
+                        Looper.prepare();
+                        Toast.makeText(getApplicationContext(),"只能添加一个紧急联系人！",Toast.LENGTH_LONG).show();
                         Looper.loop();
                     }
             }

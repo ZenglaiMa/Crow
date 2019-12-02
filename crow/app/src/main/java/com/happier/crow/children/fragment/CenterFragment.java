@@ -1,5 +1,6 @@
 package com.happier.crow.children.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,7 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.happier.crow.AboutActivity;
 import com.happier.crow.R;
+import com.happier.crow.children.ChildrenAddParentsActivity;
 
 public class CenterFragment extends Fragment {
 
@@ -23,6 +26,7 @@ public class CenterFragment extends Fragment {
     private LinearLayout llPersonalInfo;
     private LinearLayout llLogout;
     private LinearLayout llAboutUs;
+    private  Intent intent;
 
     @Nullable
     @Override
@@ -62,6 +66,8 @@ public class CenterFragment extends Fragment {
             switch (v.getId()) {
                 case R.id.m_ll_add_parent:
                     // todo : add parents
+                    intent = new Intent(getActivity(), ChildrenAddParentsActivity.class);
+                    startActivity(intent);
                     Toast.makeText(getContext(), "添加父母", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.m_ll_my_photograph:
@@ -78,6 +84,8 @@ public class CenterFragment extends Fragment {
                     break;
                 case R.id.m_ll_about_us:
                     // todo : about us
+                   intent = new Intent(getActivity(), AboutActivity.class);
+                   startActivity(intent);
                     Toast.makeText(getContext(), "关于我们", Toast.LENGTH_SHORT).show();
                     break;
             }
