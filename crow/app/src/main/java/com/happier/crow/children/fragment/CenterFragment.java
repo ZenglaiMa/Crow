@@ -1,6 +1,9 @@
 package com.happier.crow.children.fragment;
 
+<<<<<<< HEAD
+=======
 import android.content.Context;
+>>>>>>> 4f1d130c89e902d6988ef9c681289f21d3e4ceb7
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,6 +17,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+<<<<<<< HEAD
+import com.happier.crow.AboutActivity;
+import com.happier.crow.R;
+import com.happier.crow.children.ChildrenAddParentsActivity;
+=======
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
@@ -36,6 +44,7 @@ import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+>>>>>>> 4f1d130c89e902d6988ef9c681289f21d3e4ceb7
 
 public class CenterFragment extends Fragment {
 
@@ -46,6 +55,7 @@ public class CenterFragment extends Fragment {
     private LinearLayout llPersonalInfo;
     private LinearLayout llLogout;
     private LinearLayout llAboutUs;
+    private  Intent intent;
 
     private Children children;
 
@@ -144,6 +154,8 @@ public class CenterFragment extends Fragment {
             switch (v.getId()) {
                 case R.id.m_ll_add_parent:
                     // todo : add parents
+                    intent = new Intent(getActivity(), ChildrenAddParentsActivity.class);
+                    startActivity(intent);
                     Toast.makeText(getContext(), "添加父母", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.m_ll_my_photograph:
@@ -167,9 +179,16 @@ public class CenterFragment extends Fragment {
                     getActivity().overridePendingTransition(R.anim.left_in, R.anim.right_out);
                     break;
                 case R.id.m_ll_about_us:
+<<<<<<< HEAD
+                    // todo : about us
+                   intent = new Intent(getActivity(), AboutActivity.class);
+                   startActivity(intent);
+                    Toast.makeText(getContext(), "关于我们", Toast.LENGTH_SHORT).show();
+=======
                     Intent aboutUsIntent = new Intent(getContext(), AboutActivity.class);
                     startActivity(aboutUsIntent);
                     getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
+>>>>>>> 4f1d130c89e902d6988ef9c681289f21d3e4ceb7
                     break;
             }
         }

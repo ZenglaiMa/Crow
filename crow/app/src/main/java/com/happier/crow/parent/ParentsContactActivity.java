@@ -25,6 +25,7 @@ import java.lang.reflect.Type;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +40,9 @@ public class ParentsContactActivity extends AppCompatActivity {
     private List<Map<String,Object>> dataSource = new ArrayList<>();
     private String pid;
     public static final String Parent_CONTACT_PATH = "/contact/showContacts";
-
+    public static final String SHOW_CONTACT_PATH = "/contact/showContacts";
+    ContactAdapter adapter;
+    ListView list;
     Gson gson = new Gson();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,8 +61,8 @@ public class ParentsContactActivity extends AppCompatActivity {
         }
 
 
-        ListView list = findViewById(R.id.y_lv_contact);
-        ContactAdapter adapter = new ContactAdapter(
+        list = findViewById(R.id.y_lv_contact);
+        adapter = new ContactAdapter(
                 this,
                 dataSource,
                 R.layout.listview_contacts
@@ -79,16 +82,31 @@ public class ParentsContactActivity extends AppCompatActivity {
     }
 
 
+    
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        GetDataThread thread = new GetDataThread();
+        thread.start();
+        while (thread.flag == false){
+            Log.e("flage","ThreadisRunning");
+        }
+        Log.e("newData",dataSource.toString());
+        adapter.notifyDataSetChanged();
+    }
 
 
     private void initData(String data) {
-       try{
-           Type type = new TypeToken<List<Map<String,Object>>>(){}.getType();
-           dataSource = gson.fromJson(data,type);
-           Log.e("dataSource",dataSource.toString());
-       }catch (Exception e){
-           e.printStackTrace();
-       }
+        try{
+            Type type = new TypeToken<List<Map<String,Object>>>(){}.getType();
+            dataSource = gson.fromJson(data,type);
+            adapter.notifyDataSetChanged();
+            Log.e("dataSource",dataSource.toString());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 
@@ -126,7 +144,6 @@ public class ParentsContactActivity extends AppCompatActivity {
             flag=true;
         }
     }
-
 
 
 }
