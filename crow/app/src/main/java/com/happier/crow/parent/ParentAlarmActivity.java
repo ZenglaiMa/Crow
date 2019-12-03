@@ -51,6 +51,8 @@ public class ParentAlarmActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parent_alarm);
+
+        EventBus.getDefault().register(this);
         initData();
         linsteners();
     }
@@ -136,5 +138,6 @@ public class ParentAlarmActivity extends AppCompatActivity {
     public void handleLoginResult(List<Alarm> listTemp) {
         this.list.add(listTemp.get(listTemp.size()-1));
         adapter.notifyDataSetChanged();
+
     }
 }

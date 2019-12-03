@@ -225,7 +225,8 @@
         <activity android:name=".parent.LocationActivity" />
         <activity android:name=".parent.NavigationActivity" />
         <activity android:name=".parent.SosActivity" />
-
+        <activity android:name=".parent.AlarmBeginAndEnd" />
+        <receiver android:name=".parent.AlarmReceiver" />
     </application>
 
 </manifest>
