@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -14,16 +14,12 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.happier.crow.R;
 import com.happier.crow.constant.Constant;
-import com.happier.crow.entities.Children;
-import com.happier.crow.entities.Contact;
 
-import java.io.BufferedReader;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Type;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,97 +32,93 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class ParentsContactActivity extends AppCompatActivity {
-    private List<Map<String,Object>> dataSource = new ArrayList<>();
-    private String pid;
-    public static final String Parent_CONTACT_PATH = "/contact/showContacts";
+    private List<Map<String, Object>> dataSource = new ArrayList<>();
+    private ContactAdapter adapter;
+    private ListView listView;
 
-    Gson gson = new Gson();
+    private String pid;
+    public static final String PARENT_CONTACT_PATH = "/contact/showContacts";
+
+    private Gson gson = new Gson();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parents_contact);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("authid",MODE_PRIVATE);
-        pid = String.valueOf(sharedPreferences.getInt("pid",0));
+        EventBus.getDefault().register(this);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("authid", MODE_PRIVATE);
+        pid = String.valueOf(sharedPreferences.getInt("pid", 0));
 
-        //获取通讯录数据
-        GetDataThread thread = new GetDataThread();
-        thread.start();
-        while (thread.flag == false){
-            Log.e("flage","ThreadisRunning");
-        }
+        listView = findViewById(R.id.y_lv_contact);
 
-
-        ListView list = findViewById(R.id.y_lv_contact);
-        ContactAdapter adapter = new ContactAdapter(
-                this,
-                dataSource,
-                R.layout.listview_contacts
-        );
-        list.setAdapter(adapter);
+        getInfo();
 
         ImageView ivToAdd = findViewById(R.id.y_iv_toAddContact);
         ivToAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ParentsContactActivity.this,ParentsAddContactActivity.class);
+                Intent intent = new Intent(ParentsContactActivity.this, ParentsAddContactActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
             }
         });
-
-
     }
 
-
-
-
-    private void initData(String data) {
-       try{
-           Type type = new TypeToken<List<Map<String,Object>>>(){}.getType();
-           dataSource = gson.fromJson(data,type);
-           Log.e("dataSource",dataSource.toString());
-       }catch (Exception e){
-           e.printStackTrace();
-       }
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        getInfo();
     }
 
-
-    private class GetDataThread extends Thread{
-        boolean flag=false;
-        String jsonUrl;
-        String result;
-
-        public GetDataThread(){
-
-        }
-
-        @Override
-        public void run() {
-            super.run();
-            try{
-                URL url = new URL(Constant.BASE_URL+Parent_CONTACT_PATH+"?id="+pid+"&adderStatus=0");
-                URLConnection conn = url.openConnection();
-                InputStream in = conn.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in, "utf-8"));
-                String data = reader.readLine();
-                Log.e("dataaa",data);
-                if(data!=null){
-                    initData(data);
-                }else {
-                    Log.e("错误","联系人数据为空");
-                }
-            }catch (IOException e){
+    private void getInfo() {
+        OkHttpClient client = new OkHttpClient();
+        FormBody body = new FormBody.Builder()
+                .add("id", pid)
+                .add("adderStatus", "0")
+                .build();
+        Request request = new Request.Builder()
+                .url(Constant.BASE_URL + PARENT_CONTACT_PATH)
+                .post(body)
+                .build();
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
             }
-            callBack();
-        }
 
-        private void callBack() {
-            flag=true;
-        }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String result = response.body().string();
+                EventBus.getDefault().post(result);
+            }
+        });
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void handleResult(String result) {
+        dataSource = gson.fromJson(result, new TypeToken<List<Map<String, Object>>>() {
+        }.getType());
+        adapter = new ContactAdapter(this, dataSource, R.layout.listview_contacts);
+        listView.setAdapter(adapter);
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            finish();
+            overridePendingTransition(R.anim.left_in, R.anim.right_out);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
 }

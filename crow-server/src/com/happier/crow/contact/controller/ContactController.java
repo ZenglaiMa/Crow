@@ -8,9 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.happier.crow.children.dao.Children;
-import com.happier.crow.contact.dao.Contact;
-import com.happier.crow.parent.dao.Parent;
 import com.happier.crow.util.DBUtil;
 import com.jfinal.core.Controller;
 
@@ -56,10 +53,60 @@ public class ContactController extends Controller {
 		}
 	}
 
+	public void showSos() {
+		int id = Integer.valueOf(getPara("id"));
+		int adderStatus = Integer.valueOf(getPara("adderStatus"));
+		// List<Children> parentContactList = new ArrayList<>();
+		List<Map<String, Object>> contactList = new ArrayList<>();
+		Connection con = null;
+		PreparedStatement pstm;
+		ResultSet rs1, rs2;
+		try {
+			con = DBUtil.getCon();
+			pstm = con.prepareStatement("select * from contact where adderId=? and adderStatus=?");
+			pstm.setInt(1, id);
+			pstm.setInt(2, 0);
+			rs1 = pstm.executeQuery();
+			while (rs1.next()) {
+				Map<String, Object> map = new HashMap<>();
+				int cid = rs1.getInt(4);
+				map.put("remark", rs1.getString(5));
+				pstm = con.prepareStatement("select phone from children where cid=?");
+				pstm.setInt(1, cid);
+				rs2 = pstm.executeQuery();
+				while (rs2.next()) {
+					map.put("phone", rs2.getString(1));
+				}
+				contactList.add(map);
+			}
+			pstm = con.prepareStatement("select * from contact where adderId=? and adderStatus=? and isIce=1");
+			pstm.setInt(1, id);
+			pstm.setInt(2, 0);
+			rs1 = pstm.executeQuery();
+			while (rs1.next()) {
+				Map<String, Object> map = new HashMap<>();
+				int cid = rs1.getInt(4);
+				map.put("remark", rs1.getString(5));
+				pstm = con.prepareStatement("select phone from children where cid=?");
+				pstm.setInt(1, cid);
+				rs2 = pstm.executeQuery();
+				while (rs2.next()) {
+					map.put("phone", rs2.getString(1));
+				}
+				contactList.add(map);
+
+			}
+			renderJson(contactList);
+			System.out.println(contactList.toString());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void addContact() {
 		int adderId = Integer.valueOf(getPara("adderId"));
 		String remark = getPara("remark");
-		System.out.println("remark:" + remark);
 		String phone = getPara("phone");
 		int isIce = Integer.valueOf(getPara("isIce"));
 		int addederId = 0;
@@ -80,21 +127,46 @@ public class ContactController extends Controller {
 			while (rs.next()) {
 				addederId = rs.getInt(1);
 			}
-			System.out.println("addederId:" + addederId);
 			if (addederId != 0) {
+				if (adderStatus == 0) {
+					if (isIce == 1) {
+						pstm = con.prepareStatement("select isIce from contact where adderId=?");
+						pstm.setInt(1, adderId);
+						rs = pstm.executeQuery();
+						while (rs.next()) {
+							if (rs.getInt(1) == 1) {
+								renderJson(666);
+								return;
+							}
+						}
+					}
+					pstm = con.prepareStatement("select addederId from contact where adderId=?");
+					pstm.setInt(1, adderId);
+					rs = pstm.executeQuery();
+					while (rs.next()) {
+						if (rs.getInt(1) == addederId) {
+							renderJson(INFOREPEAT);
+							return;
+						}
+					}
+				}
+				// 插入联系人数据
 				pstm = con.prepareStatement(
 						"insert into contact(id,adderStatus,adderId,addederId,remark,isIce) values(?,?,?,?,?,?)");
-				pstm.setInt(1, 0);
-				pstm.setInt(2, adderStatus);
-				pstm.setInt(3, adderId);
-				pstm.setInt(4, addederId);
-				pstm.setString(5, remark);
-				pstm.setInt(6, isIce);
-				pstm.executeUpdate();
-				renderJson(ADDSUCCESS);
-				System.out.println("success!!!");
-			} else {
-				renderJson(ADDFAILED);
+				if (addederId != 0) {
+					pstm = con.prepareStatement(
+							"insert into contact(id,adderStatus,adderId,addederId,remark,isIce) values(?,?,?,?,?,?)");
+					pstm.setInt(1, 0);
+					pstm.setInt(2, adderStatus);
+					pstm.setInt(3, adderId);
+					pstm.setInt(4, addederId);
+					pstm.setString(5, remark);
+					pstm.setInt(6, isIce);
+					pstm.executeUpdate();
+					renderJson(ADDSUCCESS);
+				} else {
+					renderJson(ADDFAILED);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

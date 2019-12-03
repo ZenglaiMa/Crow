@@ -4,9 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,8 +27,8 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:hint="请输入联系人手机号" />
-
+        android:hint="请输入联系人手机号"
+        android:inputType="number" />
 
     <LinearLayout
         android:layout_width="280dp"
@@ -39,7 +36,6 @@
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
         android:orientation="horizontal">
-
 
         <CheckBox
             android:id="@+id/y_cb_ice"
@@ -59,14 +55,13 @@
 
     </LinearLayout>
 
-
     <Button
         android:id="@+id/y_btn_saveContact"
         android:layout_width="340dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:layout_marginTop="100dp"
-        android:background="#ff8d1a"
+        android:background="@color/colorParent"
         android:text="完成"
         android:textColor="@android:color/white"
         android:textSize="25dp" />

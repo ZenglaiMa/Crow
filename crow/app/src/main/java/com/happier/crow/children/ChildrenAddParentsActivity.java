@@ -6,6 +6,7 @@ import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -55,8 +56,10 @@ public class ChildrenAddParentsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_children_addparents);
         SharedPreferences sharedPreferences = getSharedPreferences("authid", MODE_PRIVATE);
         cid = sharedPreferences.getInt("cid", 0);
-
-        showParents();
+        btnSave = findViewById(R.id.y_btn_addParents);
+        etMotherPhone = findViewById(R.id.y_et_fatherPhone);
+        etFatherPhone = findViewById(R.id.y_et_fatherPhone);
+        showParents(cid);
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,15 +106,11 @@ public class ChildrenAddParentsActivity extends AppCompatActivity {
                 String tag = response.body().string();
                 if (tag.equals("101")) {
                     Looper.prepare();
-                    Toast.makeText(getApplicationContext(), "添加的父亲或母亲尚未注册，请先注册", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "父母尚未注册, 请提醒其注册", Toast.LENGTH_LONG).show();
                     Looper.loop();
                 } else if (tag.equals("999")) {
                     Looper.prepare();
-                    Toast.makeText(getApplicationContext(), "添加成功", Toast.LENGTH_LONG).show();
-                    Looper.loop();
-                } else if (tag.equals("0")) {
-                    Looper.prepare();
-                    Toast.makeText(getApplicationContext(), "已添加过父母信息", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "父母信息已存在", Toast.LENGTH_LONG).show();
                     Looper.loop();
                 } else if (tag.equals("11")) {
                     addParent(adderStatus, phone, remark);
@@ -152,10 +151,11 @@ public class ChildrenAddParentsActivity extends AppCompatActivity {
         });
     }
 
-    public void showParents() {
+    public void showParents(int cid) {
         OkHttpClient client = new OkHttpClient();
         FormBody body = new FormBody.Builder()
-                .add("adderId", String.valueOf(cid))
+                .add("id", String.valueOf(cid))
+                .add("adderStatus", "1")
                 .build();
         Request request = new Request.Builder()
                 .post(body)
@@ -171,6 +171,8 @@ public class ChildrenAddParentsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String data = response.body().string();
+                Log.e("showme", data);
+                initData(data);
             }
         });
     }
@@ -185,9 +187,19 @@ public class ChildrenAddParentsActivity extends AppCompatActivity {
             etFatherPhone.setText(map1.get("phone").toString());
             Map<String, Object> map2 = dataSource.get(1);
             etMotherPhone.setText(map2.get("phone").toString());
-            Log.e("dataSource", dataSource.toString());
+            Log.e("easyyy", dataSource.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            finish();
+            overridePendingTransition(R.anim.left_in, R.anim.right_out);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
