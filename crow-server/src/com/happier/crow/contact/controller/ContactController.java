@@ -14,9 +14,10 @@ import com.jfinal.core.Controller;
 public class ContactController extends Controller {
 	private static final int ADDSUCCESS = 1;
 	private static final int ADDFAILED = 0;
-	private static final int INFODIDNTEXIST = 101;// 父母表中不存在要添加的父亲信息
-	private static final int INFOREPEAT = 999;// 要添加的父母信息与现有父母信息重复
+	private static final int INFODIDNTEXIST = 101;// 鐖舵瘝琛ㄤ腑涓嶅瓨鍦ㄨ娣诲姞鐨勭埗浜蹭俊鎭�
+	private static final int INFOREPEAT = 999;// 瑕佹坊鍔犵殑鐖舵瘝淇℃伅涓庣幇鏈夌埗姣嶄俊鎭噸澶�
 	private static final int ADDPARENTS = 11;
+	private static final int CONTACTNULL = 102;
 
 	public void showContacts() {
 		int id = Integer.valueOf(getPara("id"));
@@ -153,7 +154,7 @@ public class ContactController extends Controller {
 						}
 					}
 				}
-				// 插入联系人数据
+				// 鎻掑叆鑱旂郴浜烘暟鎹�
 				pstm = con.prepareStatement(
 						"insert into contact(id,adderStatus,adderId,addederId,remark,isIce) values(?,?,?,?,?,?)");
 				if (addederId != 0) {
@@ -193,7 +194,7 @@ public class ContactController extends Controller {
 			if (rs.next()) {
 				pid = rs.getInt(1);
 			} else {
-				renderJson(INFODIDNTEXIST);// 在父母表中未查询到要添加的父母信息则报错
+				renderJson(INFODIDNTEXIST);// 鍦ㄧ埗姣嶈〃涓湭鏌ヨ鍒拌娣诲姞鐨勭埗姣嶄俊鎭垯鎶ラ敊
 				return;
 			}
 			pstm = con.prepareStatement("select addederId from contact where adderId=? and adderStatus=?");
@@ -202,7 +203,7 @@ public class ContactController extends Controller {
 			rs = pstm.executeQuery();
 			if (rs.next()) {
 				if (rs.getInt(1) == pid) {
-					renderJson(INFOREPEAT);// 要添加的父母信息与现有信息重复
+					renderJson(INFOREPEAT);// 瑕佹坊鍔犵殑鐖舵瘝淇℃伅涓庣幇鏈変俊鎭噸澶�
 					return;
 				} else if (rs.getInt(1) != pid) {
 					renderJson(ADDFAILED);
@@ -216,27 +217,61 @@ public class ContactController extends Controller {
 			e.printStackTrace();
 		}
 	}
+	public void searchParent() {
+		int cid = Integer.valueOf(getPara("cid"));
+		Connection con = null;
+		PreparedStatement pstm;
+		List<Map<String, Object>> parentPhone = new ArrayList<>();
+		ResultSet rs;
+		ResultSet rst;
+		try {
+			con = DBUtil.getCon();
+			// adderStatus, adderId, addederId,
+			pstm = con.prepareStatement("select addederId from contact where adderId=? and adderStatus=1");
+			pstm.setInt(1, cid);
+			rs = pstm.executeQuery();
+			Map<String, Object> map = new HashMap<>();
+			while (rs.next()) {
+				pstm = con.prepareStatement("select gender,phone from parent where pid=?");
+				pstm.setInt(1, rs.getInt(1));
+				rst = pstm.executeQuery();
+				if (rst.getInt("genger") == 0) {
+					map.put("mphone", rst.getString("phone"));
+				} else if (rst.getInt(1) == 1) {
+					map.put("fphone", rs.getString("phone"));
+				}
+				parentPhone.add(map);
+			}
+			if (parentPhone != null) {
+				renderJson(parentPhone);
+				System.out.println(parentPhone.toString());
+			} 
 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 	/*
 	 * public void checkParents(){ int adderId =
 	 * Integer.valueOf(getPara("adderId")); String fatherPhone =
 	 * getPara("fatherPhone"); String matherPhone = getPara("motherPhone"); int
 	 * addederId=0; int adderStatus = Integer.valueOf(getPara("adderStatus"));
 	 * Connection con = null; PreparedStatement pstm; ResultSet rs; int pid=0; try{
-	 * con = DBUtil.getCon(); //查询联系人中是否已经存有父亲信息 pstm =
+	 * con = DBUtil.getCon(); //鏌ヨ鑱旂郴浜轰腑鏄惁宸茬粡瀛樻湁鐖朵翰淇℃伅 pstm =
 	 * con.prepareStatement("select pid from parent where phone=?");
 	 * pstm.setString(1, fatherPhone); rs = pstm.executeQuery(); if(rs.next()){ pid
 	 * = rs.getInt(1); }else{
-	 * renderJson(FATHERINFODIDNTEXIST);//在父母表中未查询到要添加的父亲信息则报错 return; } pstm = con.
+	 * renderJson(FATHERINFODIDNTEXIST);//鍦ㄧ埗姣嶈〃涓湭鏌ヨ鍒拌娣诲姞鐨勭埗浜蹭俊鎭垯鎶ラ敊 return; } pstm = con.
 	 * prepareStatement("select addederId from contact where adderId=? and adderStatus=?"
 	 * ); pstm.setInt(1,adderId); pstm.setInt(2,1); rs = pstm.executeQuery();
 	 * if(rs.next()){ if(rs.getInt(1) == pid){ renderJson(INFOREPEAT); }else{
 	 * renderJson(FATHEREXIST); } }else{ renderJson(FATHERDIDNTEXIST); }
 	 * 
-	 * //查询联系人中是否已经存有母亲信息 pstm =
+	 * //鏌ヨ鑱旂郴浜轰腑鏄惁宸茬粡瀛樻湁姣嶄翰淇℃伅 pstm =
 	 * con.prepareStatement("select pid from parent where phone=?");
 	 * pstm.setString(1,matherPhone); rs = pstm.executeQuery(); if(rs.next()){ pid =
-	 * rs.getInt(1); }else{ renderJson(MOTHERINFODIDNTEXIST);//在父母表中未查询到要添加的母亲信息则报错
+	 * rs.getInt(1); }else{ renderJson(MOTHERINFODIDNTEXIST);//鍦ㄧ埗姣嶈〃涓湭鏌ヨ鍒拌娣诲姞鐨勬瘝浜蹭俊鎭垯鎶ラ敊
 	 * return; } pstm = con.
 	 * prepareStatement("select addederId from contact where adderId=? and adderStatus=?"
 	 * ); pstm.setInt(1,adderId); pstm.setInt(2,1); rs = pstm.executeQuery();
