@@ -60,8 +60,9 @@ public class ParentIndexActivity extends AppCompatActivity {
                     overridePendingTransition(R.anim.right_in, R.anim.left_out);
                     break;
                 case R.id.m_iv_photo:
-                    // todo : 跳转到亲情相册界面
-                    Toast.makeText(getApplicationContext(), "Jump to photo", Toast.LENGTH_SHORT).show();
+                    intent = new Intent(ParentIndexActivity.this, ParentPhotograph.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.right_in, R.anim.left_out);
                     break;
                 case R.id.m_iv_home:
                     intent = new Intent(ParentIndexActivity.this, LocationActivity.class);

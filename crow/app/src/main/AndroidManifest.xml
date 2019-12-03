@@ -222,10 +222,21 @@
             android:label="个人资料" />
         <activity android:name=".parent.ParentAlarmActivity" />
         <activity android:name=".parent.ParentAddAlarmActivity" />
-        <activity android:name=".parent.LocationActivity" />
-        <activity android:name=".parent.NavigationActivity" />
-        <activity android:name=".parent.SosActivity" />
-
+        <activity
+            android:name=".parent.LocationActivity"
+            android:label="当前位置" />
+        <activity
+            android:name=".parent.NavigationActivity"
+            android:label="导航回家" />
+        <activity
+            android:name=".parent.SosActivity"
+            android:label="紧急呼叫" />
+        <activity
+            android:name=".parent.ParentPhotograph"
+            android:label="亲情相册" />
+        <activity
+            android:name=".children.ChildrenPhotograph"
+            android:label="亲情相册" />
     </application>
 
 </manifest>
