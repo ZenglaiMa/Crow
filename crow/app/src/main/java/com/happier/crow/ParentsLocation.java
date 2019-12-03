@@ -1,7 +1,11 @@
 package com.happier.crow;
 
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -58,15 +62,17 @@ public class ParentsLocation extends AppCompatActivity {
     private MapView mapView;
     private BaiduMap baiduMap;
     private final int REQUEST_GPS = 1;
-    private static final int GET_LOCATION =1 ;
+    private static final int GET_LOCATION = 1;
+    private RefreshThread refreshThread;
     /*主线程*/
     private Handler mainHandler;
+
 
     /*固定设备采集定位*/
     //本机号码
     private String entityName;
     // 定位周期(单位:秒)
-    private int gatherInterval = 5;
+    private int gatherInterval = 10;
     // 打包回传周期(单位:秒)
     private int packInterval = 10;
     // 是否存储图像
@@ -81,14 +87,15 @@ public class ParentsLocation extends AppCompatActivity {
     private OnTraceListener mTraceListener;
 
     /*绘制轨迹*/
-    private List<com.baidu.mapapi.model.LatLng> trackPoints;
     // 历史轨迹请求实例
     private HistoryTrackRequest historyTrackRequest;
     private long startTime = System.currentTimeMillis() / 1000 - 12 * 60 * 60;
     // 结束时间(单位：秒)
     private long endTime = System.currentTimeMillis() / 1000;
-    private long timeMillis = System.currentTimeMillis();
+  //  private long timeMillis = System.currentTimeMillis();
     private OnTrackListener mHistoryListener;
+    private List<LatLng> trackPoints=new ArrayList<>();
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -103,6 +110,7 @@ public class ParentsLocation extends AppCompatActivity {
 
     private void beginService() {
         //开启服务
+
         mTraceClient.startTrace(mTrace, mTraceListener);
     }
 
@@ -116,6 +124,9 @@ public class ParentsLocation extends AppCompatActivity {
     private void initAll() {
         //显示普通地图模式
         baiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+        //修改地图的默认比例尺
+        MapStatusUpdate update = MapStatusUpdateFactory.zoomTo(20.0f);
+        baiduMap.setMapStatus(update);
         // 设备标识ky
         entityName = "lky";
         // 初始化轨迹服务
@@ -135,11 +146,11 @@ public class ParentsLocation extends AppCompatActivity {
 
             @Override
             public void onStartTraceCallback(int i, String s) {
-                Log.e("start", "已启动"+i);
-                getLocation(entityName);
-                if(i==0){
+                Log.e("start", "已启动" + i);
+                if (i == 0) {
                     // 开启采集
                     mTraceClient.startGather(mTraceListener);
+                    startRefreshThread(true);
                 }
             }
 
@@ -172,7 +183,7 @@ public class ParentsLocation extends AppCompatActivity {
         mainHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                switch (msg.what){
+                switch (msg.what) {
                     case GET_LOCATION:
                         drawLocation();
                         break;
@@ -181,15 +192,15 @@ public class ParentsLocation extends AppCompatActivity {
         };
 
         //绘制历史轨迹
-        /*
+
         historyTrackRequest = new HistoryTrackRequest(1, Constant.serviceId, entityName);
         historyTrackRequest.setStartTime(startTime);
         // 设置结束时间
         historyTrackRequest.setEndTime(endTime);
 
         historyTrackRequest.setPageSize(1000);
-        historyTrackRequest.setPageIndex(1);*/
-       /* mHistoryListener = new OnTrackListener() {
+        historyTrackRequest.setPageIndex(1);
+   /*    mHistoryListener = new OnTrackListener() {
             @Override
             public void onLatestPointCallback(LatestPointResponse latestPointResponse) {
                 super.onLatestPointCallback(latestPointResponse);
@@ -200,6 +211,7 @@ public class ParentsLocation extends AppCompatActivity {
             @Override
             public void onHistoryTrackCallback(HistoryTrackResponse response) {
                 int total = response.getTotal();
+                Log.e("total",total+"");
                 if (StatusCodes.SUCCESS != response.getStatus()) {
                     //Toast.makeText(ParentsLocation.this, "结果为：" + response.getMessage(), Toast.LENGTH_SHORT).show();
                     Log.e("trace",response.getMessage().toString()+response.getStatus());
@@ -209,6 +221,7 @@ public class ParentsLocation extends AppCompatActivity {
                     List<TrackPoint> points = response.getTrackPoints();
                     if (null != points) {
                         for (TrackPoint trackPoint : points) {
+                            Log.e("longitude",trackPoint.getLocation().getLatitude()+"");
                             if (!TraceUtil.isZeroPoint(trackPoint.getLocation().getLatitude(),
                                     trackPoint.getLocation().getLongitude())) {
                                 trackPoints.add(TraceUtil.convertTrace2Map(trackPoint.getLocation()));
@@ -222,8 +235,8 @@ public class ParentsLocation extends AppCompatActivity {
                 traceUtil.drawHistoryTrack(baiduMap,trackPoints, SortType.asc);
             }
         };
-        */
-    /*
+*/
+
         mHistoryListener= new OnTrackListener() {
            private List<LatLng> trackPoints = new ArrayList<>();
            public static final int PAGE_SIZE = 5000;
@@ -252,9 +265,8 @@ public class ParentsLocation extends AppCompatActivity {
                traceUtil.drawHistoryTrack(baiduMap,trackPoints, sortType);
 
            }
-       };*/
+       };
     }
-    //创建选项菜单
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.parent_location, menu);
         return true;
@@ -264,13 +276,13 @@ public class ParentsLocation extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.father_location:
-                getLocation(entityName);
+                //startRefreshThread(true);
                 break;
             case R.id.mother_location:
                 getLocation(entityName);
                 break;
             case R.id.father_trace:
-                //mTraceClient.queryHistoryTrack(historyTrackRequest,mHistoryListener);
+                mTraceClient.queryHistoryTrack(historyTrackRequest,mHistoryListener);
                 break;
             case R.id.mother_trace:
                 //mTraceClient.queryHistoryTrack(historyTrackRequest,mHistoryListener);
@@ -279,8 +291,24 @@ public class ParentsLocation extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void startRefreshThread(boolean isStart) {
+        if (refreshThread == null) {
+            refreshThread = new RefreshThread();
+        }
+
+        refreshThread.refresh = isStart;
+
+        if (isStart) {
+            if (!refreshThread.isAlive()) {
+                refreshThread.start();
+            }
+        } else {
+            refreshThread = null;
+        }
+    }
+
     private void drawLocation() {
-       // entityLocation();
+        baiduMap.clear();
         LatLng latLng = new LatLng(latitude, longitude);
         //添加标志物来标明当前位置
         BitmapDescriptor descriptor = BitmapDescriptorFactory.fromResource(R.drawable.location_normal);
@@ -296,63 +324,77 @@ public class ParentsLocation extends AppCompatActivity {
         baiduMap.animateMapStatus(move);
     }
 
-    private void getLocation(final String entity_name) {
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                URL url = null;
-                PrintWriter out = null;
-                BufferedReader in = null;
-                String result = "";
+    private class RefreshThread extends Thread {
+
+        protected boolean refresh = true;
+        protected int count = 0;
+
+        public void run() {
+          while (refresh) {
+                getLocation(entityName);
                 try {
-                    URL realUrl = new URL("http://yingyan.baidu.com/api/v3/entity/search?ak=" + Constant.ak + "&&service_id=" + Constant.serviceId + "&&filter=entity_names:" + entity_name + "&&coord_type_output=bd09ll");
+                    count++;
+                    Log.e("count", count + "");
+                    Thread.sleep(packInterval * 1000);
+                } catch (InterruptedException e) {
+                    System.out.println("线程休眠失败");
+                }
+            }
+
+        }
+    }
+
+    private void getLocation(final String entity_name) {
+        URL url = null;
+        PrintWriter out = null;
+        BufferedReader in = null;
+        String result = "";
+        try {
+            URL realUrl = new URL("http://yingyan.baidu.com/api/v3/entity/search?ak=" + Constant.ak + "&&service_id=" + Constant.serviceId + "&&filter=entity_names:" + entity_name + "&&coord_type_output=bd09ll");
 //                  URL realUrl = new URL("http://yingyan.baidu.com/api/v3/entity/list?ak=" + Constant.ak + "&service_id=" + Constant.serviceId  + "&&coord_type_output=bd09ll");
-                    // 打开和URL之间的连接
-                    URLConnection conn = realUrl.openConnection();
-                    // 设置通用的请求属性
-                    conn.setRequestProperty("accept", "*/*");
-                    conn.setRequestProperty("connection", "Keep-Alive");
-                    conn.setRequestProperty("user-agent",
-                            "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
-                    conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8; ");
-                    // 定义BufferedReader输入流来读取URL的响应
-                    in = new BufferedReader(
-                            new InputStreamReader(conn.getInputStream()));
-                    String line;
-                    while ((line = in.readLine()) != null) {
-                        result += line;
-                    }
-                    response = new JSONObject(result);
-                    String message = response.getString("message");
-                    int total = response.getInt("total");
-                    JSONArray jsonArray = response.getJSONArray("entities");
-                    JSONObject obj = (JSONObject) jsonArray.get(0);
-                    JSONObject location = obj.getJSONObject("latest_location");
-                    longitude = location.getDouble("longitude");
-                    latitude = location.getDouble("latitude");
-                    Log.e("location", longitude + "" + latitude + "");
-                    Log.e("array", jsonArray.toString());
-                    Log.e("response", result);
-                    Log.e("total", total + "");
+            // 打开和URL之间的连接
+            URLConnection conn = realUrl.openConnection();
+            // 设置通用的请求属性
+            conn.setRequestProperty("accept", "*/*");
+            conn.setRequestProperty("connection", "Keep-Alive");
+            conn.setRequestProperty("user-agent",
+                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8; ");
+            // 定义BufferedReader输入流来读取URL的响应
+            in = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream()));
+            String line;
+            while ((line = in.readLine()) != null) {
+                result += line;
+            }
+            response = new JSONObject(result);
+            String message = response.getString("message");
+            int total = response.getInt("total");
+            JSONArray jsonArray = response.getJSONArray("entities");
+            JSONObject obj = (JSONObject) jsonArray.get(0);
+            JSONObject location = obj.getJSONObject("latest_location");
+            longitude = location.getDouble("longitude");
+            latitude = location.getDouble("latitude");
+            Log.e("location", longitude + "" + latitude + "");
+            Log.e("array", jsonArray.toString());
+            Log.e("response", result);
+            Log.e("total", total + "");
 //                    if (total == 0) {
 //                       addEntity();
-                    //              }
-                   Message msg = new Message();
-                   msg.what=GET_LOCATION;
-                   mainHandler.sendMessage(msg);
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (ProtocolException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            //              }
+            Message msg = new Message();
+            msg.what = GET_LOCATION;
+            mainHandler.sendMessage(msg);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-            }
-        }.start();
     }
 
     private void addEntity() {
@@ -405,6 +447,7 @@ public class ParentsLocation extends AppCompatActivity {
         }
 
     }
+
     private void deleteEntity() {
         new Thread() {
             @Override
@@ -473,11 +516,13 @@ public class ParentsLocation extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         Log.e("stop", "stop");
         //  super.onDestroy();
-        mTraceClient.stopTrace(mTrace, mTraceListener);
+        //  mTraceClient.stopTrace(mTrace, mTraceListener);
     }
+
 }
