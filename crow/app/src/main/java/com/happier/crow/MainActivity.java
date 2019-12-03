@@ -1,6 +1,5 @@
 package com.happier.crow;
 
-<<<<<<< HEAD
 import android.content.Intent;
 
 import android.content.Context;
@@ -15,14 +14,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
-=======
-
 import android.content.Intent;
 
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
->>>>>>> 96a332ec1bde9ff829a97f3e1c6ffb9a2c0753d0
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -54,7 +50,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-<<<<<<< HEAD
 import com.happier.crow.constant.Constant;
 
 import cn.jpush.android.api.JPushInterface;
@@ -62,12 +57,6 @@ import cn.jpush.android.api.JPushInterface;
 public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private Button location;
-=======
-public class MainActivity extends AppCompatActivity {
-
-    private Button location;
-
->>>>>>> 96a332ec1bde9ff829a97f3e1c6ffb9a2c0753d0
     private RadioGroup rg;
     private RadioButton rbParent;
     private RadioButton rbChildren;
@@ -77,10 +66,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText etPassword;
     private TextView tvForgetPassword;
     private TextView tvRegister;
-<<<<<<< HEAD
-=======
-
->>>>>>> 96a332ec1bde9ff829a97f3e1c6ffb9a2c0753d0
     private String phoneNumber;
     private String password;
 

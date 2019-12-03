@@ -42,7 +42,7 @@ public class ChildrenSetAlarmActivity extends AppCompatActivity {
     private String hour = "";
     private String minute = "";
     private String remark = "";
-    private static final String PARENT_SET_INFO_PATH = "/alarm/setAlarm";
+    private static final String PARENT_SET_INFO_PATH = "/alarm/setAlarmChildren";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
