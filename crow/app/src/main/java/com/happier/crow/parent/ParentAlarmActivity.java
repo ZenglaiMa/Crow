@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.happier.crow.R;
+import com.happier.crow.children.ChildrenIndexActivity;
 import com.happier.crow.constant.Constant;
 import com.happier.crow.entities.Alarm;
 
@@ -130,5 +131,10 @@ public class ParentAlarmActivity extends AppCompatActivity {
             list.add(alarm);
             adapter.notifyDataSetChanged();
         }
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void handleLoginResult(List<Alarm> listTemp) {
+        this.list.add(listTemp.get(listTemp.size()-1));
+        adapter.notifyDataSetChanged();
     }
 }

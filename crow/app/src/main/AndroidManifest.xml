@@ -194,12 +194,9 @@
             android:name=".ResetPwdActivity"
             android:label="找回密码" />
         <activity
-<<<<<<< HEAD
-=======
             android:name=".parent.ParentsContactActivity"
             android:label="联系人" />
         <activity
->>>>>>> 7f3ae1132c747652ab7fe881860e5d34daabd9b6
             android:name=".ParentsLocation"
             android:label="父母位置" />
         <activity
@@ -209,12 +206,6 @@
             android:name=".parent.ModifyParentInfoActivity"
             android:label="设置/修改个人信息" />
         <activity
-<<<<<<< HEAD
-            android:name=".parent.ParentsContactActivity"
-            android:label="父母联系人" />
-        <activity
-=======
->>>>>>> 7f3ae1132c747652ab7fe881860e5d34daabd9b6
             android:name=".parent.ParentsAddContactActivity"
             android:label="添加联系人" />
         <activity
@@ -230,15 +221,11 @@
             android:name=".children.ChildrenInfoActivity"
             android:label="个人资料" />
         <activity android:name=".parent.ParentAlarmActivity" />
-<<<<<<< HEAD
         <activity android:name=".parent.ParentAddAlarmActivity"></activity>
-=======
-        <activity android:name=".parent.ParentAddAlarmActivity" />
         <activity android:name=".parent.LocationActivity" />
         <activity android:name=".parent.NavigationActivity" />
         <activity android:name=".parent.SosActivity" />
 
->>>>>>> 7f3ae1132c747652ab7fe881860e5d34daabd9b6
     </application>
 
 </manifest>

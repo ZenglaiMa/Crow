@@ -10,6 +10,7 @@ import com.google.gson.reflect.TypeToken;
 import com.happier.crow.entities.Alarm;
 import com.happier.crow.parent.ParentAlarmActivity;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,7 +48,7 @@ public class MessageReceiver extends cn.jpush.android.service.JPushMessageReceiv
                 Alarm alarm = new Gson().fromJson(strTemp, Alarm.class);
                 listTemp.add(alarm);
             }
-
+            EventBus.getDefault().post(listTemp);
         } catch (JSONException e) {
             e.printStackTrace();
         }
