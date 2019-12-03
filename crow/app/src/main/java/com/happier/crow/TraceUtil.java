@@ -59,11 +59,11 @@ public class TraceUtil {
 
         // 添加起点图标
         OverlayOptions startOptions = new MarkerOptions()
-                .position(startPoint).icon(BitmapDescriptorFactory.fromResource(R.drawable.location))
+                .position(startPoint).icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_start))
                 .zIndex(9).draggable(true);
         // 添加终点图标
         OverlayOptions endOptions = new MarkerOptions().position(endPoint)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.location)).zIndex(9).draggable(true);
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.end)).zIndex(9).draggable(true);
 
         // 添加路线（轨迹）
         OverlayOptions polylineOptions = new PolylineOptions().width(10)
