@@ -12,33 +12,57 @@ import com.happier.crow.util.DBUtil;
 import com.jfinal.core.Controller;
 
 public class ContactController extends Controller {
-	private static final int ADDSUCCESS = 1;
-	private static final int ADDFAILED = 0;
-	private static final int INFODIDNTEXIST = 101;// 鐖舵瘝琛ㄤ腑涓嶅瓨鍦ㄨ娣诲姞鐨勭埗浜蹭俊鎭�
-	private static final int INFOREPEAT = 999;// 瑕佹坊鍔犵殑鐖舵瘝淇℃伅涓庣幇鏈夌埗姣嶄俊鎭噸澶�
-	private static final int ADDPARENTS = 11;
+	private static final int ADDSUCCESS = 1; // 添加成功
+	private static final int ADDFAILED = 0; // 添加失败
+	private static final int INFODIDNTEXIST = 101; // 父母表中不存在要添加的父亲信息
+	private static final int INFOREPEAT = 999; // 要添加的父母信息与现有父母信息重复
+	private static final int ADDPARENTS = 11; // 执行添加操作
 	private static final int CONTACTNULL = 102;
+
+	/*
+	 * public void showContacts() { int id = Integer.valueOf(getPara("id")); int
+	 * adderStatus = Integer.valueOf(getPara("adderStatus")); // List<Children>
+	 * parentContactList = new ArrayList<>(); List<Map<String, Object>> contactList
+	 * = new ArrayList<>(); Connection con = null; PreparedStatement pstm; ResultSet
+	 * rs1, rs2; try { con = DBUtil.getCon(); pstm = con.
+	 * prepareStatement("select * from contact where adderId=? and adderStatus=?");
+	 * pstm.setInt(1, id); pstm.setInt(2, 0); rs1 = pstm.executeQuery(); while
+	 * (rs1.next()) { Map<String, Object> map = new HashMap<>(); int cid =
+	 * rs1.getInt(4); map.put("remark", rs1.getString(5)); pstm =
+	 * con.prepareStatement("select phone from children where cid=?");
+	 * pstm.setInt(1, cid); rs2 = pstm.executeQuery(); while (rs2.next()) {
+	 * map.put("phone", rs2.getString(1)); } contactList.add(map);
+	 * 
+	 * } renderJson(contactList); System.out.println(contactList.toString());
+	 * 
+	 * } catch (Exception e) { e.printStackTrace(); } }
+	 */
 
 	public void showContacts() {
 		int id = Integer.valueOf(getPara("id"));
 		int adderStatus = Integer.valueOf(getPara("adderStatus"));
-		// List<Children> parentContactList = new ArrayList<>();
 		List<Map<String, Object>> contactList = new ArrayList<>();
 		Connection con = null;
 		PreparedStatement pstm;
 		ResultSet rs1, rs2;
+		String sql = null;
 		try {
 			con = DBUtil.getCon();
 			pstm = con.prepareStatement("select * from contact where adderId=? and adderStatus=?");
 			pstm.setInt(1, id);
-			pstm.setInt(2, 0);
+			pstm.setInt(2, adderStatus);
 			rs1 = pstm.executeQuery();
 			while (rs1.next()) {
 				Map<String, Object> map = new HashMap<>();
-				int cid = rs1.getInt(4);
+				int id2 = rs1.getInt(4);
 				map.put("remark", rs1.getString(5));
-				pstm = con.prepareStatement("select phone from children where cid=?");
-				pstm.setInt(1, cid);
+				if (adderStatus == 1) {
+					sql = "select phone from parent where pid = ?";
+				} else if (adderStatus == 0) {
+					sql = "select phone from children where cid=?";
+				}
+				pstm = con.prepareStatement(sql);
+				pstm.setInt(1, id2);
 				rs2 = pstm.executeQuery();
 				while (rs2.next()) {
 					map.put("phone", rs2.getString(1));
@@ -47,8 +71,6 @@ public class ContactController extends Controller {
 
 			}
 			renderJson(contactList);
-			System.out.println(contactList.toString());
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -154,7 +176,6 @@ public class ContactController extends Controller {
 						}
 					}
 				}
-				// 鎻掑叆鑱旂郴浜烘暟鎹�
 				pstm = con.prepareStatement(
 						"insert into contact(id,adderStatus,adderId,addederId,remark,isIce) values(?,?,?,?,?,?)");
 				if (addederId != 0) {
@@ -177,9 +198,27 @@ public class ContactController extends Controller {
 		}
 	}
 
+	/*
+	 * public void checkParents() { int adderId =
+	 * Integer.valueOf(getPara("adderId")); String phone = getPara("phone"); int
+	 * addederId = 0; int adderStatus = 1; Connection con = null; PreparedStatement
+	 * pstm; ResultSet rs; int pid = 0; try { con = DBUtil.getCon(); pstm =
+	 * con.prepareStatement("select pid from parent where phone=?");
+	 * pstm.setString(1, phone); rs = pstm.executeQuery(); if (rs.next()) { pid =
+	 * rs.getInt(1); } else { renderJson(INFODIDNTEXIST);//
+	 * 鍦ㄧ埗姣嶈〃涓湭鏌ヨ鍒拌娣诲姞鐨勭埗姣嶄俊鎭垯鎶ラ敊 return; } pstm = con.
+	 * prepareStatement("select addederId from contact where adderId=? and adderStatus=?"
+	 * ); pstm.setInt(1, adderId); pstm.setInt(2, 1); rs = pstm.executeQuery(); if
+	 * (rs.next()) { if (rs.getInt(1) == pid) { renderJson(INFOREPEAT);//
+	 * 瑕佹坊鍔犵殑鐖舵瘝淇℃伅涓庣幇鏈変俊鎭噸澶� return; } else if (rs.getInt(1) != pid) {
+	 * renderJson(ADDFAILED); return; } } else { renderJson(ADDPARENTS); return; } }
+	 * catch (Exception e) { e.printStackTrace(); } }
+	 */
+
 	public void checkParents() {
 		int adderId = Integer.valueOf(getPara("adderId"));
 		String phone = getPara("phone");
+		String remark = getPara("remark");
 		int addederId = 0;
 		int adderStatus = 1;
 		Connection con = null;
@@ -194,29 +233,28 @@ public class ContactController extends Controller {
 			if (rs.next()) {
 				pid = rs.getInt(1);
 			} else {
-				renderJson(INFODIDNTEXIST);// 鍦ㄧ埗姣嶈〃涓湭鏌ヨ鍒拌娣诲姞鐨勭埗姣嶄俊鎭垯鎶ラ敊
+				renderJson(INFODIDNTEXIST);// 在父母表中未查询到要添加的父母信息则报错，101
 				return;
 			}
-			pstm = con.prepareStatement("select addederId from contact where adderId=? and adderStatus=?");
+			pstm = con.prepareStatement("select addederId from contact where adderId=? and adderStatus=? and remark=?");
 			pstm.setInt(1, adderId);
 			pstm.setInt(2, 1);
+			pstm.setString(3, remark);
 			rs = pstm.executeQuery();
 			if (rs.next()) {
 				if (rs.getInt(1) == pid) {
-					renderJson(INFOREPEAT);// 瑕佹坊鍔犵殑鐖舵瘝淇℃伅涓庣幇鏈変俊鎭噸澶�
-					return;
-				} else if (rs.getInt(1) != pid) {
-					renderJson(ADDFAILED);
+					renderJson(INFOREPEAT);// 要添加的父母信息与现有信息重复，999
 					return;
 				}
 			} else {
-				renderJson(ADDPARENTS);
+				renderJson(ADDPARENTS);// 执行添加操作,11
 				return;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+
 	public void searchParent() {
 		int cid = Integer.valueOf(getPara("cid"));
 		Connection con = null;
@@ -245,7 +283,7 @@ public class ContactController extends Controller {
 			if (parentPhone != null) {
 				renderJson(parentPhone);
 				System.out.println(parentPhone.toString());
-			} 
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -262,7 +300,8 @@ public class ContactController extends Controller {
 	 * con.prepareStatement("select pid from parent where phone=?");
 	 * pstm.setString(1, fatherPhone); rs = pstm.executeQuery(); if(rs.next()){ pid
 	 * = rs.getInt(1); }else{
-	 * renderJson(FATHERINFODIDNTEXIST);//鍦ㄧ埗姣嶈〃涓湭鏌ヨ鍒拌娣诲姞鐨勭埗浜蹭俊鎭垯鎶ラ敊 return; } pstm = con.
+	 * renderJson(FATHERINFODIDNTEXIST);//鍦ㄧ埗姣嶈〃涓湭鏌ヨ鍒拌娣诲姞鐨勭埗浜蹭俊鎭垯鎶ラ敊 return; }
+	 * pstm = con.
 	 * prepareStatement("select addederId from contact where adderId=? and adderStatus=?"
 	 * ); pstm.setInt(1,adderId); pstm.setInt(2,1); rs = pstm.executeQuery();
 	 * if(rs.next()){ if(rs.getInt(1) == pid){ renderJson(INFOREPEAT); }else{
@@ -271,8 +310,9 @@ public class ContactController extends Controller {
 	 * //鏌ヨ鑱旂郴浜轰腑鏄惁宸茬粡瀛樻湁姣嶄翰淇℃伅 pstm =
 	 * con.prepareStatement("select pid from parent where phone=?");
 	 * pstm.setString(1,matherPhone); rs = pstm.executeQuery(); if(rs.next()){ pid =
-	 * rs.getInt(1); }else{ renderJson(MOTHERINFODIDNTEXIST);//鍦ㄧ埗姣嶈〃涓湭鏌ヨ鍒拌娣诲姞鐨勬瘝浜蹭俊鎭垯鎶ラ敊
-	 * return; } pstm = con.
+	 * rs.getInt(1); }else{
+	 * renderJson(MOTHERINFODIDNTEXIST);//鍦ㄧ埗姣嶈〃涓湭鏌ヨ鍒拌娣诲姞鐨勬瘝浜蹭俊鎭垯鎶ラ敊 return; }
+	 * pstm = con.
 	 * prepareStatement("select addederId from contact where adderId=? and adderStatus=?"
 	 * ); pstm.setInt(1,adderId); pstm.setInt(2,1); rs = pstm.executeQuery();
 	 * if(rs.next()){ if(rs.getInt(1) == pid){ renderJson(INFOREPEAT); }else{

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
@@ -70,8 +71,16 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.7"
+                android:focusable="false"
                 android:hint="请输入父亲手机号"
                 android:inputType="number" />
+
+            <ImageView
+                android:id="@+id/y_iv_setFather"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="false"
+                android:src="@drawable/setting" />
 
         </LinearLayout>
 
@@ -120,8 +129,16 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.7"
+                android:focusable="false"
                 android:hint="请输入母亲手机号"
                 android:inputType="number" />
+
+            <ImageView
+                android:id="@+id/y_iv_setMother"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="false"
+                android:src="@drawable/setting" />
 
         </LinearLayout>
 
@@ -134,16 +151,6 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:weightSum="1">
-
-        <Button
-            android:id="@+id/y_btn_addParents"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.9"
-            android:background="#2a82e4"
-            android:text="确认添加"
-            android:textColor="@color/smssdk_white"
-            android:textSize="20dp" />
 
     </LinearLayout>
 

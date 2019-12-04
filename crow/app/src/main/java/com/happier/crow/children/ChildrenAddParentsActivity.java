@@ -2,23 +2,25 @@ package com.happier.crow.children;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
+import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.happier.crow.R;
 import com.happier.crow.constant.Constant;
+import com.happier.crow.entities.ContactParent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,140 +34,117 @@ import okhttp3.Response;
 
 public class ChildrenAddParentsActivity extends AppCompatActivity {
     private int cid;
-    private String remark;
-    private Button btnSave;
     private EditText etFatherPhone;
     private EditText etMotherPhone;
-
+    private ImageView ivSetFather;
+    private ImageView ivSetMother;
     private int adderStatus = 1;
-    private int isIce = 0;//子女添加联系人时，紧急联系人值为0
+    private LinearLayout linearLayoutMain;
 
     private List<Map<String, Object>> dataSource = new ArrayList<>();
 
-    private Gson gson;
+    private Gson gson = new Gson();
 
-    public static final String CHECK_PATH = "/contact/checkParents";
-    public static final String ADDPARENTS_PATH = "/contact/addContact";
     public static final String SHOW_CONTACT_PATH = "/contact/showContacts";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_children_addparents);
         SharedPreferences sharedPreferences = getSharedPreferences("authid", MODE_PRIVATE);
         cid = sharedPreferences.getInt("cid", 0);
-        btnSave = findViewById(R.id.y_btn_addParents);
-        etMotherPhone = findViewById(R.id.y_et_motherPhone);
-        etFatherPhone = findViewById(R.id.y_et_fatherPhone);
-        showParents(cid);
+        setContentView(R.layout.activity_children_addparents);
 
-        btnSave.setOnClickListener(new View.OnClickListener() {
+        etFatherPhone = findViewById(R.id.y_et_fatherPhone);
+        etMotherPhone = findViewById(R.id.y_et_motherPhone);
+        ivSetFather = findViewById(R.id.y_iv_setFather);
+        ivSetMother = findViewById(R.id.y_iv_setMother);
+        linearLayoutMain = findViewById(R.id.layout_main);
+        showParents();
+
+
+        ivSetFather.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int i = 0; i < 2; i++) {
-                    if (i == 0) {
-                        String phone1 = etFatherPhone.getText().toString();
-//                        if (phone1 == null || phone1.equals("")) {
-//                            continue;
-//                        }
-                        remark = "父亲";
-                        checkParent(adderStatus, phone1, remark);
-                    } else if (i == 1) {
-                        String phone2 = etMotherPhone.getText().toString();
-//                        if (phone2 == null || phone2.equals("")) {
-//                            break;
-//                        }
-                        remark = "母亲";
-                        checkParent(adderStatus, phone2, remark);
-                    }
-                }
-
+                etFatherPhone.setFocusable(true);
+                etFatherPhone.setFocusableInTouchMode(true);
+                etFatherPhone.requestFocus();
+                ChildrenAddParentsActivity.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
             }
         });
 
-    }
-
-    private void checkParent(final int adderStatus, final String phone, final String remark) {
-        OkHttpClient client = new OkHttpClient();
-        FormBody body = new FormBody.Builder()
-                .add("adderId", String.valueOf(cid))
-                .add("adderStatus", String.valueOf(adderStatus))
-                .add("phone", phone)
-                .build();
-        Request request = new Request.Builder()
-                .post(body)
-                .url(Constant.BASE_URL + CHECK_PATH)
-                .build();
-
-        Call call = client.newCall(request);
-
-        call.enqueue(new Callback() {
+        ivSetMother.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
+            public void onClick(View v) {
+                etMotherPhone.setFocusable(true);
+                etMotherPhone.setFocusableInTouchMode(true);
+                etMotherPhone.requestFocus();
+                ChildrenAddParentsActivity.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
             }
+        });
 
+        linearLayoutMain.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String tag = response.body().string();
-                if (tag.equals("101")) {
-                    Looper.prepare();
-                    Toast.makeText(getApplicationContext(), "父母尚未注册, 请提醒其注册", Toast.LENGTH_LONG).show();
-                    Looper.loop();
-                } else if (tag.equals("999")) {
-                    Looper.prepare();
-                    Toast.makeText(getApplicationContext(), "父母信息已存在", Toast.LENGTH_LONG).show();
-                    Looper.loop();
-                } else if (tag.equals("11")) {
-                    addParent(adderStatus, phone, remark);
+            public boolean onTouch(View v, MotionEvent event) {
+                linearLayoutMain.setFocusable(true);
+                linearLayoutMain.setFocusableInTouchMode(true);
+                linearLayoutMain.requestFocus();
+                return false;
+            }
+        });
+
+        etFatherPhone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                //监听父亲栏焦点
+                if (!hasFocus) {
+                    String phone = etFatherPhone.getText().toString();
+                    String remark = "父亲";
+                    int id = cid;
+                    ContactParent contactParent = new ContactParent();
+                    contactParent.setId(id);
+                    contactParent.setPhone(phone);
+                    contactParent.setRemark(remark);
+                    String data = gson.toJson(contactParent, ContactParent.class);
+                    EventBus.getDefault().postSticky(data);
+                    CustomDialog dialog = new CustomDialog();
+                    dialog.setCancelable(false);
+                    dialog.show(getSupportFragmentManager(), "myDialog");
                 }
             }
         });
-    }
 
-    private void addParent(int adderStatus, String phone, final String remark) {
-        OkHttpClient client = new OkHttpClient();
-        FormBody body = new FormBody.Builder()
-                .add("adderId", String.valueOf(cid))
-                .add("adderStatus", String.valueOf(adderStatus))
-                .add("phone", phone)
-                .add("remark", remark)
-                .add("isIce", String.valueOf(isIce))
-                .build();
-        Request request = new Request.Builder()
-                .post(body)
-                .url(Constant.BASE_URL + ADDPARENTS_PATH)
-                .build();
-        Call call = client.newCall(request);
-        call.enqueue(new Callback() {
+        etMotherPhone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String tag = response.body().string();
-                if (tag.equals("1")) {
-                    Looper.prepare();
-                    Toast.makeText(getApplicationContext(), "添加成功", Toast.LENGTH_SHORT).show();
-                    Looper.loop();
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    String phone = etMotherPhone.getText().toString();
+                    String remark = "母亲";
+                    int id = cid;
+                    ContactParent contactParent = new ContactParent();
+                    contactParent.setId(id);
+                    contactParent.setPhone(phone);
+                    contactParent.setRemark(remark);
+                    String data = gson.toJson(contactParent, ContactParent.class);
+                    EventBus.getDefault().postSticky(data);
+                    CustomDialog dialog = new CustomDialog();
+                    dialog.setCancelable(false);
+                    dialog.show(getSupportFragmentManager(), "myDialog");
                 }
             }
         });
     }
 
-    public void showParents(int cid) {
+    private void showParents() {
         OkHttpClient client = new OkHttpClient();
         FormBody body = new FormBody.Builder()
                 .add("id", String.valueOf(cid))
-                .add("adderStatus", "1")
+                .add("adderStatus", String.valueOf(adderStatus))
                 .build();
         Request request = new Request.Builder()
                 .post(body)
                 .url(Constant.BASE_URL + SHOW_CONTACT_PATH)
                 .build();
+
         Call call = client.newCall(request);
         call.enqueue(new Callback() {
             @Override
@@ -176,27 +155,30 @@ public class ChildrenAddParentsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String data = response.body().string();
-                Log.e("showme", data);
-                initData(data);
+                if (data != null) {
+                    initData(data);
+                }
             }
         });
     }
 
     private void initData(String data) {
-        try {
-            gson = new Gson();
-            Type type = new TypeToken<List<Map<String, Object>>>() {
-            }.getType();
-            dataSource = gson.fromJson(data, type);
-            Map<String, Object> map1 = dataSource.get(0);
-            etFatherPhone.setText(map1.get("phone").toString());
-            Map<String, Object> map2 = dataSource.get(1);
-            etMotherPhone.setText(map2.get("phone").toString());
-            Log.e("easyyy", dataSource.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
+        dataSource = gson.fromJson(data, new TypeToken<List<Map<String, Object>>>() {
+        }.getType());
+        String fPhone = "";
+        String mPhone = "";
+        for (int i = 0; i < dataSource.size(); i++) {
+            if (dataSource.get(i).get("remark").toString().equals("父亲")) {
+                fPhone = dataSource.get(i).get("phone").toString();
+                etFatherPhone.setText(fPhone);
+            }
+            if (dataSource.get(i).get("remark").toString().equals("母亲")) {
+                mPhone = dataSource.get(i).get("phone").toString();
+                etMotherPhone.setText(mPhone);
+            }
         }
     }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

@@ -1,34 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-                
+                    
+    
     
     
     <wb-module deploy-name="crow-server">
-                                
+                                        
+        
         
         
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
-                                
+                                        
+        
         
         
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-                
+                        
+        
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/.settings"/>
-                
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/build"/>
-                
+                        
+        
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/WebContent"/>
-                                
+                                        
+        
         
         
         <property name="java-output-path" value="/crow-server/build/classes"/>
-                        
+                                
+        
         
         <property name="context-root" value="crow-server"/>
-                            
+                                    
+    
     
     
     </wb-module>
-            
+                
+
 
 
 </project-modules>
