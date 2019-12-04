@@ -218,37 +218,38 @@ public class ContactController extends Controller {
 		int cid = Integer.valueOf(getPara("cid"));
 		Connection con = null;
 		PreparedStatement pstm;
-		List<Map<String, Object>> parentPhone = new ArrayList<>();
+		List<Map<String, Object>> phones = new ArrayList<>();
 		ResultSet rs;
 		ResultSet rst;
 		try {
 			con = DBUtil.getCon();
-			// adderStatus, adderId, addederId,
 			pstm = con.prepareStatement("select addederId from contact where adderId=? and adderStatus=1");
 			pstm.setInt(1, cid);
 			rs = pstm.executeQuery();
-			Map<String, Object> map = new HashMap<>();
 			while (rs.next()) {
+				Map<String, Object> map = new HashMap<>();
 				pstm = con.prepareStatement("select gender,phone from parent where pid=?");
 				pstm.setInt(1, rs.getInt(1));
 				rst = pstm.executeQuery();
-				if (rst.getInt("genger") == 0) {
-					map.put("mphone", rst.getString("phone"));
-				} else if (rst.getInt(1) == 1) {
-					map.put("fphone", rs.getString("phone"));
+				while (rst.next()) {
+					if (rst.getInt("gender") == 0) {
+						map.put("mphone", rst.getString("phone"));
+					} else if (rst.getInt("gender") == 1) {
+						map.put("fphone", rst.getString("phone"));
+					}
 				}
-				parentPhone.add(map);
+				phones.add(map);
 			}
-			if (parentPhone != null) {
-				renderJson(parentPhone);
-				System.out.println(parentPhone.toString());
-			} 
-
+			if (phones != null) {
+				renderJson(phones);
+				System.out.println(phones.toString());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
+
 	/*
 	 * public void checkParents(){ int adderId =
 	 * Integer.valueOf(getPara("adderId")); String fatherPhone =

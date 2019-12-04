@@ -1,4 +1,4 @@
-package com.happier.crow;
+package com.happier.crow.Util;
 
 import android.graphics.Color;
 
@@ -16,6 +16,8 @@ import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.trace.model.SortType;
+import com.happier.crow.MapUtils;
+import com.happier.crow.R;
 
 import java.util.List;
 
