@@ -1,6 +1,7 @@
 package com.happier.crow.parent;
 
 import android.content.Intent;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -120,7 +121,16 @@ public class ParentAddAlarmActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String result = response.body().string();
-                EventBus.getDefault().post(result);
+                if (result.equals("0")){
+                    Looper.prepare();
+                    Toast.makeText(ParentAddAlarmActivity.this, "提醒设置失败", Toast.LENGTH_LONG).show();
+                    Looper.loop();
+                }else {
+                    Looper.prepare();
+                    Toast.makeText(ParentAddAlarmActivity.this, "提醒设置成功", Toast.LENGTH_LONG).show();
+                    EventBus.getDefault().post(result);
+                    Looper.loop();
+                }
             }
         });
     }
@@ -134,19 +144,14 @@ public class ParentAddAlarmActivity extends AppCompatActivity {
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void handleResult(String result) {
-        if (result.equals("0")){
-            Toast.makeText(ParentAddAlarmActivity.this, "提醒设置失败", Toast.LENGTH_LONG).show();
-        }else {
-            Toast.makeText(ParentAddAlarmActivity.this, "提醒设置成功", Toast.LENGTH_LONG).show();
-            Alarm alarm = new Alarm();
-            alarm.setType(type);
-            alarm.setTime(mOra + "," + hour + "," + minute);
-            alarm.setState(1);
-            alarm.setDescription(description);
-            Intent intent = new Intent(ParentAddAlarmActivity.this, ParentAlarmActivity.class);
-            intent.putExtra("newData", new Gson().toJson(alarm));
-            setResult(99, intent);
-        }
+        Alarm alarm = new Alarm();
+        alarm.setType(type);
+        alarm.setTime(mOra + "," + hour + "," + minute);
+        alarm.setState(1);
+        alarm.setDescription(description);
+        Intent intent = new Intent(ParentAddAlarmActivity.this, ParentAlarmActivity.class);
+        intent.putExtra("newData", new Gson().toJson(alarm));
+        setResult(99, intent);
         finish();
     }
 }
