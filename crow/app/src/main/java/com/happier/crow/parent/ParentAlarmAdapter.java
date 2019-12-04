@@ -44,7 +44,8 @@ public class ParentAlarmAdapter extends BaseAdapter {
     private int item;
     private static final int INTERVAL = 1000 * 60 * 60 * 24;// 24h
     private static final String PARENT_SET_INFO_PATH = "/alarm/changeState";
-
+    private AlarmManager alm;
+    private PendingIntent pi;
     public ParentAlarmAdapter(List<Alarm> list, Context context, int item) {
         this.list = list;
         this.context = context;
@@ -82,7 +83,7 @@ public class ParentAlarmAdapter extends BaseAdapter {
             viewHolder.tvTime = convertView.findViewById(R.id.z_tv_parent_alarm_item_time);
             viewHolder.swState = convertView.findViewById(R.id.z_sw_parent_alarm_item_state);
             convertView.setTag(viewHolder);
-        }else {
+        } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         String timeTemp = list.get(position).getTime();
@@ -91,27 +92,28 @@ public class ParentAlarmAdapter extends BaseAdapter {
         String type = list.get(position).getType();
         viewHolder.tvTime.setText(time);
         viewHolder.tvType.setText(type);
-        viewHolder.swState.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){//改成了开
-                    setOrModify(list.get(position).getId(), 1);
-                    list.get(position).setState(1);
-                }else {//改成了关
-                    setOrModify(list.get(position).getId(), 0);
-                    list.get(position).setState(0);
-                }
-            }
-        });
-        if(list.get(position).getState() == 0){//关
+        if (list.get(position).getState() == 0) {//关
             viewHolder.swState.setChecked(false);
-        }else {// == 1  开
+        } else {// == 1  开
             viewHolder.swState.setChecked(true);
             setAlarm(type, list.get(position).getDescription(), times, position);
         }
-
+        viewHolder.swState.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {//改成了开
+                    setOrModify(list.get(position).getId(), 1);
+                    list.get(position).setState(1);
+                } else {//改成了关
+                    setOrModify(list.get(position).getId(), 0);
+                    list.get(position).setState(0);
+                    alm.cancel(pi);
+                }
+            }
+        });
         return convertView;
     }
+
     private void setOrModify(int id, int state) {
         OkHttpClient client = new OkHttpClient();
         int pid = context.getSharedPreferences("authid", MODE_PRIVATE).getInt("pid", 0);
@@ -135,11 +137,13 @@ public class ParentAlarmAdapter extends BaseAdapter {
             }
         });
     }
+
     private class ViewHolder {
         public TextView tvType = null;
         public TextView tvTime = null;
         public Switch swState = null;
     }
+
     private void setAlarm(String type, String description, String[] times, int position) {
         int hour = Integer.parseInt(times[1]);
         int minute = Integer.parseInt(times[2]);
@@ -147,7 +151,7 @@ public class ParentAlarmAdapter extends BaseAdapter {
         intent.setClass(context, AlarmReceiver.class);
 
         Calendar c = Calendar.getInstance();
-        if(times[0].equals("下午")){
+        if (times[0].equals("下午")) {
             c.set(Calendar.AM_PM, Calendar.PM);
         }
 
@@ -158,13 +162,12 @@ public class ParentAlarmAdapter extends BaseAdapter {
         intent.putExtra("messageTitle", type);
         intent.putExtra("messageContent", description);
 
-        PendingIntent pi = PendingIntent.getBroadcast(context, position, intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        pi = PendingIntent.getBroadcast(context, position, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        if(System.currentTimeMillis()> c.getTimeInMillis()){
+        if (System.currentTimeMillis() > c.getTimeInMillis()) {
             c.set(Calendar.DAY_OF_YEAR, c.get(Calendar.DAY_OF_YEAR) + 1);
-            Log.e("test22", "*************");
         }
-        AlarmManager alm = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+        alm = (AlarmManager) context.getSystemService(ALARM_SERVICE);
         alm.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
     }
 
