@@ -67,7 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private static final int VERIFY_SUCCESS = 1;
     private static final int GET_SUCCESS = 2;
-    private static final int REGIST_SUCCESS=3;
+    private static final int REGIST_SUCCESS = 3;
 
     private static String PARENT_REGISTER_PATH = "/parent/register";
     private static String CHILDREN_REGISTER_PATH = "/children/register";
@@ -241,13 +241,14 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "服务器错误, 请稍后重试", Toast.LENGTH_SHORT).show();
         }
     }
+
     private void addEntity() {
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
                 super.run();
                 URL url = null;
-                String params = "ak=" +Constant.ak + "&" + "service_id=" + Constant.serviceId + "&"
+                String params = "ak=" + Constant.ak + "&" + "service_id=" + Constant.serviceId + "&"
                         + "entity_name=" + phoneNumber;
                 PrintWriter out = null;
                 BufferedReader in = null;
@@ -282,10 +283,9 @@ public class RegisterActivity extends AppCompatActivity {
                     String message = response0.getString("message");
                     int status = response0.getInt("status");
                     Log.e("message", message + status);
-                    Message msg=new Message();
-                    msg.what=REGIST_SUCCESS;
+                    Message msg = new Message();
+                    msg.what = REGIST_SUCCESS;
                     handler.sendMessage(msg);
-
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 } catch (ProtocolException e) {
@@ -298,6 +298,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }.start();
     }
+
     /**
      * 验证输入的验证码是否正确
      */
