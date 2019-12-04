@@ -20,6 +20,7 @@
         android:gravity="center"
         android:textSize="23dp" />
     <Switch
+        android:checked="true"
         android:id="@+id/z_sw_parent_alarm_item_state"
         android:layout_width="0dp"
         android:layout_weight="1"

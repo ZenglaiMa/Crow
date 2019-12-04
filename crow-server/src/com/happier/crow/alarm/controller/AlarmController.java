@@ -93,7 +93,7 @@ public class AlarmController extends Controller {
 			renderJson(FAILURE);
 		}
 	}
-	/**  
+	/**
 	* @Title: getAllAlarm  
 	* @Description: 父母端查询自己所以的提醒
 	* @param @param pid
@@ -106,5 +106,18 @@ public class AlarmController extends Controller {
 		List<Alarm> list = Alarm.dao.find("select * from alarm where pid=?", pid);
 		System.out.println(new Gson().toJson(list));
 		renderJson(new Gson().toJson(list));
+	}
+	/**  
+	* @Title: changeState  
+	* @Description: 更改闹钟状态
+	* @param     设定文件  
+	* @return void    返回类型  
+	* @throws  
+	*/
+	public void changeState() {
+		System.out.println("changeState");
+		int id = getParaToInt("id");
+		int state = getParaToInt("state");
+		boolean result = Alarm.dao.findById(id).set("state", state).update();
 	}
 }

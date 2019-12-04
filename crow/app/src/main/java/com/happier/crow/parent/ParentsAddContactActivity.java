@@ -58,10 +58,10 @@ public class ParentsAddContactActivity extends AppCompatActivity {
                     if (!TextUtils.isEmpty(phone)) {
                         saveContactInfo(pid, remark, phone, isIce);
                     } else {
-                        Toast.makeText(ParentsAddContactActivity.this, "请输入子女手机号", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ParentsAddContactActivity.this, "请输入子女手机号", Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(ParentsAddContactActivity.this, "请输入备注", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ParentsAddContactActivity.this, "请输入备注", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -95,7 +95,7 @@ public class ParentsAddContactActivity extends AppCompatActivity {
                 String tag = response.body().string();
                 if (tag.equals("1")) {
                     Looper.prepare();
-                    Toast.makeText(getApplicationContext(), "添加成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "添加成功", Toast.LENGTH_LONG).show();
                     finish();
                     Looper.loop();
                 } else if (tag.equals("0")) {

@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.happier.crow.AboutActivity;
 import com.happier.crow.R;
@@ -22,6 +21,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.happier.crow.MainActivity;
 import com.happier.crow.children.ChildrenInfoActivity;
+import com.happier.crow.children.ChildrenPhotograph;
 import com.happier.crow.constant.Constant;
 import com.happier.crow.entities.Children;
 
@@ -68,12 +68,6 @@ public class CenterFragment extends Fragment {
         getInfo();
 
         return view;
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        getInfo();
     }
 
     @Override
@@ -150,8 +144,9 @@ public class CenterFragment extends Fragment {
                     getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
                     break;
                 case R.id.m_ll_my_photograph:
-                    // todo : my photograph
-                    Toast.makeText(getContext(), "我的相册", Toast.LENGTH_SHORT).show();
+                    intent = new Intent(getActivity(), ChildrenPhotograph.class);
+                    startActivity(intent);
+                    getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
                     break;
                 case R.id.m_ll_my_personal_info:
                     Intent personalInfoIntent = new Intent(getActivity(), ChildrenInfoActivity.class);

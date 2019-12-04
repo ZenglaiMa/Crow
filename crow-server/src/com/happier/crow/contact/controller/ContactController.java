@@ -125,8 +125,11 @@ public class ContactController extends Controller {
 			pstm = con.prepareStatement(sql);
 			pstm.setString(1, phone);
 			rs = pstm.executeQuery();
-			while (rs.next()) {
+			if (rs.next()) {
 				addederId = rs.getInt(1);
+			} else {
+				renderJson(0);
+				return;
 			}
 			if (addederId != 0) {
 				if (adderStatus == 0) {

@@ -33,7 +33,6 @@ import okhttp3.Response;
 public class ChildrenAddParentsActivity extends AppCompatActivity {
     private int cid;
     private String remark;
-    private String phone;
     private Button btnSave;
     private EditText etFatherPhone;
     private EditText etMotherPhone;
@@ -57,22 +56,28 @@ public class ChildrenAddParentsActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("authid", MODE_PRIVATE);
         cid = sharedPreferences.getInt("cid", 0);
         btnSave = findViewById(R.id.y_btn_addParents);
-        etMotherPhone = findViewById(R.id.y_et_fatherPhone);
+        etMotherPhone = findViewById(R.id.y_et_motherPhone);
         etFatherPhone = findViewById(R.id.y_et_fatherPhone);
         showParents(cid);
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int i = 0; i < 1; i++) {
+                for (int i = 0; i < 2; i++) {
                     if (i == 0) {
+                        String phone1 = etFatherPhone.getText().toString();
+//                        if (phone1 == null || phone1.equals("")) {
+//                            continue;
+//                        }
                         remark = "父亲";
-                        phone = etFatherPhone.getText().toString();
-                        checkParent(adderStatus, phone, remark);
+                        checkParent(adderStatus, phone1, remark);
                     } else if (i == 1) {
+                        String phone2 = etMotherPhone.getText().toString();
+//                        if (phone2 == null || phone2.equals("")) {
+//                            break;
+//                        }
                         remark = "母亲";
-                        phone = etMotherPhone.getText().toString();
-                        checkParent(adderStatus, phone, remark);
+                        checkParent(adderStatus, phone2, remark);
                     }
                 }
 
