@@ -3,14 +3,22 @@ package com.happier.crow.children;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.baidu.mapapi.SDKInitializer;
@@ -82,9 +90,7 @@ public class ChildrenIndexActivity extends AppCompatActivity {
             this.fragment = fragment;
         }
     }
-
     private Map<String, MyTabSpec> map = new HashMap<>();
-
     //绑定父母
     public static final String CHECK_PATH = "/contact/searchParent";
     public static String entityName;
@@ -96,6 +102,8 @@ public class ChildrenIndexActivity extends AppCompatActivity {
     // 用于记录当前正在显示的Fragment
     private Fragment curFragment = null;
 
+    private View popView;
+    public static View v;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,6 +125,14 @@ public class ChildrenIndexActivity extends AppCompatActivity {
 
         // 3. 设置默认显示的TabSpec
         changeTab(tabStrId[0]);
+
+        //4.设置弹出窗view
+        v=findViewById(R.id.show);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.location,menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     // 自定义监听器内部类，完成Tab页面切换及图表转化
@@ -295,7 +311,6 @@ public class ChildrenIndexActivity extends AppCompatActivity {
     }
 
     public void onBackPressed() {//重写的Activity返回
-
         Intent intent = new Intent();
         intent.setAction("android.intent.action.MAIN");
         intent.addCategory("android.intent.category.HOME");

@@ -1,6 +1,8 @@
 package com.happier.crow.children.fragment;
 
+import android.app.ActionBar;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -8,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
@@ -36,6 +41,7 @@ import com.baidu.trace.model.StatusCodes;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import com.happier.crow.MainActivity;
 import com.happier.crow.MapUtils;
 import com.happier.crow.R;
 import com.happier.crow.Util.TraceUtil1;
@@ -72,10 +78,8 @@ public class LocationFragment extends Fragment {
     /*百度地图定位显示*/
     private MapView mapView;
     private BaiduMap baiduMap;
-    private final int REQUEST_GPS = 1;
     private static final int GET_LOCATION = 1;
     private RefreshThread refreshThread;
-
     public String entityName;
     /*主线程*/
     private Handler mainHandler;
@@ -84,7 +88,7 @@ public class LocationFragment extends Fragment {
     private Double latitude;
     //定位回传结果
     private JSONObject response;
-
+    private View popView;
     /*绘制轨迹*/
     // 历史轨迹请求实例
     private HistoryTrackRequest historyTrackRequest;
@@ -101,10 +105,74 @@ public class LocationFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_location, container, false);
+        View view = inflater.inflate(R.layout.fragment_location, container, false);
         getView(view);
+        setHasOptionsMenu(true);
         return view;
+    }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.location, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case (R.id.m_parent_location):{
+                showPopWindow();
+                break;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    private void showPopWindow(){
+        popView= this.getLayoutInflater().inflate(R.layout.layout_pop_window,null);
+        //将物理像素转化为真实像素
+        final PopupWindow popupWindow=new PopupWindow(popView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0000000000));
+        popupWindow.setOutsideTouchable(true); // 点击外部关闭
+        Button btn1=popView.findViewById(R.id.btn1);
+        Button btn2=popView.findViewById(R.id.btn2);
+        Button btn3=popView.findViewById(R.id.btn3);
+        Button btn4=popView.findViewById(R.id.btn4);
+        btn4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                startRefreshThread(false);
+                changeName("mother");
+                mTraceClient.queryHistoryTrack(historyTrackRequest,mHistoryListener);
+
+            }
+        });
+        btn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                startRefreshThread(false);
+                changeName("father");
+                mTraceClient.queryHistoryTrack(historyTrackRequest,mHistoryListener);
+            }
+        });
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                changeName("mother");
+                startRefreshThread(true);
+            }
+        });
+       btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                changeName("father");
+                startRefreshThread(true);
+            }
+        });
+        popupWindow.showAtLocation(ChildrenIndexActivity.v, Gravity.RIGHT| Gravity.TOP,12,150);
     }
 
     @Override
@@ -114,54 +182,18 @@ public class LocationFragment extends Fragment {
         startRefreshThread(true);
     }
 
-
     private void getView(View view) {
         //获取地图控件
         mapView = view.findViewById(R.id.map_view);
         //获取百度地图
         baiduMap = mapView.getMap();
-        Button button=view.findViewById(R.id.trace);
-        Button button1=view.findViewById(R.id.trace1);
-        Button button2=view.findViewById(R.id.location);
-        Button button3=view.findViewById(R.id.location1);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startRefreshThread(false);
-                mTraceClient.queryHistoryTrack(historyTrackRequest,mHistoryListener);
-
-            }
-        });
-        button1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startRefreshThread(false);
-                changeName("father");
-                mTraceClient.queryHistoryTrack(historyTrackRequest,mHistoryListener);
-            }
-        });
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeName("mother");
-                startRefreshThread(true);
-            }
-        });
-        button3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeName("father");
-                startRefreshThread(true);
-            }
-        });
     }
 
     private void changeName(String status) {
-        if(status.equals("father")){
-            entityName=ChildrenIndexActivity.fPhone;
-        }else{
-            entityName=ChildrenIndexActivity.mPhone;
+        if (status.equals("father")) {
+            entityName = ChildrenIndexActivity.fPhone;
+        } else {
+            entityName = ChildrenIndexActivity.mPhone;
         }
     }
 
@@ -171,7 +203,7 @@ public class LocationFragment extends Fragment {
         //修改地图的默认比例尺
         MapStatusUpdate update = MapStatusUpdateFactory.zoomTo(20.0f);
         baiduMap.setMapStatus(update);
-        entityName=ChildrenIndexActivity.entityName;
+        entityName = ChildrenIndexActivity.entityName;
         //初始化轨迹服务
         mTrace = new Trace(Constant.serviceId, entityName, isNeedObjectStorage);
         //初始化轨迹客户端
@@ -235,20 +267,21 @@ public class LocationFragment extends Fragment {
         };
 */
 
-        mHistoryListener= new OnTrackListener() {
+        mHistoryListener = new OnTrackListener() {
             private List<LatLng> trackPoints = new ArrayList<>();
             public static final int PAGE_SIZE = 5000;
             private SortType sortType = SortType.asc;
             private int pageIndex = 1;
+
             // 历史轨迹回调
             @Override
             public void onHistoryTrackCallback(HistoryTrackResponse response) {
                 int toal = response.getTotal();
                 if (StatusCodes.SUCCESS != response.getStatus()) {
-                    Log.e("fail",response.message.toString()+response.tag+response.status);
-                }else if (0 == toal){
-                    Log.e("fail","未查询到轨迹");
-                }else {
+                    Log.e("fail", response.message.toString() + response.tag + response.status);
+                } else if (0 == toal) {
+                    Log.e("fail", "未查询到轨迹");
+                } else {
                     List<TrackPoint> points = response.getTrackPoints();
                     if (null != points) {
                         for (TrackPoint trackPoint : points) {
@@ -259,38 +292,11 @@ public class LocationFragment extends Fragment {
                         }
                     }
                 }
-                TraceUtil1 traceUtil=new TraceUtil1();
-                traceUtil.drawHistoryTrack(baiduMap,trackPoints, sortType);
+                TraceUtil1 traceUtil = new TraceUtil1();
+                traceUtil.drawHistoryTrack(baiduMap, trackPoints, sortType);
 
             }
         };
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.parent_location, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.father_location:
-                entityName=ChildrenIndexActivity.fPhone;
-                startRefreshThread(true);
-                break;
-            case R.id.mother_location:
-                entityName=ChildrenIndexActivity.mPhone;
-                startRefreshThread(true);
-                break;
-            case R.id.father_trace:
-                mTraceClient.queryHistoryTrack(historyTrackRequest,mHistoryListener);
-                break;
-            case R.id.mother_trace:
-                mTraceClient.queryHistoryTrack(historyTrackRequest,mHistoryListener);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void startRefreshThread(boolean isStart) {
@@ -305,7 +311,7 @@ public class LocationFragment extends Fragment {
                 refreshThread.start();
             }
         } else {
-            refreshThread=null;
+            refreshThread = null;
         }
     }
 
@@ -313,7 +319,7 @@ public class LocationFragment extends Fragment {
         baiduMap.clear();
         LatLng latLng = new LatLng(latitude, longitude);
         //添加标志物来标明当前位置
-        BitmapDescriptor descriptor = BitmapDescriptorFactory.fromResource(R.drawable.location);
+        BitmapDescriptor descriptor = BitmapDescriptorFactory.fromResource(R.drawable.location_selected);
         MarkerOptions markerOptions = new MarkerOptions()
                 .icon(descriptor)
                 .position(latLng)
@@ -338,7 +344,7 @@ public class LocationFragment extends Fragment {
                 try {
                     count++;
                     Log.e("count", count + "");
-                    Thread.sleep(3* 1000);
+                    Thread.sleep(3 * 1000);
                 } catch (InterruptedException e) {
                     System.out.println("线程休眠失败");
                 }
@@ -352,7 +358,7 @@ public class LocationFragment extends Fragment {
         PrintWriter out = null;
         BufferedReader in = null;
         String result = "";
-        Log.e("entity",entity_name);
+        Log.e("entity", entity_name);
         try {
             URL realUrl = new URL("http://yingyan.baidu.com/api/v3/entity/search?ak=" + Constant.ak + "&&service_id=" + Constant.serviceId + "&&filter=entity_names:" + entity_name + "&&coord_type_output=bd09ll");
 //                  URL realUrl = new URL("http://yingyan.baidu.com/api/v3/entity/list?ak=" + Constant.ak + "&service_id=" + Constant.serviceId  + "&&coord_type_output=bd09ll");
@@ -372,21 +378,23 @@ public class LocationFragment extends Fragment {
                 result += line;
             }
             response = new JSONObject(result);
-            String message = response.getString("message");
-            Log.e("message",message);
-            int total = response.getInt("total");
+            entityLocation();
+
+/*
             JSONArray jsonArray = response.getJSONArray("entities");
             JSONObject obj = (JSONObject) jsonArray.get(0);
             JSONObject location = obj.getJSONObject("latest_location");
             longitude = location.getDouble("longitude");
-            latitude = location.getDouble("latitude");
+            latitude = location.getDouble("latitude");*/
+            /*
+            String message = response.getString("message");
+            int total = response.getInt("total");
+            Log.e("message", message);
             Log.e("location", longitude + "" + latitude + "");
             Log.e("array", jsonArray.toString());
             Log.e("response", result);
-            Log.e("total", total + "");
-//                    if (total == 0) {
-//                       addEntity();
-            //              }
+            Log.e("total", total + "");*/
+
             Message msg = new Message();
             msg.what = GET_LOCATION;
             mainHandler.sendMessage(msg);
@@ -405,7 +413,7 @@ public class LocationFragment extends Fragment {
     private void addEntity() {
         URL url = null;
         String params = "ak=" + Constant.ak + "&" + "service_id=" + Constant.serviceId + "&"
-                + "entity_name=" +entityName;
+                + "entity_name=" + entityName;
         PrintWriter out = null;
         BufferedReader in = null;
         String result = "";
@@ -521,8 +529,6 @@ public class LocationFragment extends Fragment {
             e.printStackTrace();
         }
     }
-
-
     @Override
     public void onPause() {
         super.onPause();
