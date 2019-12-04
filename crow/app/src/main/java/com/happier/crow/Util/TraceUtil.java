@@ -1,4 +1,4 @@
-package com.happier.crow;
+package com.happier.crow.Util;
 
 import android.graphics.Color;
 
@@ -10,11 +10,11 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.Overlay;
 import com.baidu.mapapi.map.OverlayOptions;
-
 import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.trace.model.SortType;
+import com.happier.crow.R;
 
 import java.util.List;
 
@@ -39,7 +39,7 @@ public class TraceUtil {
         }
 
         if (points.size() == 1) {
-            OverlayOptions startOptions = new MarkerOptions().position(points.get(0)).icon(BitmapDescriptorFactory.fromResource(R.drawable.location))
+            OverlayOptions startOptions = new MarkerOptions().position(points.get(0)).icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_point))
                     .zIndex(9).draggable(true);
             mBaiduMap.addOverlay(startOptions);
             animateMapStatus(points.get(0), 18.0f);
@@ -59,7 +59,7 @@ public class TraceUtil {
 
         // 添加起点图标
         OverlayOptions startOptions = new MarkerOptions()
-                .position(startPoint).icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_start))
+                .position(startPoint).icon(BitmapDescriptorFactory.fromResource(R.drawable.start))
                 .zIndex(9).draggable(true);
         // 添加终点图标
         OverlayOptions endOptions = new MarkerOptions().position(endPoint)
@@ -74,7 +74,7 @@ public class TraceUtil {
         polylineOverlay = mBaiduMap.addOverlay(polylineOptions);
 
         OverlayOptions markerOptions =
-                new MarkerOptions().flat(true).anchor(0.5f, 0.5f).icon(BitmapDescriptorFactory.fromResource(R.drawable.location))
+                new MarkerOptions().flat(true).anchor(0.5f, 0.5f).icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_point))
                         .position(points.get(points.size() - 1))
                         .rotate((float) getAngle(points.get(0), points.get(1)));
         mBaiduMap.addOverlay(markerOptions);

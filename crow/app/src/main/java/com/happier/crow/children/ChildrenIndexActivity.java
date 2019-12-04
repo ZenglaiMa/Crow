@@ -1,5 +1,6 @@
 package com.happier.crow.children;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
@@ -12,13 +13,28 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.baidu.mapapi.SDKInitializer;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.happier.crow.R;
 import com.happier.crow.children.fragment.CenterFragment;
 import com.happier.crow.children.fragment.InteractFragment;
 import com.happier.crow.children.fragment.LocationFragment;
+import com.happier.crow.constant.Constant;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class ChildrenIndexActivity extends AppCompatActivity {
 
@@ -28,6 +44,7 @@ public class ChildrenIndexActivity extends AppCompatActivity {
         private int normalImage;
         private int selectImage;
         private Fragment fragment = null;
+
 
         // 设置是否被选中
         public void setSelect(boolean b) {
@@ -68,6 +85,13 @@ public class ChildrenIndexActivity extends AppCompatActivity {
 
     private Map<String, MyTabSpec> map = new HashMap<>();
 
+    //绑定父母
+    public static final String CHECK_PATH = "/contact/searchParent";
+    public static String entityName;
+    public static String fPhone;
+    public static  String mPhone;
+    private int cid;
+
     private String[] tabStrId = {"亲情互动", "父母位置", "个人中心"};
     // 用于记录当前正在显示的Fragment
     private Fragment curFragment = null;
@@ -75,7 +99,9 @@ public class ChildrenIndexActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_children_index);
+        getParents();
 
         /*
         SharedPreferences preferences = getSharedPreferences("authid", MODE_PRIVATE);
@@ -216,4 +242,65 @@ public class ChildrenIndexActivity extends AppCompatActivity {
         map.get(tabStrId[2]).setImageView(iv3);
         map.get(tabStrId[2]).setTextView(tv3);
     }
+    private void getParents() {
+        SharedPreferences sharedPreferences = getSharedPreferences("authid", MODE_PRIVATE);
+        cid = sharedPreferences.getInt("cid", 0);
+        OkHttpClient client = new OkHttpClient();
+        FormBody body = new FormBody.Builder()
+                .add("cid", String.valueOf(cid))
+                .build();
+        Request request = new Request.Builder()
+                .post(body)
+                .url(Constant.BASE_URL + CHECK_PATH)
+                .build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String tag = response.body().string();
+                Log.e("response",tag);
+                try {
+                    JSONArray jsonArray=new JSONArray(tag);
+                    System.out.println("利用JSONObject中的parseArray方法来解析json数组字符串");
+                    for(int i=0;i<jsonArray.length();i++){
+                        String jsTemp = jsonArray.getJSONObject(i).toString();
+                        Gson gson = new Gson();
+                        Map parents=gson.fromJson(jsTemp,new TypeToken<Map<String,Object>>(){}.getType());
+                        for (Object key :parents.keySet()) {
+                            Log.e("key",key.toString());
+                            Log.e("value",parents.get(key).toString());
+                            if (key.equals("mphone")){
+                                mPhone=parents.get(key).toString();
+                                Log.e("anannan",mPhone);
+                                entityName=mPhone;
+                            }else{
+                                fPhone=parents.get(key).toString();
+                            }
+                        }
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+    }
+
+    public void onBackPressed() {//重写的Activity返回
+
+        Intent intent = new Intent();
+        intent.setAction("android.intent.action.MAIN");
+        intent.addCategory("android.intent.category.HOME");
+        startActivity(intent);
+
+    }
+
 }
