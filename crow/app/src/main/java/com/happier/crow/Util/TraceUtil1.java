@@ -16,16 +16,16 @@ import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.trace.model.SortType;
-import com.happier.crow.MapUtils;
 import com.happier.crow.R;
+import com.happier.crow.children.ChildrenIndexActivity;
 
 import java.util.List;
 
 
 public class TraceUtil1 {
     public BitmapDescriptor bmStart = null;
-    public  BitmapDescriptor bmEnd = null;
-    public  BitmapDescriptor bmArrowPoint = null;
+    public BitmapDescriptor bmEnd = null;
+    public BitmapDescriptor bmArrowPoint = null;
     public BaiduMap Map;
     /**
      * 路线覆盖物
@@ -33,11 +33,12 @@ public class TraceUtil1 {
     public Overlay polylineOverlay = null;
     private Marker mMoveMarker = null;
     private MapStatus mapStatus = null;
+
     /**
      * 绘制历史轨迹
      */
-    public void drawHistoryTrack(BaiduMap map,final List<LatLng> points, SortType sortType) {
-        Map=map;
+    public void drawHistoryTrack(String entityName, BaiduMap map, final List<LatLng> points, SortType sortType) {
+        Map = map;
         // 绘制新覆盖物前，清空之前的覆盖物
         map.clear();
         if (null != mMoveMarker) {
@@ -82,8 +83,14 @@ public class TraceUtil1 {
                 .icon(bmEnd).zIndex(9).draggable(true);
 
         // 添加路线（轨迹）
-        OverlayOptions polylineOptions = new PolylineOptions().width(10)
-                .color(Color.BLUE).points(points);
+        OverlayOptions polylineOptions;
+        if (entityName.equals(ChildrenIndexActivity.fPhone)) {
+            polylineOptions = new PolylineOptions().width(10)
+                    .color(Color.BLUE).points(points);
+        }else{
+            polylineOptions = new PolylineOptions().width(10)
+                    .color(Color.RED).points(points);
+        }
 
         Map.addOverlay(startOptions);
         Map.addOverlay(endOptions);
@@ -97,6 +104,7 @@ public class TraceUtil1 {
         animateMapStatus(points);
 
     }
+
     public void animateMapStatus(LatLng point, float zoom) {
         MapStatus.Builder builder = new MapStatus.Builder();
         mapStatus = builder.target(point).zoom(zoom).build();
