@@ -8,25 +8,4 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="8.5"></com.baidu.mapapi.map.MapView>
-    <Button
-    android:text="历史轨迹lky"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/trace"/>
-    <Button
-        android:text="历史轨迹mzl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/trace1"/>
-    <Button
-        android:text="定位lky"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/location"/>
-    <Button
-        android:text="定位mzl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/location1"/>
-
 </LinearLayout>

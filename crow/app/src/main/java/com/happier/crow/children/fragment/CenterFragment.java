@@ -7,6 +7,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -58,11 +61,9 @@ public class CenterFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         EventBus.getDefault().register(this);
-
+        setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_center, container, false);
-
         findViews(view);
-
         setListener();
 
         getInfo();
@@ -71,10 +72,11 @@ public class CenterFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        getInfo();
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
     }
+
 
     private void getInfo() {
         OkHttpClient client = new OkHttpClient();

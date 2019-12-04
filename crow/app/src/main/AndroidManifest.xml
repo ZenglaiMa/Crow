@@ -218,7 +218,7 @@
             android:name=".children.ChildrenInfoActivity"
             android:label="个人资料" />
         <activity android:name=".parent.ParentAlarmActivity" />
-<<<<<<< HEAD
+
         <activity android:name=".parent.ParentAddAlarmActivity" />
         <activity
             android:name=".parent.LocationActivity"
@@ -235,14 +235,9 @@
         <activity
             android:name=".children.ChildrenPhotograph"
             android:label="亲情相册" />
-=======
-        <activity android:name=".parent.ParentAddAlarmActivity"></activity>
-        <activity android:name=".parent.LocationActivity" />
-        <activity android:name=".parent.NavigationActivity" />
-        <activity android:name=".parent.SosActivity" />
         <activity android:name=".parent.AlarmBeginAndEnd" />
         <receiver android:name=".parent.AlarmReceiver" />
->>>>>>> 42163151ae6af58f2b183e2db3dada7e0a575ad4
+
     </application>
 
 </manifest>

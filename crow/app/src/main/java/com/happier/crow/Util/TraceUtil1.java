@@ -39,7 +39,7 @@ public class TraceUtil1 {
     public void drawHistoryTrack(BaiduMap map,final List<LatLng> points, SortType sortType) {
         Map=map;
         // 绘制新覆盖物前，清空之前的覆盖物
-        Map.clear();
+        map.clear();
         if (null != mMoveMarker) {
             mMoveMarker.remove();
             mMoveMarker = null;
@@ -54,7 +54,7 @@ public class TraceUtil1 {
 //资源文件
         bmStart = BitmapDescriptorFactory.fromResource(R.drawable.start);
         bmEnd = BitmapDescriptorFactory.fromResource(R.drawable.end);
-        bmArrowPoint = BitmapDescriptorFactory.fromResource(R.drawable.icon_point);
+        bmArrowPoint = BitmapDescriptorFactory.fromResource(R.drawable.location_selected);
         if (points.size() == 1) {
             OverlayOptions startOptions = new MarkerOptions().position(points.get(0)).icon(bmStart)
                     .zIndex(9).draggable(true);

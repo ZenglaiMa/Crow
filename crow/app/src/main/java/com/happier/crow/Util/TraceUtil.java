@@ -39,7 +39,7 @@ public class TraceUtil {
         }
 
         if (points.size() == 1) {
-            OverlayOptions startOptions = new MarkerOptions().position(points.get(0)).icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_point))
+            OverlayOptions startOptions = new MarkerOptions().position(points.get(0)).icon(BitmapDescriptorFactory.fromResource(R.drawable.location_selected))
                     .zIndex(9).draggable(true);
             mBaiduMap.addOverlay(startOptions);
             animateMapStatus(points.get(0), 18.0f);

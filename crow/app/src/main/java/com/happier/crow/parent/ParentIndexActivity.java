@@ -79,7 +79,7 @@ public class ParentIndexActivity extends AppCompatActivity {
 
             @Override
             public void onStopTraceCallback(int i, String s) {
-
+                Log.e("停止轨迹","停止轨迹");
             }
 
             @Override
@@ -89,6 +89,7 @@ public class ParentIndexActivity extends AppCompatActivity {
 
             @Override
             public void onStopGatherCallback(int i, String s) {
+                Log.e("stop","停止采集");
 
             }
 
