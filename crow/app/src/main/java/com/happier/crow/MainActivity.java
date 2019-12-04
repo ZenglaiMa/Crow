@@ -54,7 +54,6 @@ import cn.jpush.android.api.JPushInterface;
 
 public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
-    private Button location;
     private RadioGroup rg;
     private RadioButton rbParent;
     private RadioButton rbChildren;
@@ -87,22 +86,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         EventBus.getDefault().register(this);
-
         findViews();
 
         // autoLogin();
-
-        location = findViewById(R.id.location);
-        location.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ParentsLocation.class);
-                startActivity(intent);
-            }
-        });
-
         // 根据登陆者身份切换样式
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -264,6 +251,7 @@ public class MainActivity extends AppCompatActivity {
                 etPhone.setText("");
                 etPassword.setText("");
                 Intent pIntent = new Intent(this, ParentIndexActivity.class);
+                pIntent.putExtra("entityName",phoneNumber);
                 startActivity(pIntent);
                 overridePendingTransition(R.anim.right_in, R.anim.left_out);
                 finish();

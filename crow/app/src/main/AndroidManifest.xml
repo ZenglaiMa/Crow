@@ -197,9 +197,6 @@
             android:name=".parent.ParentsContactActivity"
             android:label="联系人" />
         <activity
-            android:name=".ParentsLocation"
-            android:label="父母位置" />
-        <activity
             android:name=".parent.ParentInfoActivity"
             android:label="个人中心" />
         <activity

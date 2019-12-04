@@ -3,13 +3,20 @@ package com.happier.crow.parent;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.baidu.trace.LBSTraceClient;
+import com.baidu.trace.Trace;
+import com.baidu.trace.model.LocationMode;
+import com.baidu.trace.model.OnTraceListener;
+import com.baidu.trace.model.PushMessage;
 import com.happier.crow.R;
+import com.happier.crow.constant.Constant;
 
 public class ParentIndexActivity extends AppCompatActivity {
 
@@ -21,16 +28,81 @@ public class ParentIndexActivity extends AppCompatActivity {
     private ImageView ivSos;
     private Intent intent;
 
+    private Trace mTrace;
+    private LBSTraceClient mTraceClient;
+    private OnTraceListener mTraceListener;
+    //设备标识
+    private String entityName;
+    // 定位周期(单位:秒)
+    private int gatherInterval = 5;
+    // 打包回传周期(单位:秒)
+    private int packInterval = 10;
+    // 是否存储图像
+    private boolean isNeedObjectStorage = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parent_index);
-
         findViews();
+        init();
         setOnClickListener();
+        beginService();
 
     }
 
+    private void init(){
+        //获取设备标识
+        entityName=getIntent().getStringExtra("entityName");
+        Log.e("entityName",entityName+"1");
+        mTrace = new Trace(Constant.serviceId, entityName, isNeedObjectStorage);
+        // 初始化轨迹服务客户端
+        mTraceClient = new LBSTraceClient(getApplicationContext());
+        mTraceClient.setLocationMode(LocationMode.High_Accuracy);
+        //设置回传周期
+        mTraceClient.setInterval(gatherInterval, packInterval);
+        //初始化监听器
+        mTraceListener = new OnTraceListener() {
+            @Override
+            public void onBindServiceCallback(int i, String s) {
+                Log.e("bind", "已绑定");
+            }
+
+            @Override
+            public void onStartTraceCallback(int i, String s) {
+                Log.e("start", "已启动" + i);
+                if (i == 0) {
+                    // 开启采集
+                    mTraceClient.startGather(mTraceListener);
+                }
+            }
+
+            @Override
+            public void onStopTraceCallback(int i, String s) {
+
+            }
+
+            @Override
+            public void onStartGatherCallback(int i, String s) {
+                Log.e("gather", "开始采集；");
+            }
+
+            @Override
+            public void onStopGatherCallback(int i, String s) {
+
+            }
+
+            @Override
+            public void onPushCallback(byte b, PushMessage pushMessage) {
+
+            }
+
+            @Override
+            public void onInitBOSCallback(int i, String s) {
+
+            }
+        };
+    }
     private void setOnClickListener() {
         MyListener listener = new MyListener();
         ivChat.setOnClickListener(listener);
@@ -104,4 +176,16 @@ public class ParentIndexActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void beginService() {
+        //开启轨迹服务
+        mTraceClient.startTrace(mTrace, mTraceListener);
+    }
+    public void onBackPressed() {//重写的Activity返回
+        Intent intent = new Intent();
+        intent.setAction("android.intent.action.MAIN");
+        intent.addCategory("android.intent.category.HOME");
+        startActivity(intent);
+    }
+
 }
