@@ -1,7 +1,5 @@
 package com.happier.crow.children.fragment;
 
-import android.app.ActionBar;
-import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
@@ -38,11 +35,7 @@ import com.baidu.trace.api.track.OnTrackListener;
 import com.baidu.trace.api.track.TrackPoint;
 import com.baidu.trace.model.SortType;
 import com.baidu.trace.model.StatusCodes;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
-import com.happier.crow.MainActivity;
-import com.happier.crow.MapUtils;
+import com.happier.crow.Util.MapUtils;
 import com.happier.crow.R;
 import com.happier.crow.Util.TraceUtil1;
 import com.happier.crow.children.ChildrenIndexActivity;
@@ -62,17 +55,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-
-import static android.content.Context.MODE_PRIVATE;
-import static org.json.JSONArray.*;
 
 public class LocationFragment extends Fragment {
     /*百度地图定位显示*/
@@ -91,7 +73,8 @@ public class LocationFragment extends Fragment {
     private View popView;
     /*绘制轨迹*/
     // 历史轨迹请求实例
-    private HistoryTrackRequest historyTrackRequest;
+    private HistoryTrackRequest historyTrackRequest_father;
+    private HistoryTrackRequest historyTrackRequest_mother;
     private long startTime = System.currentTimeMillis() / 1000 - 12 * 60 * 60;
     // 结束时间(单位：秒)
     private long endTime = System.currentTimeMillis() / 1000;
@@ -120,30 +103,31 @@ public class LocationFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case (R.id.m_parent_location):{
+            case (R.id.m_parent_location): {
                 showPopWindow();
                 break;
             }
         }
         return super.onOptionsItemSelected(item);
     }
-    private void showPopWindow(){
-        popView= this.getLayoutInflater().inflate(R.layout.layout_pop_window,null);
+
+    private void showPopWindow() {
+        popView = this.getLayoutInflater().inflate(R.layout.layout_pop_window, null);
         //将物理像素转化为真实像素
-        final PopupWindow popupWindow=new PopupWindow(popView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,true);
+        final PopupWindow popupWindow = new PopupWindow(popView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setBackgroundDrawable(new ColorDrawable(0000000000));
         popupWindow.setOutsideTouchable(true); // 点击外部关闭
-        Button btn1=popView.findViewById(R.id.btn1);
-        Button btn2=popView.findViewById(R.id.btn2);
-        Button btn3=popView.findViewById(R.id.btn3);
-        Button btn4=popView.findViewById(R.id.btn4);
+        Button btn1 = popView.findViewById(R.id.btn1);
+        Button btn2 = popView.findViewById(R.id.btn2);
+        Button btn3 = popView.findViewById(R.id.btn3);
+        Button btn4 = popView.findViewById(R.id.btn4);
         btn4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
                 startRefreshThread(false);
                 changeName("mother");
-                mTraceClient.queryHistoryTrack(historyTrackRequest,mHistoryListener);
+                mTraceClient.queryHistoryTrack(historyTrackRequest_mother, mHistoryListener);
 
             }
         });
@@ -153,7 +137,7 @@ public class LocationFragment extends Fragment {
                 popupWindow.dismiss();
                 startRefreshThread(false);
                 changeName("father");
-                mTraceClient.queryHistoryTrack(historyTrackRequest,mHistoryListener);
+                mTraceClient.queryHistoryTrack(historyTrackRequest_father, mHistoryListener);
             }
         });
         btn2.setOnClickListener(new View.OnClickListener() {
@@ -164,7 +148,7 @@ public class LocationFragment extends Fragment {
                 startRefreshThread(true);
             }
         });
-       btn1.setOnClickListener(new View.OnClickListener() {
+        btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
@@ -172,7 +156,7 @@ public class LocationFragment extends Fragment {
                 startRefreshThread(true);
             }
         });
-        popupWindow.showAtLocation(ChildrenIndexActivity.v, Gravity.RIGHT| Gravity.TOP,12,150);
+        popupWindow.showAtLocation(ChildrenIndexActivity.v, Gravity.RIGHT | Gravity.TOP, 12, 150);
     }
 
     @Override
@@ -192,6 +176,7 @@ public class LocationFragment extends Fragment {
     private void changeName(String status) {
         if (status.equals("father")) {
             entityName = ChildrenIndexActivity.fPhone;
+
         } else {
             entityName = ChildrenIndexActivity.mPhone;
         }
@@ -223,13 +208,19 @@ public class LocationFragment extends Fragment {
         };
 
         //绘制历史轨迹
+        historyTrackRequest_father = new HistoryTrackRequest(1, Constant.serviceId, ChildrenIndexActivity.fPhone);
+        historyTrackRequest_mother = new HistoryTrackRequest(1, Constant.serviceId, ChildrenIndexActivity.mPhone);
+        //父亲历史轨迹
+        historyTrackRequest_father.setStartTime(startTime);
+        historyTrackRequest_father.setEndTime(endTime);
+        historyTrackRequest_father.setPageSize(1000);
+        historyTrackRequest_father.setPageIndex(1);
+        //母亲历史轨迹
+        historyTrackRequest_mother.setStartTime(startTime);
+        historyTrackRequest_mother.setEndTime(endTime);
+        historyTrackRequest_mother.setPageSize(1000);
+        historyTrackRequest_mother.setPageIndex(1);
 
-        historyTrackRequest = new HistoryTrackRequest(1, Constant.serviceId, entityName);
-        historyTrackRequest.setStartTime(startTime);
-        // 设置结束时间
-        historyTrackRequest.setEndTime(endTime);
-        historyTrackRequest.setPageSize(1000);
-        historyTrackRequest.setPageIndex(1);
    /*    mHistoryListener = new OnTrackListener() {
             @Override
             public void onLatestPointCallback(LatestPointResponse latestPointResponse) {
@@ -293,7 +284,7 @@ public class LocationFragment extends Fragment {
                     }
                 }
                 TraceUtil1 traceUtil = new TraceUtil1();
-                traceUtil.drawHistoryTrack(baiduMap, trackPoints, sortType);
+                traceUtil.drawHistoryTrack(entityName,baiduMap, trackPoints, sortType);
 
             }
         };
@@ -318,8 +309,13 @@ public class LocationFragment extends Fragment {
     private void drawLocation() {
         baiduMap.clear();
         LatLng latLng = new LatLng(latitude, longitude);
+        BitmapDescriptor descriptor;
         //添加标志物来标明当前位置
-        BitmapDescriptor descriptor = BitmapDescriptorFactory.fromResource(R.drawable.location_selected);
+        if (entityName.equals(ChildrenIndexActivity.fPhone)) {
+            descriptor = BitmapDescriptorFactory.fromResource(R.drawable.blue);
+        }else{
+            descriptor = BitmapDescriptorFactory.fromResource(R.drawable.red);
+        }
         MarkerOptions markerOptions = new MarkerOptions()
                 .icon(descriptor)
                 .position(latLng)
@@ -529,6 +525,7 @@ public class LocationFragment extends Fragment {
             e.printStackTrace();
         }
     }
+
     @Override
     public void onPause() {
         super.onPause();

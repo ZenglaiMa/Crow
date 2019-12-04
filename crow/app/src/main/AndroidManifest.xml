@@ -218,10 +218,7 @@
             android:name=".children.ChildrenInfoActivity"
             android:label="个人资料" />
         <activity android:name=".parent.ParentAlarmActivity" />
-<<<<<<< HEAD
 
-=======
->>>>>>> 1428570c9b93b6ab433f403d9ac62301536735a0
         <activity android:name=".parent.ParentAddAlarmActivity" />
         <activity
             android:name=".parent.LocationActivity"
@@ -241,10 +238,7 @@
         <activity android:name=".parent.AlarmBeginAndEnd" />
 
         <receiver android:name=".parent.AlarmReceiver" />
-<<<<<<< HEAD
 
-=======
->>>>>>> 1428570c9b93b6ab433f403d9ac62301536735a0
     </application>
 
 </manifest>
