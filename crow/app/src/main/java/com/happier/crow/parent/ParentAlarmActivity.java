@@ -138,6 +138,5 @@ public class ParentAlarmActivity extends AppCompatActivity {
     public void handleLoginResult(List<Alarm> listTemp) {
         this.list.add(listTemp.get(listTemp.size()-1));
         adapter.notifyDataSetChanged();
-
     }
 }

@@ -107,7 +107,7 @@ public class ParentAlarmAdapter extends BaseAdapter {
             viewHolder.swState.setChecked(false);
         }else {// == 1  开
             viewHolder.swState.setChecked(true);
-            setAlarm(type, list.get(position).getDescription(), times);
+            setAlarm(type, list.get(position).getDescription(), times, position);
         }
 
         return convertView;
@@ -140,7 +140,7 @@ public class ParentAlarmAdapter extends BaseAdapter {
         public TextView tvTime = null;
         public Switch swState = null;
     }
-    private void setAlarm(String type, String description, String[] times) {
+    private void setAlarm(String type, String description, String[] times, int position) {
         int hour = Integer.parseInt(times[1]);
         int minute = Integer.parseInt(times[2]);
         Intent intent = new Intent();
@@ -158,10 +158,14 @@ public class ParentAlarmAdapter extends BaseAdapter {
         intent.putExtra("messageTitle", type);
         intent.putExtra("messageContent", description);
 
-        PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent,PendingIntent.FLAG_UPDATE_CURRENT);
-        //TODO
+        PendingIntent pi = PendingIntent.getBroadcast(context, position, intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        if(System.currentTimeMillis()> c.getTimeInMillis()){
+            c.set(Calendar.DAY_OF_YEAR, c.get(Calendar.DAY_OF_YEAR) + 1);
+            Log.e("test22", "*************");
+        }
         AlarmManager alm = (AlarmManager) context.getSystemService(ALARM_SERVICE);
-        alm.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), 1000*60*60*24, pi);
+        alm.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.happier.crow.children;
 
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.happier.crow.R;
 import com.happier.crow.constant.Constant;
+import com.happier.crow.parent.ParentAddAlarmActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -48,7 +50,7 @@ public class ChildrenSetAlarmActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_children_set_alarm);
-        EventBus.getDefault().register(this);
+//        EventBus.getDefault().register(this);
         initData();
         linsteners();
     }
@@ -143,6 +145,15 @@ public class ChildrenSetAlarmActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response) throws IOException {
                 String result = response.body().string();
                 EventBus.getDefault().post(result);
+                if (result.equals("0")){
+                    Looper.prepare();
+                    Toast.makeText(ChildrenSetAlarmActivity.this, "提醒设置失败，缺少联系人", Toast.LENGTH_LONG).show();
+                    Looper.loop();
+                }else {
+                    Looper.prepare();
+                    Toast.makeText(ChildrenSetAlarmActivity.this, "提醒设置成功", Toast.LENGTH_LONG).show();
+                    Looper.loop();
+                }
             }
         });
     }
@@ -157,13 +168,13 @@ public class ChildrenSetAlarmActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void handleResult(String result) {
-        if (result.equals("0")){
-            Toast.makeText(ChildrenSetAlarmActivity.this, "提醒设置失败，缺少联系人", Toast.LENGTH_LONG).show();
-        }else {
-            Toast.makeText(ChildrenSetAlarmActivity.this, "提醒设置成功", Toast.LENGTH_LONG).show();
-        }
-        finish();
-    }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void handleResult(String result) {
+//        if (result.equals("0")){
+//            Toast.makeText(ChildrenSetAlarmActivity.this, "提醒设置失败，缺少联系人", Toast.LENGTH_LONG).show();
+//        }else {
+//            Toast.makeText(ChildrenSetAlarmActivity.this, "提醒设置成功", Toast.LENGTH_LONG).show();
+//        }
+//        finish();
+//    }
 }
