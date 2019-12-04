@@ -285,18 +285,9 @@ public class ContactController extends Controller {
 				renderJson(phones);
 				System.out.println(phones.toString());
 			}
-<<<<<<< HEAD
-			if (parentPhone != null) {
-				renderJson(parentPhone);
-				System.out.println(parentPhone.toString());
-			}
-
-=======
->>>>>>> 5cb4932c11172b15c7c21b01316ea6c63de16a65
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	/*
