@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/popup_window_bg"
+    android:background="#696969"
     android:orientation="vertical"
     android:padding="8dp">
 
@@ -10,25 +10,39 @@
         android:id="@+id/m_btn_photograph"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="拍照" />
+        android:background="#EEE9E9"
+        android:text="拍照"
+        android:textColor="#00BFFF"
+        android:textSize="20sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#9FB6CD" />
 
     <Button
         android:id="@+id/m_btn_graph_selected"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="从相册选择" />
+        android:background="#EEE9E9"
+        android:text="从相册选择"
+        android:textColor="#00BFFF"
+        android:textSize="20sp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
-        android:background="#fff" />
+        android:background="#9FB6CD" />
 
     <Button
         android:id="@+id/m_btn_cancel_select"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="取消" />
+        android:background="#EEE9E9"
+        android:text="取消"
+        android:textColor="#00BFFF"
+        android:textSize="20sp" />
 
 </LinearLayout>
