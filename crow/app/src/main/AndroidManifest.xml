@@ -217,12 +217,12 @@
         <activity
             android:name=".children.ChildrenInfoActivity"
             android:label="个人资料" />
-        <activity android:name=".parent.ParentAlarmActivity" />
-<<<<<<< HEAD
-
-=======
->>>>>>> 8e8daf5315efca9e53f618f06fe8111564d1bcbc
-        <activity android:name=".parent.ParentAddAlarmActivity" />
+        <activity
+            android:name=".parent.ParentAlarmActivity"
+            android:label="贴心提醒" />
+        <activity
+            android:name=".parent.ParentAddAlarmActivity"
+            android:label="新建提醒" />
         <activity
             android:name=".parent.LocationActivity"
             android:label="当前位置" />
@@ -241,10 +241,6 @@
         <activity android:name=".parent.AlarmBeginAndEnd" />
 
         <receiver android:name=".parent.AlarmReceiver" />
-<<<<<<< HEAD
-
-=======
->>>>>>> 8e8daf5315efca9e53f618f06fe8111564d1bcbc
     </application>
 
 </manifest>

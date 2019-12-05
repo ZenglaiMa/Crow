@@ -4,21 +4,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:paddingLeft="30dp"
-        android:text="添加子女"
-        android:textColor="#2a82e4"
-        android:textSize="40dp" />
+        android:layout_height="200dp"
+        android:layout_marginTop="10dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/many_children" />
 
     <EditText
         android:id="@+id/y_et_addNickName"
         android:layout_width="280dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:hint="输入联系人备注" />
 
     <EditText
@@ -26,7 +25,7 @@
         android:layout_width="280dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:hint="请输入联系人手机号"
         android:inputType="number" />
 
@@ -34,7 +33,7 @@
         android:layout_width="280dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
         <CheckBox
@@ -60,7 +59,7 @@
         android:layout_width="340dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
         android:background="@color/colorParent"
         android:text="完成"
         android:textColor="@android:color/white"

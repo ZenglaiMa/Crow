@@ -9,7 +9,7 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/m_header_128" />
 
     <TextView
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:text="请设置昵称"
+        android:text="未设置姓名"
         android:textColor="#000"
         android:textSize="25sp" />
 
@@ -34,7 +34,7 @@
         android:layout_height="40dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="15dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -75,7 +75,7 @@
         android:layout_height="40dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -116,7 +116,7 @@
         android:layout_height="40dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -157,7 +157,7 @@
         android:layout_height="40dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="40dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -198,7 +198,7 @@
         android:layout_height="40dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
         <ImageView

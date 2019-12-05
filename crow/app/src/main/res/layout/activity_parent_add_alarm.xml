@@ -4,48 +4,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/big_old" />
 
-        <ImageView
-            android:id="@+id/z_iv_parent_alert_back"
-            android:layout_width="30dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/back" />
-
-        <TextView
-            android:id="@+id/z_tv_parent_alert_back"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="返回"
-            android:textColor="@color/colorChildren"
-            android:textSize="20dp" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal"
-        android:gravity="center">
-
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/notification" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="添加贴心提醒"
-            android:textColor="@color/colorChildren"
-            android:textSize="35dp" />
-    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <TextView
@@ -147,14 +117,16 @@
             android:text="分"
             android:textSize="20dp" />
     </LinearLayout>
+
     <Button
-        android:layout_margin="10dp"
         android:id="@+id/z_btn_alarm_submit_parent"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="10dp"
+        android:layout_margin="10dp"
+        android:layout_marginTop="20dp"
         android:background="@color/colorPrimary"
         android:text="保存"
         android:textColor="#fff"
-        android:textSize="20dp" />
+        android:textSize="30sp" />
+
 </LinearLayout>

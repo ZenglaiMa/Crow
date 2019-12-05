@@ -29,14 +29,18 @@
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/chat" />
+                android:adjustViewBounds="true"
+                android:background="@drawable/chat"
+                android:scaleType="fitXY" />
 
             <ImageView
                 android:id="@+id/m_iv_alarm"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/alarm" />
+                android:adjustViewBounds="true"
+                android:background="@drawable/alarm"
+                android:scaleType="fitXY" />
 
         </LinearLayout>
 
@@ -53,14 +57,18 @@
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/contact" />
+                android:adjustViewBounds="true"
+                android:background="@drawable/contact"
+                android:scaleType="fitXY" />
 
             <ImageView
                 android:id="@+id/m_iv_photo"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/pa" />
+                android:adjustViewBounds="true"
+                android:background="@drawable/pa"
+                android:scaleType="fitXY" />
 
         </LinearLayout>
 
@@ -84,14 +92,18 @@
             android:layout_height="match_parent"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:background="@drawable/home" />
+            android:adjustViewBounds="true"
+            android:background="@drawable/home"
+            android:scaleType="fitXY" />
 
         <ImageView
             android:id="@+id/m_iv_sos"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/sos" />
+            android:adjustViewBounds="true"
+            android:background="@drawable/sos"
+            android:scaleType="fitXY" />
 
     </LinearLayout>
 

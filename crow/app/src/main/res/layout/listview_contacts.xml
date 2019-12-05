@@ -1,68 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_height="100dp"
-    android:minHeight="100dp"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:weightSum="1"
-    android:gravity="center"
+    android:layout_height="100dp"
     android:background="@android:color/white"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:gravity="center"
+    android:minHeight="100dp"
+    android:weightSum="1">
 
     <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
+        android:layout_weight="0.95"
         android:background="@drawable/underline"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:layout_width="0dp"
-        android:layout_weight="0.95"
-        android:layout_height="match_parent">
+        android:orientation="horizontal">
 
         <LinearLayout
-
             android:layout_width="0dp"
-            android:gravity="center"
             android:layout_height="match_parent"
-            android:layout_weight="2">
+            android:layout_weight="2"
+            android:gravity="center">
 
             <TextView
                 android:id="@+id/ytv_contactName"
-                android:textSize="30dp"
-
-                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center" />
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="30dp" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginLeft="5dp"
             android:layout_width="0dp"
-            android:gravity="center"
-            android:background="@drawable/telenumborder"
             android:layout_height="70dp"
-            android:layout_weight="4">
+            android:layout_marginLeft="5dp"
+            android:layout_weight="4"
+            android:background="@drawable/telenumborder"
+            android:gravity="center">
 
             <TextView
                 android:id="@+id/ytv_contactPhone"
                 android:layout_width="wrap_content"
-                android:textColor="#2a82e4"
                 android:layout_height="30dp"
+                android:textColor="#2a82e4"
                 android:textSize="25dp" />
-
 
         </LinearLayout>
 
         <ImageView
             android:id="@+id/y_iv_call"
-            android:layout_gravity="center"
-            android:src="@drawable/telephone"
             android:layout_width="0dp"
             android:layout_height="65dp"
-            android:layout_weight="2"/>
-
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:src="@drawable/telephone" />
 
     </LinearLayout>
-
-
 
 </LinearLayout>

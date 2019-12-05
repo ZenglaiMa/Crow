@@ -127,8 +127,9 @@
         android:id="@+id/m_et_detail_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:hint="请输入详细地址" />
+        android:gravity="top"
+        android:hint="请输入详细地址"
+        android:minLines="2" />
 
     <Button
         android:id="@+id/m_btn_set_info"
