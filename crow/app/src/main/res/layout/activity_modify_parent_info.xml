@@ -114,6 +114,8 @@
             android:id="@+id/m_sp_location_city"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_weight="1" />
 
         <Spinner
@@ -130,7 +132,7 @@
         android:layout_height="wrap_content"
         android:gravity="top"
         android:hint="请输入详细地址"
-        android:minLines="2" />
+        android:minLines="3" />
 
     <Button
         android:id="@+id/m_btn_set_info"

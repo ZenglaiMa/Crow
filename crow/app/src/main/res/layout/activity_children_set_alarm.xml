@@ -94,7 +94,8 @@
             android:id="@+id/z_spinner_mOra_children"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:entries="@array/mOra" />
+            android:entries="@array/mOra"
+            android:theme="@android:style/Theme.Holo.Light" />
 
     </LinearLayout>
 
@@ -115,7 +116,8 @@
             android:id="@+id/z_spinner_hour_children"
             android:layout_width="85dp"
             android:layout_height="wrap_content"
-            android:entries="@array/hour" />
+            android:entries="@array/hour"
+            android:theme="@android:style/Theme.Holo.Light" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -130,7 +132,8 @@
             android:id="@+id/z_spinner_minute_children"
             android:layout_width="85dp"
             android:layout_height="wrap_content"
-            android:entries="@array/minute"></Spinner>
+            android:entries="@array/minute"
+            android:theme="@android:style/Theme.Holo.Light" />
 
         <TextView
             android:layout_width="wrap_content"
