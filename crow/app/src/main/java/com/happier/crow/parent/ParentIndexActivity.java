@@ -8,15 +8,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.baidu.trace.LBSTraceClient;
 import com.baidu.trace.Trace;
 import com.baidu.trace.model.LocationMode;
 import com.baidu.trace.model.OnTraceListener;
 import com.baidu.trace.model.PushMessage;
+import com.happier.crow.ChatActivity;
 import com.happier.crow.R;
 import com.happier.crow.constant.Constant;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.EaseConstant;
 
 public class ParentIndexActivity extends AppCompatActivity {
 
@@ -51,10 +54,10 @@ public class ParentIndexActivity extends AppCompatActivity {
 
     }
 
-    private void init(){
+    private void init() {
         //获取设备标识
-        entityName=getIntent().getStringExtra("entityName");
-        Log.e("entityName",entityName+"1");
+        entityName = getIntent().getStringExtra("entityName");
+        Log.e("entityName", entityName + "1");
         mTrace = new Trace(Constant.serviceId, entityName, isNeedObjectStorage);
         // 初始化轨迹服务客户端
         mTraceClient = new LBSTraceClient(getApplicationContext());
@@ -79,7 +82,7 @@ public class ParentIndexActivity extends AppCompatActivity {
 
             @Override
             public void onStopTraceCallback(int i, String s) {
-                Log.e("停止轨迹","停止轨迹");
+                Log.e("停止轨迹", "停止轨迹");
             }
 
             @Override
@@ -89,21 +92,19 @@ public class ParentIndexActivity extends AppCompatActivity {
 
             @Override
             public void onStopGatherCallback(int i, String s) {
-                Log.e("stop","停止采集");
-
+                Log.e("stop", "停止采集");
             }
 
             @Override
             public void onPushCallback(byte b, PushMessage pushMessage) {
-
             }
 
             @Override
             public void onInitBOSCallback(int i, String s) {
-
             }
         };
     }
+
     private void setOnClickListener() {
         MyListener listener = new MyListener();
         ivChat.setOnClickListener(listener);
@@ -119,8 +120,28 @@ public class ParentIndexActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.m_iv_chat:
-                    // todo : 跳转到亲情互动界面
-                    Toast.makeText(getApplicationContext(), "Jump to family chat", Toast.LENGTH_SHORT).show();
+                    EMClient.getInstance().login(Constant.USER_L, "123456", new EMCallBack() {
+                        @Override
+                        public void onSuccess() {
+                            Log.e("success", "login success");
+                            EMClient.getInstance().groupManager().loadAllGroups();
+                            EMClient.getInstance().chatManager().loadAllConversations();
+                            intent = new Intent(ParentIndexActivity.this, ChatActivity.class);
+                            intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_GROUP);
+                            intent.putExtra(EaseConstant.EXTRA_USER_ID, Constant.GROUP_ID);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                        }
+
+                        @Override
+                        public void onError(int code, String error) {
+                            Log.e("error", "login error, error code is " + code);
+                        }
+
+                        @Override
+                        public void onProgress(int progress, String status) {
+                        }
+                    });
                     break;
                 case R.id.m_iv_alarm:
                     intent = new Intent(getApplicationContext(), ParentAlarmActivity.class);
@@ -182,6 +203,7 @@ public class ParentIndexActivity extends AppCompatActivity {
         //开启轨迹服务
         mTraceClient.startTrace(mTrace, mTraceListener);
     }
+
     public void onBackPressed() {//重写的Activity返回
         Intent intent = new Intent();
         intent.setAction("android.intent.action.MAIN");

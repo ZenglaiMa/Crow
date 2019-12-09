@@ -1,6 +1,5 @@
 package com.happier.crow.children.fragment;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -10,6 +9,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,10 +21,14 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import com.happier.crow.ChatActivity;
 import com.happier.crow.R;
 import com.happier.crow.children.ChildrenPhotograph;
 import com.happier.crow.children.ChildrenSetAlarmActivity;
 import com.happier.crow.constant.Constant;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.EaseConstant;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -116,8 +120,28 @@ public class InteractFragment extends Fragment {
                     getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
                     break;
                 case R.id.m_ll_chat:
-                    // todo : go to chat
-                    Toast.makeText(getContext(), "未完成 : 即时聊天", Toast.LENGTH_SHORT).show();
+                    EMClient.getInstance().login(Constant.USER_L, "123456", new EMCallBack() {
+                        @Override
+                        public void onSuccess() {
+                            Log.e("success", "login success");
+                            EMClient.getInstance().groupManager().loadAllGroups();
+                            EMClient.getInstance().chatManager().loadAllConversations();
+                            Intent intent = new Intent(getActivity(), ChatActivity.class);
+                            intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_GROUP);
+                            intent.putExtra(EaseConstant.EXTRA_USER_ID, Constant.GROUP_ID);
+                            startActivity(intent);
+                            getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                        }
+
+                        @Override
+                        public void onError(int code, String error) {
+                            Log.e("error", "login error, error code is " + code);
+                        }
+
+                        @Override
+                        public void onProgress(int progress, String status) {
+                        }
+                    });
                     break;
             }
         }

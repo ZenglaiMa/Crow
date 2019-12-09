@@ -27,6 +27,7 @@ import com.happier.crow.children.ChildrenInfoActivity;
 import com.happier.crow.children.ChildrenPhotograph;
 import com.happier.crow.constant.Constant;
 import com.happier.crow.entities.Children;
+import com.hyphenate.chat.EMClient;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -161,6 +162,7 @@ public class CenterFragment extends Fragment {
                     getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
                     break;
                 case R.id.m_ll_children_logout:
+                    EMClient.getInstance().logout(true);
                     intent = new Intent(getActivity(), MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);

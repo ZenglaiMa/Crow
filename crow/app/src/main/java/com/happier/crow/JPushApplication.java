@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
+import com.hyphenate.easeui.EaseUI;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,6 +26,8 @@ public class JPushApplication extends Application {
         JPushInterface.init(this);
 
         registrationId = JPushInterface.getRegistrationID(this);
+
+        EaseUI.getInstance().init(this, null);
     }
 
     public JPushApplication() {

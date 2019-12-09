@@ -24,6 +24,7 @@ import com.happier.crow.MainActivity;
 import com.happier.crow.R;
 import com.happier.crow.constant.Constant;
 import com.happier.crow.entities.Parent;
+import com.hyphenate.chat.EMClient;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -100,6 +101,7 @@ public class ParentInfoActivity extends AppCompatActivity {
         btnParentLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EMClient.getInstance().logout(true);
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
