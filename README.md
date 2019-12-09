@@ -7,22 +7,22 @@ Github: [https://github.com/ZenglaiMa/Crow](https://github.com/ZenglaiMa/Crow)
 ## 项目成员
 * 马增来（项目经理、开发工程师）
    * Github:  [https://github.com/ZenglaiMa](https://github.com/ZenglaiMa)
-   * E-mail: [mazenglai@foxmail.com](mailto:mazenglai@foxmail.com)
+   * Email: [mazenglai@foxmail.com](mailto:mazenglai@foxmail.com)
 * 刘钶妍（技术总监、开发工程师）
    * Github:  [https://github.com/LIUKEyan1110](https://github.com/LIUKEyan1110)
-   * E-mail: [652169700@qq.com](mailto:652169700@qq.com)
+   * Email: [652169700@qq.com](mailto:652169700@qq.com)
 * 赵语涵（质量专家、开发工程师）
    * Github:  [https://github.com/ZhaoYuHanStar](https://github.com/ZhaoYuHanStar)
-   * E-mail: [1776670476@qq.com](mailto:1776670476@qq.com)
+   * Email: [1776670476@qq.com](mailto:1776670476@qq.com)
 * 乔子璇（开发工程师、UI设计师）
    * Github:  [https://github.com/qiaozixuan52l](https://github.com/qiaozixuan52l)
-   * E-mail: [3448627985@qq.com](mailto:3448627985@qq.com)
+   * Email: [3448627985@qq.com](mailto:3448627985@qq.com)
 * 陈雅楠（开发工程师、UI设计师）
    * Github:  [https://github.com/yanannn](https://github.com/yanannn)
-   * E-mail: [2327867612@qq.com](mailto:2327867612@qq.com)
+   * Email: [2327867612@qq.com](mailto:2327867612@qq.com)
 * 颜枫桦（开发工程师、测试工程师）
    * Github:  [https://github.com/Yok166](https://github.com/Yok166)
-   * E-mail: [694745078@qq.com](mailto:694745078@qq.com)
+   * Email: [694745078@qq.com](mailto:694745078@qq.com)
 
 ## 功能简介
 * 登录、注册、找回密码功能
