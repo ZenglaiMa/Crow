@@ -10,7 +10,7 @@ Github: [https://github.com/ZenglaiMa/Crow](https://github.com/ZenglaiMa/Crow)
 * 刘钶妍
    * Github:  [https://github.com/LIUKEyan1110](https://github.com/LIUKEyan1110)
 * 赵语涵
-   * Github:  [https://github.com/zhaoyuhanlei](https://github.com/zhaoyuhanlei)
+   * Github:  [https://github.com/ZhaoYuHanStar](https://github.com/ZhaoYuHanStar)
 * 乔子璇
    * Github:  [https://github.com/qiaozixuan52l](https://github.com/qiaozixuan52l)
 * 陈雅楠
