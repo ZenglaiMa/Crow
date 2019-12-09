@@ -33,8 +33,10 @@ import com.baidu.trace.api.track.HistoryTrackRequest;
 import com.baidu.trace.api.track.HistoryTrackResponse;
 import com.baidu.trace.api.track.OnTrackListener;
 import com.baidu.trace.api.track.TrackPoint;
+import com.baidu.trace.model.ProcessOption;
 import com.baidu.trace.model.SortType;
 import com.baidu.trace.model.StatusCodes;
+import com.baidu.trace.model.TransportMode;
 import com.happier.crow.Util.MapUtils;
 import com.happier.crow.R;
 import com.happier.crow.Util.TraceUtil1;
@@ -73,8 +75,7 @@ public class LocationFragment extends Fragment {
     private View popView;
     /*绘制轨迹*/
     // 历史轨迹请求实例
-    private HistoryTrackRequest historyTrackRequest_father;
-    private HistoryTrackRequest historyTrackRequest_mother;
+    private HistoryTrackRequest historyTrackRequest;
     private long startTime = System.currentTimeMillis() / 1000 - 12 * 60 * 60;
     // 结束时间(单位：秒)
     private long endTime = System.currentTimeMillis() / 1000;
@@ -127,7 +128,8 @@ public class LocationFragment extends Fragment {
                 popupWindow.dismiss();
                 startRefreshThread(false);
                 changeName("mother");
-                mTraceClient.queryHistoryTrack(historyTrackRequest_mother, mHistoryListener);
+                historyTrackRequest.setEntityName(entityName);
+                mTraceClient.queryHistoryTrack(historyTrackRequest, mHistoryListener);
 
             }
         });
@@ -137,7 +139,8 @@ public class LocationFragment extends Fragment {
                 popupWindow.dismiss();
                 startRefreshThread(false);
                 changeName("father");
-                mTraceClient.queryHistoryTrack(historyTrackRequest_father, mHistoryListener);
+                historyTrackRequest.setEntityName(entityName);
+                mTraceClient.queryHistoryTrack(historyTrackRequest, mHistoryListener);
             }
         });
         btn2.setOnClickListener(new View.OnClickListener() {
@@ -207,62 +210,27 @@ public class LocationFragment extends Fragment {
             }
         };
 
-        //绘制历史轨迹
-        historyTrackRequest_father = new HistoryTrackRequest(1, Constant.serviceId, ChildrenIndexActivity.fPhone);
-        historyTrackRequest_mother = new HistoryTrackRequest(1, Constant.serviceId, ChildrenIndexActivity.mPhone);
+        historyTrackRequest = new HistoryTrackRequest(1, Constant.serviceId, ChildrenIndexActivity.mPhone);
         //父亲历史轨迹
-        historyTrackRequest_father.setStartTime(startTime);
-        historyTrackRequest_father.setEndTime(endTime);
-        historyTrackRequest_father.setPageSize(1000);
-        historyTrackRequest_father.setPageIndex(1);
-        //母亲历史轨迹
-        historyTrackRequest_mother.setStartTime(startTime);
-        historyTrackRequest_mother.setEndTime(endTime);
-        historyTrackRequest_mother.setPageSize(1000);
-        historyTrackRequest_mother.setPageIndex(1);
+        historyTrackRequest.setStartTime(startTime);
+        historyTrackRequest.setEndTime(endTime);
+        historyTrackRequest.setPageSize(1000);
+        historyTrackRequest.setPageIndex(1);
+        historyTrackRequest.setProcessed(true);
 
-   /*    mHistoryListener = new OnTrackListener() {
-            @Override
-            public void onLatestPointCallback(LatestPointResponse latestPointResponse) {
-                super.onLatestPointCallback(latestPointResponse);
-                Log.e("xixi",latestPointResponse.toString());
-            }
+        // 创建纠偏选项实例
+        ProcessOption processOption = new ProcessOption();
+        processOption.setNeedDenoise(true);
+        processOption.setNeedVacuate(true);
+        processOption.setNeedMapMatch(true);
+        processOption.setRadiusThreshold(100);
+        processOption.setTransportMode(TransportMode.walking);
+        historyTrackRequest.setProcessOption(processOption);
 
-            // 历史轨迹回调
-            @Override
-            public void onHistoryTrackCallback(HistoryTrackResponse response) {
-                int total = response.getTotal();
-                Log.e("total",total+"");
-                if (StatusCodes.SUCCESS != response.getStatus()) {
-                    //Toast.makeText(ParentsLocation.this, "结果为：" + response.getMessage(), Toast.LENGTH_SHORT).show();
-                    Log.e("trace",response.getMessage().toString()+response.getStatus());
-                } else if (0 == total) {
-                    Toast.makeText(ParentsLocation.this, "未查询到历史轨迹", Toast.LENGTH_SHORT).show();
-                } else {
-                    List<TrackPoint> points = response.getTrackPoints();
-                    if (null != points) {
-                        for (TrackPoint trackPoint : points) {
-                            Log.e("longitude",trackPoint.getLocation().getLatitude()+"");
-                            if (!TraceUtil.isZeroPoint(trackPoint.getLocation().getLatitude(),
-                                    trackPoint.getLocation().getLongitude())) {
-                                trackPoints.add(TraceUtil.convertTrace2Map(trackPoint.getLocation()));
-                            }
-                        }
-                    }
-                    Log.e("poins",points.toArray().toString());
-                }
-                TraceUtil traceUtil=new TraceUtil();
-                Log.e("xiix",trackPoints.toArray().toString());
-                traceUtil.drawHistoryTrack(baiduMap,trackPoints, SortType.asc);
-            }
-        };
-*/
-
+        //历史轨迹监听器
         mHistoryListener = new OnTrackListener() {
             private List<LatLng> trackPoints = new ArrayList<>();
-            public static final int PAGE_SIZE = 5000;
             private SortType sortType = SortType.asc;
-            private int pageIndex = 1;
 
             // 历史轨迹回调
             @Override
@@ -284,8 +252,8 @@ public class LocationFragment extends Fragment {
                     }
                 }
                 TraceUtil1 traceUtil = new TraceUtil1();
-                traceUtil.drawHistoryTrack(entityName,baiduMap, trackPoints, sortType);
-
+                traceUtil.drawHistoryTrack(entityName, baiduMap, trackPoints, sortType);
+                trackPoints.clear();
             }
         };
     }
@@ -312,9 +280,9 @@ public class LocationFragment extends Fragment {
         BitmapDescriptor descriptor;
         //添加标志物来标明当前位置
         if (entityName.equals(ChildrenIndexActivity.fPhone)) {
-            descriptor = BitmapDescriptorFactory.fromResource(R.drawable.blue);
-        }else{
-            descriptor = BitmapDescriptorFactory.fromResource(R.drawable.red);
+            descriptor = BitmapDescriptorFactory.fromResource(R.drawable.dad);
+        } else {
+            descriptor = BitmapDescriptorFactory.fromResource(R.drawable.mom);
         }
         MarkerOptions markerOptions = new MarkerOptions()
                 .icon(descriptor)
@@ -340,7 +308,7 @@ public class LocationFragment extends Fragment {
                 try {
                     count++;
                     Log.e("count", count + "");
-                    Thread.sleep(3 * 1000);
+                    Thread.sleep(2 * 1000);
                 } catch (InterruptedException e) {
                     System.out.println("线程休眠失败");
                 }
@@ -531,6 +499,4 @@ public class LocationFragment extends Fragment {
         super.onPause();
         startRefreshThread(false);
     }
-
-
 }
