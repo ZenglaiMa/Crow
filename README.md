@@ -1,4 +1,4 @@
-# 《乌鸟》—— Java与移动智能设备开发方向实训项目
+# 《乌鸟》—— Java与移动智能设备开发方向
 Github: [https://github.com/ZenglaiMa/Crow](https://github.com/ZenglaiMa/Crow)
 
 ## 项目简介
