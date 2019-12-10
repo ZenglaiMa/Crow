@@ -66,8 +66,8 @@ public class ParentAlarmActivity extends AppCompatActivity {
         lvParentShowAlarm = findViewById(R.id.z_lv_parent_show_alarm);
         llParentAddAlarm = findViewById(R.id.z_ll_parent_add_alarm);
         setOrModify();
-        adapter = new ParentAlarmAdapter(list, this, R.layout.parent_alarm_item);
-        lvParentShowAlarm.setAdapter(adapter);
+//        adapter = new ParentAlarmAdapter(list, this, R.layout.parent_alarm_item);
+//        lvParentShowAlarm.setAdapter(adapter);
     }
 
     private void setOrModify() {
@@ -90,20 +90,21 @@ public class ParentAlarmActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String result = response.body().string();
-                Log.e("test", result);
-                JSONArray ja = null;
-                try {
-                    ja = new JSONArray(result);
-                    for (int i = 0; i < ja.length(); i++) {
-                        JSONObject jsTemp = ja.getJSONObject(i);
-                        String strTemp = jsTemp.getString("attrs");
-                        Alarm alarm = new Gson().fromJson(strTemp, Alarm.class);
-                        list.add(alarm);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                Log.e("test1", list.toString());
+                EventBus.getDefault().post(result);
+//                Log.e("test", result);
+//                JSONArray ja = null;
+//                try {
+//                    ja = new JSONArray(result);
+//                    for (int i = 0; i < ja.length(); i++) {
+//                        JSONObject jsTemp = ja.getJSONObject(i);
+//                        String strTemp = jsTemp.getString("attrs");
+//                        Alarm alarm = new Gson().fromJson(strTemp, Alarm.class);
+//                        list.add(alarm);
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//                Log.e("test1", list.toString());
             }
         });
     }
@@ -118,9 +119,35 @@ public class ParentAlarmActivity extends AppCompatActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
+    public void handleResult(String result) {
+        Log.e("test", result);
+        JSONArray ja = null;
+        try {
+            ja = new JSONArray(result);
+            for (int i = 0; i < ja.length(); i++) {
+                JSONObject jsTemp = ja.getJSONObject(i);
+                String strTemp = jsTemp.getString("attrs");
+                Alarm alarm = new Gson().fromJson(strTemp, Alarm.class);
+                list.add(alarm);
+            }
+            adapter = new ParentAlarmAdapter(list, this, R.layout.parent_alarm_item);
+            lvParentShowAlarm.setAdapter(adapter);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.e("test1", list.toString());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void handleLoginResult(List<Alarm> listTemp) {
         this.list.add(listTemp.get(listTemp.size() - 1));
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
