@@ -44,6 +44,7 @@ public class ParentAlarmActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parent_alarm);
+        getSupportActionBar().setElevation(0);
 
         EventBus.getDefault().register(this);
         initData();

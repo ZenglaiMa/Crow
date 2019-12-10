@@ -50,6 +50,8 @@ public class ChildrenSetAlarmActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_children_set_alarm);
+        getSupportActionBar().setElevation(0);
+
 //        EventBus.getDefault().register(this);
         initData();
         linsteners();

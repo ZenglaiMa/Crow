@@ -53,6 +53,7 @@ public class ChildrenAddParentsActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("authid", MODE_PRIVATE);
         cid = sharedPreferences.getInt("cid", 0);
         setContentView(R.layout.activity_children_addparents);
+        getSupportActionBar().setElevation(0);
 
         etFatherPhone = findViewById(R.id.y_et_fatherPhone);
         etMotherPhone = findViewById(R.id.y_et_motherPhone);

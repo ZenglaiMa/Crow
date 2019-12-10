@@ -49,6 +49,8 @@ public class ParentAddAlarmActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parent_add_alarm);
+        getSupportActionBar().setElevation(0);
+
         EventBus.getDefault().register(this);
         initData();
         linsteners();

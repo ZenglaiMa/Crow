@@ -69,6 +69,7 @@ public class ParentInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parent_info);
+        getSupportActionBar().setElevation(0);
 
         EventBus.getDefault().register(this);
 

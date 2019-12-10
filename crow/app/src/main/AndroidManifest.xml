@@ -52,7 +52,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="乌鸟">
+            android:label="乌鸟"
+            android:theme="@style/MainActivityTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -222,7 +223,7 @@
             android:label="首页" />
         <activity
             android:name=".children.ChildrenIndexActivity"
-            android:label="首页" />
+            android:label="乌鸟" />
         <activity
             android:name=".RegisterActivity"
             android:label="用户注册" />
@@ -249,7 +250,7 @@
             android:label="设置贴心提醒" />
         <activity
             android:name=".AboutActivity"
-            android:label="关于我们" />
+            android:theme="@style/MainActivityTheme" />
         <activity
             android:name=".children.ChildrenInfoActivity"
             android:label="个人资料" />

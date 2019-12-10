@@ -50,6 +50,7 @@ public class ChildrenPhotograph extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_children_photograph);
+        getSupportActionBar().setElevation(0);
 
         EventBus.getDefault().register(this);
 

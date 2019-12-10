@@ -36,6 +36,7 @@ public class ParentsAddContactActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parents_addcontact);
+        getSupportActionBar().setElevation(0);
 
         SharedPreferences sharedPreferences = getSharedPreferences("authid", MODE_PRIVATE);
         pid = String.valueOf(sharedPreferences.getInt("pid", 0));

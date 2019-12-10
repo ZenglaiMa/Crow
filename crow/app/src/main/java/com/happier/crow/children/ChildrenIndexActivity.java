@@ -109,6 +109,8 @@ public class ChildrenIndexActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_children_index);
+        getSupportActionBar().setElevation(0);
+
         getParents();
 
         /*

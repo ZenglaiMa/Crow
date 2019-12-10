@@ -70,6 +70,7 @@ public class LocationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_location);
+        getSupportActionBar().setElevation(0);
 
         EventBus.getDefault().register(this);
 

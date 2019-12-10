@@ -72,6 +72,7 @@ public class ChildrenInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_children_info);
+        getSupportActionBar().setElevation(0);
 
         EventBus.getDefault().register(this);
 
