@@ -76,7 +76,7 @@ public class LocationFragment extends Fragment {
     /*绘制轨迹*/
     // 历史轨迹请求实例
     private HistoryTrackRequest historyTrackRequest;
-    private long startTime = System.currentTimeMillis() / 1000 - 12 * 60 * 60;
+    private long startTime = System.currentTimeMillis() / 1000 - 24 * 60 * 60;
     // 结束时间(单位：秒)
     private long endTime = System.currentTimeMillis() / 1000;
     private OnTrackListener mHistoryListener;
