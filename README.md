@@ -36,3 +36,39 @@ Github: [https://github.com/ZenglaiMa/Crow](https://github.com/ZenglaiMa/Crow)
 * 子女端查看父母上一天的历史轨迹功能等
 
 ## 运行效果
+### 关于页
+![关于我们](https://github.com/ZenglaiMa/Crow/blob/master/images/about/about_us.jpg)
+
+### 登录页
+![父母登录](https://github.com/ZenglaiMa/Crow/blob/master/images/login/parent_login.jpg)
+![子女登录](https://github.com/ZenglaiMa/Crow/blob/master/images/login/children_login.jpg)
+
+### 注册页
+![父母注册](https://github.com/ZenglaiMa/Crow/blob/master/images/register/parent_register.jpg)
+![子女注册](https://github.com/ZenglaiMa/Crow/blob/master/images/register/children_register.jpg)
+
+### 父母端
+![父母首页](https://github.com/ZenglaiMa/Crow/blob/master/images/parent/index.jpg)
+![父母个人中心](https://github.com/ZenglaiMa/Crow/blob/master/images/parent/parent_center.jpg)
+![设置个人信息](https://github.com/ZenglaiMa/Crow/blob/master/images/parent/parent_set_info.jpg)
+![家人聊天](https://github.com/ZenglaiMa/Crow/blob/master/images/parent/chat.jpg)
+![查看提醒](https://github.com/ZenglaiMa/Crow/blob/master/images/parent/parent_alarm.jpg)
+![设置提醒](https://github.com/ZenglaiMa/Crow/blob/master/images/parent/parent_set_alarm.jpg)
+![提醒ing](https://github.com/ZenglaiMa/Crow/blob/master/images/parent/alarm_working.jpg)
+![查看联系人](https://github.com/ZenglaiMa/Crow/blob/master/images/parent/parent_contact.jpg)
+![添加联系人](https://github.com/ZenglaiMa/Crow/blob/master/images/parent/parent_add_contact.jpg)
+![家庭共享相册](https://github.com/ZenglaiMa/Crow/blob/master/images/parent/sharing_photograph.jpg)
+![当前位置](https://github.com/ZenglaiMa/Crow/blob/master/images/parent/current_location.jpg)
+![AR导航回家](https://github.com/ZenglaiMa/Crow/blob/master/images/parent/ar_navigation.jpg)
+![普通导航回家](https://github.com/ZenglaiMa/Crow/blob/master/images/parent/navigation.jpg)
+
+### 子女端
+![子女首页](https://github.com/ZenglaiMa/Crow/blob/master/images/children/children_index.jpg)
+![设置提醒](https://github.com/ZenglaiMa/Crow/blob/master/images/children/children_set_alarm.jpg)
+![父亲实时位置](https://github.com/ZenglaiMa/Crow/blob/master/images/children/father_location.jpg)
+![父亲历史轨迹](https://github.com/ZenglaiMa/Crow/blob/master/images/children/father_trace.jpg)
+![母亲实时位置](https://github.com/ZenglaiMa/Crow/blob/master/images/children/mother_location.jpg)
+![母亲历史轨迹](https://github.com/ZenglaiMa/Crow/blob/master/images/children/mother_trace.jpg)
+![子女个人中心](https://github.com/ZenglaiMa/Crow/blob/master/images/children/children_center.jpg)
+![设置个人信息](https://github.com/ZenglaiMa/Crow/blob/master/images/children/children_set_info.jpg)
+![添加父母](https://github.com/ZenglaiMa/Crow/blob/master/images/children/add_parent.jpg)
