@@ -122,7 +122,7 @@ public class ParentIndexActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.m_iv_chat:
-                    EMClient.getInstance().login(Constant.USER_L, "123456", new EMCallBack() {
+                    EMClient.getInstance().login(Constant.USER_Q, "123456", new EMCallBack() {
                         @Override
                         public void onSuccess() {
                             Log.e("success", "login success");

@@ -120,7 +120,7 @@ public class InteractFragment extends Fragment {
                     getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
                     break;
                 case R.id.m_ll_chat:
-                    EMClient.getInstance().login(Constant.USER_L, "123456", new EMCallBack() {
+                    EMClient.getInstance().login(Constant.USER_Q, "123456", new EMCallBack() {
                         @Override
                         public void onSuccess() {
                             Log.e("success", "login success");
