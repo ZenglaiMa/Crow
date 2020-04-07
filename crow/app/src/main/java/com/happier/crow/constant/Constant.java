@@ -2,7 +2,7 @@ package com.happier.crow.constant;
 
 public class Constant {
     // ! 只允许改动ip地址部分 其余不许改动
-    public static final String BASE_URL = "http://10.7.88.186:8080/crow-server";
+    public static final String BASE_URL = "http://192.168.1.105:8080/crow-server";
     //ak
     public static final String ak = "5OQjR6qrEWjX0wCYxhrya5rEXIKGo5gB&&mcode=A2:16:FD:17:37:47:28:7E:5A:F8:BD:FF:A4:46:E6:56:5F:8A:B2:8B;com.happier.crow";
     //轨迹服务ID
