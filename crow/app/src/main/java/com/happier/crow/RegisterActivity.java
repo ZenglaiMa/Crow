@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.happier.crow.constant.Constant;
+import com.mob.MobSDK;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -132,6 +133,8 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         getSupportActionBar().setElevation(0);
+
+        MobSDK.submitPolicyGrantResult(true, null);
 
         EventBus.getDefault().register(this);
 
